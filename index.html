@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiragana Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Øv på Hiragana:</h1>
+        </header>
+
+        <main>
+            <button id="toggle-subset-btn" class="hamburger-btn" title="Velg tegnsett">☰</button>
+
+            <div id="menu-backdrop" class="menu-backdrop hidden"></div>
+
+            <div id="subset-menu" class="subset-menu hidden">
+                <div class="subset-group">
+                    <h3>Velg subset</h3>
+                    
+                    <div id="subset-list" class="subset-checkboxes">
+                        <label><input type="checkbox" value="vowels"> Vokaler (a, i, u, e, o)</label>
+                        <label><input type="checkbox" value="ka"> Ka-rad</label>
+                        <label><input type="checkbox" value="sa"> Sa-rad</label>
+                        <label><input type="checkbox" value="ta"> Ta-rad</label>
+                        <label><input type="checkbox" value="na"> Na-rad</label>
+                        <label><input type="checkbox" value="ha"> Ha-rad</label>
+                        <label><input type="checkbox" value="ma"> Ma-rad</label>
+                        <label><input type="checkbox" value="ya"> Ya-rad</label>
+                        <label><input type="checkbox" value="ra"> Ra-rad</label>
+                        <label><input type="checkbox" value="wa"> Wa-rad</label>
+                        <label><input type="checkbox" value="n"> N</label>
+                    </div>
+                </div>
+
+                <div class="subset-controls">
+                    <button id="random-btn" type="button">Velg alle</button>
+                    <button id="clear-btn" type="button">Fjern alle</button>
+                </div>
+
+                <hr>
+
+                <h3>Innstillinger</h3>
+                <div class="subset-settings">
+                    <label><input type="checkbox" id="include-dakuten"> Inkluder dakuten (゛) — ga/gi/gu/…</label><br>
+                    <label><input type="checkbox" id="include-handakuten"> Inkluder handakuten (゜) — pa/pi/pu/…</label><br>
+                    <label><input type="checkbox" id="include-small-kana"> Inkluder små kana (ゃ/ゅ/ょ)</label>
+                </div>
+            </div>
+
+            <div class="link-btn-row">
+                <a href="tall.html" class="number-link-btn">数 Øv på tall →</a>
+                <a href="ord.html" class="word-link-btn">あ Øv på ord →</a>
+            </div>
+
+            <section class="training-area">
+                <div class="character-display">
+                    <div id="hiragana-character" class="hiragana">—</div>
+                    <div id="translation-display" class="translation-always">Velg tegn fra menyen ☰</div>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="answer-input" placeholder="Skriv romanji her..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div id="hint-display" class="hint hidden"></div>
+                </div>
+
+                <div class="controls">
+                    <button id="next-btn">Neste →</button>
+                    <button id="show-answer-btn">Vis svar</button>
+                </div>
+            </section>
+
+            <section class="progress-section">
+                <h2>Fremgang</h2>
+                <div id="progress-summary" class="progress-summary">
+                    <p>Mestrede tegn: <span id="mastered-count">0</span> / <span id="total-count">0</span></p>
+                </div>
+                <div id="mastered-list" class="mastered-list">
+                    <div id="mastered-characters"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

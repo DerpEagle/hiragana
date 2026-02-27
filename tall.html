@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tall</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #hiragana-character { white-space: nowrap; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link">← Tilbake</a>
+            <h1>Øv på tall:</h1>
+        </header>
+
+        <main>
+            <section class="range-section">
+                <div class="range-inputs">
+                    <label class="range-label-group">
+                        <span>Fra</span>
+                        <input type="number" id="from-input" min="0" max="999999999999" value="0">
+                    </label>
+                    <span class="range-dash">–</span>
+                    <label class="range-label-group">
+                        <span>til</span>
+                        <input type="number" id="to-input" min="0" max="999999999999" value="9">
+                    </label>
+                </div>
+                <div class="range-count" id="range-count"></div>
+            </section>
+
+            <section class="training-area">
+                <div class="character-display">
+                    <div id="hiragana-character" class="hiragana">—</div>
+                    <div id="translation-display" class="translation-always"></div>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="answer-input" placeholder="Skriv romanji eller tall..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div id="hint-display" class="hint hidden"></div>
+                </div>
+
+                <div class="controls">
+                    <button id="next-btn">Neste →</button>
+                    <button id="show-answer-btn">Vis svar</button>
+                </div>
+            </section>
+
+            <section class="progress-section">
+                <h2>Fremgang</h2>
+                <div class="progress-summary">
+                    <p>Denne runden: <span id="round-progress">0</span> / <span id="round-total">0</span></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="tall.js"></script>
+</body>
+</html>
