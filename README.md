@@ -1,3 +1,5 @@
+Live site: derpeagle.github.io/hiragana
+
 Rask og enkel måte å lære hiragana, ord og tall.
 Flashcard style læringsstruktur.
 Holder oversikt over din progresjon.
