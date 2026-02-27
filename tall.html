@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html lang="no">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tall</title>
     <link rel="stylesheet" href="styles.css">
+    // ...existing code...
     <style>
-        #hiragana-character { white-space: nowrap; overflow: hidden; }
+        /* Tillat linjebrud og ordbryt for lange hiragana-strenger (f.eks. talllesning) */
+        #hiragana-character,
+        #hiragana-character.hiragana {
+          font-size: clamp(14px, 6.5vw, 44px) !important;
+          line-height: 1.15 !important;
+          max-width: 100% !important;
+          padding: 0 !important;
+          white-space: normal !important;       /* viktig: tillat wrapping */
+          word-break: break-word !important;
+          overflow-wrap: anywhere !important;
+          display: inline-block !important;
+          text-align: center !important;
+          box-sizing: border-box !important;
+        }
+
+        /* Små skjermer: litt mindre tekst */
+        @media (max-width: 420px) {
+          #hiragana-character,
+          #hiragana-character.hiragana {
+            font-size: clamp(12px, 9vw, 36px) !important;
+            max-height: none !important;
+          }
+        }
     </style>
+
 </head>
+
 <body>
     <div class="container">
         <header>
