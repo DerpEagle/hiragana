@@ -1,0 +1,505 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #e0e0e0;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #00d4ff;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #00d4ff;
+}
+
+/* ── Hamburger button ── */
+.hamburger-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 12px 18px;
+    font-size: 1.6rem;
+    background: rgba(0, 212, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: #00d4ff;
+    border: 2px solid #00d4ff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.hamburger-btn:hover {
+    background: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+}
+
+/* ── Backdrop ── */
+.menu-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    backdrop-filter: blur(2px);
+}
+
+.menu-backdrop.hidden {
+    display: none;
+}
+
+/* ── Subset menu panel ── */
+.subset-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 360px;
+    height: 100vh;
+    background: rgba(22, 33, 62, 0.98);
+    backdrop-filter: blur(20px);
+    border-left: 2px solid #00d4ff;
+    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    overflow-y: auto;
+    z-index: 999;
+    transition: transform 0.3s ease;
+}
+
+.subset-menu.hidden {
+    transform: translateX(100%);
+}
+
+
+.subset-group {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.subset-group:last-of-type {
+    border-bottom: none;
+}
+
+.subset-group h3 {
+    font-size: 1rem;
+    color: #00d4ff;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.subset-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.subset-checkboxes label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #b0b0b0;
+    transition: color 0.2s;
+    padding: 4px 6px;
+    border-radius: 6px;
+}
+
+.subset-checkboxes label:hover {
+    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.05);
+}
+
+.subset-checkboxes input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: #00d4ff;
+    flex-shrink: 0;
+}
+
+.subset-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.subset-controls button {
+    flex: 1;
+    padding: 10px;
+    font-size: 0.95rem;
+}
+
+/* ── Sections ── */
+section {
+    background: rgba(22, 33, 62, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 25px 30px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Mode selector ── */
+.mode-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 25px;
+}
+
+.mode-label {
+    color: #b0b0b0;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.mode-section select {
+    padding: 8px 14px;
+    font-size: 1rem;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(15, 52, 96, 0.5);
+    color: #00d4ff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mode-section select:focus {
+    outline: none;
+    border-color: #00d4ff;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.mode-section select option {
+    background: #16213e;
+    color: #00d4ff;
+}
+
+/* ── Training area ── */
+.training-area {
+    text-align: center;
+}
+
+.character-display {
+    margin: 40px 0 30px;
+}
+
+.hiragana {
+    font-size: 10rem;
+    font-weight: bold;
+    color: #00d4ff;
+    text-shadow: 0 0 15px rgba(0, 212, 255, 0.25);
+    animation: glow 2s ease-in-out infinite alternate;
+    line-height: 1.1;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 8px rgba(0, 212, 255, 0.15); }
+    to   { text-shadow: 0 0 22px rgba(0, 212, 255, 0.4); }
+}
+
+.translation-always {
+    margin-top: 15px;
+    font-size: 1.4rem;
+    color: rgba(0, 212, 255, 0.75);
+    font-style: italic;
+    min-height: 32px;
+}
+
+/* ── Input area ── */
+.input-area {
+    margin: 20px 0;
+}
+
+#answer-input {
+    width: 100%;
+    max-width: 480px;
+    padding: 16px 20px;
+    font-size: 1.4rem;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    background: rgba(15, 52, 96, 0.5);
+    color: #00d4ff;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#answer-input:focus {
+    outline: none;
+    border-color: #00d4ff;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+}
+
+#answer-input::placeholder {
+    color: rgba(0, 212, 255, 0.4);
+}
+
+@keyframes flash-correct {
+    0%, 100% { border-color: rgba(0, 212, 255, 0.3); box-shadow: none; }
+    50%       { border-color: #4caf50; box-shadow: 0 0 25px rgba(76, 175, 80, 0.6); }
+}
+
+@keyframes flash-incorrect {
+    0%, 100% { border-color: rgba(0, 212, 255, 0.3); box-shadow: none; }
+    50%       { border-color: #f44336; box-shadow: 0 0 25px rgba(244, 67, 54, 0.6); }
+}
+
+.flash-correct   { animation: flash-correct   0.4s ease; }
+.flash-incorrect { animation: flash-incorrect 0.4s ease; }
+
+.hint {
+    margin-top: 14px;
+    font-size: 1.1rem;
+    color: #ffa500;
+}
+
+.hint.hidden {
+    display: none;
+}
+
+/* ── Buttons ── */
+button {
+    padding: 13px 26px;
+    font-size: 1.05rem;
+    border: 2px solid #00d4ff;
+    border-radius: 10px;
+    cursor: pointer;
+    background: rgba(0, 212, 255, 0.1);
+    color: #00d4ff;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    backdrop-filter: blur(10px);
+}
+
+button:hover {
+    background: rgba(0, 212, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#random-btn {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    border-color: #9b7fea;
+    color: #c4b0ff;
+}
+
+#random-btn:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+#clear-btn {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+#clear-btn:hover {
+    background: rgba(255, 107, 107, 0.2);
+    box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+}
+
+/* ── Progress section ── */
+.progress-summary {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #00d4ff;
+}
+
+#mastered-characters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#mastered-characters span {
+    font-size: 1.8rem;
+    padding: 10px 12px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 8px;
+    color: #00d4ff;
+}
+
+/* ── Link button row (main page) ── */
+.link-btn-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.number-link-btn,
+.word-link-btn {
+    flex: 1;
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    backdrop-filter: blur(10px);
+}
+
+.number-link-btn {
+    border: 2px solid #ffa500;
+    color: #ffa500;
+    background: rgba(255, 165, 0, 0.08);
+}
+
+.number-link-btn:hover {
+    background: rgba(255, 165, 0, 0.18);
+    box-shadow: 0 5px 20px rgba(255, 165, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.word-link-btn {
+    border: 2px solid #a78bfa;
+    color: #a78bfa;
+    background: rgba(167, 139, 250, 0.08);
+}
+
+.word-link-btn:hover {
+    background: rgba(167, 139, 250, 0.18);
+    box-shadow: 0 5px 20px rgba(167, 139, 250, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ── Back link (tall.html) ── */
+.back-link {
+    display: inline-block;
+    color: #00d4ff;
+    text-decoration: none;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    margin-bottom: 8px;
+}
+
+.back-link:hover {
+    opacity: 1;
+}
+
+/* ── Range inputs section (tall.html) ── */
+.range-section {
+    text-align: center;
+    padding: 20px 30px 20px;
+}
+
+.range-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.range-label-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.range-dash {
+    color: #00d4ff;
+    font-size: 1.6rem;
+    margin-top: 18px;
+}
+
+.range-label-group input[type="number"] {
+    width: 150px;
+    padding: 10px 12px;
+    font-size: 1.3rem;
+    text-align: center;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(15, 52, 96, 0.5);
+    color: #00d4ff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+}
+
+.range-label-group input[type="number"]::-webkit-inner-spin-button,
+.range-label-group input[type="number"]::-webkit-outer-spin-button {
+    opacity: 0.4;
+}
+
+.range-label-group input[type="number"]:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.range-count {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: rgba(0, 212, 255, 0.6);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .hiragana {
+        font-size: 6rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .subset-menu {
+        width: 100%;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .controls button {
+        width: 100%;
+    }
+
+    .mode-section {
+        flex-wrap: wrap;
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ord Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link">← Tilbake</a>
+            <h1>Øv på ord</h1>
+        </header>
+
+        <main>
+            <section class="mode-section">
+                <span class="mode-label">Antall tegn:</span>
+                <select id="char-count">
+                    <option value="2" selected>2 tegn</option>
+                    <option value="3">3 tegn</option>
+                    <option value="4">4 tegn</option>
+                    <option value="5">5 tegn</option>
+                </select>
+                <span class="range-count" id="word-count"></span>
+            </section>
+
+            <section class="training-area">
+                <div class="character-display">
+                    <div id="hiragana-character" class="hiragana">—</div>
+                    <div id="translation-display" class="translation-always"></div>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="answer-input" placeholder="Skriv romanji her..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div id="hint-display" class="hint hidden"></div>
+                </div>
+
+                <div class="controls">
+                    <button id="next-btn">Neste →</button>
+                    <button id="show-answer-btn">Vis svar</button>
+                </div>
+            </section>
+
+            <section class="progress-section">
+                <h2>Fremgang</h2>
+                <div class="progress-summary">
+                    <p>Denne runden: <span id="round-progress">0</span> / <span id="round-total">0</span></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="ord.js"></script>
+</body>
+</html>
