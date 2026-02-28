@@ -23,20 +23,20 @@
 <body>
     <div class="container">
         <header>
-            <a href="index.html" class="back-link">← Tilbake</a>
-            <h1>Øv på tall:</h1>
+            <a href="index.html" class="back-link" data-i18n="back">← Tilbake</a>
+            <h1 data-i18n="tall-title">Øv på tall:</h1>
         </header>
 
         <main>
             <section class="range-section">
                 <div class="range-inputs">
                     <label class="range-label-group">
-                        <span>Fra</span>
+                        <span data-i18n="from-label">Fra</span>
                         <input type="number" id="from-input" min="0" max="999999999999" value="0">
                     </label>
                     <span class="range-dash">–</span>
                     <label class="range-label-group">
-                        <span>til</span>
+                        <span data-i18n="to-label">til</span>
                         <input type="number" id="to-input" min="0" max="999999999999" value="9">
                     </label>
                 </div>
@@ -50,25 +50,26 @@
                 </div>
 
                 <div class="input-area">
-                    <input type="text" id="answer-input" placeholder="Skriv romanji eller tall..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <input type="text" id="answer-input" data-i18n="tall-placeholder" placeholder="Skriv romanji eller tall..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <div id="hint-display" class="hint hidden"></div>
                 </div>
 
                 <div class="controls">
-                    <button id="next-btn">Neste →</button>
-                    <button id="show-answer-btn">Vis svar</button>
+                    <button id="next-btn" data-i18n="next">Neste →</button>
+                    <button id="show-answer-btn" data-i18n="show-answer">Vis svar</button>
                 </div>
             </section>
 
             <section class="progress-section">
-                <h2>Fremgang</h2>
+                <h2 data-i18n="progress-heading">Fremgang</h2>
                 <div class="progress-summary">
-                    <p>Denne runden: <span id="round-progress">0</span> / <span id="round-total">0</span></p>
+                    <p><span data-i18n="round-label">Denne runden:</span> <span id="round-progress">0</span> / <span id="round-total">0</span></p>
                 </div>
             </section>
         </main>
     </div>
 
+    <script src="lang.js"></script>
     <script src="tall.js"></script>
 </body>
 </html>

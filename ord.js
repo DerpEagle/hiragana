@@ -21,14 +21,14 @@ const WordDictionary = {
   'した':   { romanji: 'shita',   translation: 'below (under / nedenfor)' },
   'すし':   { romanji: 'sushi',   translation: 'sushi' },
   'たこ':   { romanji: 'tako',    translation: 'octopus / kite (blekksprut / drage)' },
-  'ちち':   { romanji: 'chichi',  translation: 'father / milk (far / melk)' },
+  'ちち':   { romanji: 'chichi',  translation: 'father (far)' },
   'つき':   { romanji: 'tsuki',   translation: 'moon (måne)' },
   'てら':   { romanji: 'tera',    translation: 'temple (tempel)' },
   'とり':   { romanji: 'tori',    translation: 'bird (fugl)' },
   'なつ':   { romanji: 'natsu',   translation: 'summer (sommer)' },
   'にく':   { romanji: 'niku',    translation: 'meat (kjøtt)' },
   'ねこ':   { romanji: 'neko',    translation: 'cat (katt)' },
-  'のみ':   { romanji: 'nomi',    translation: 'drink / flea (drikke / loppe)' },
+  'のみ':   { romanji: 'nomi',    translation: 'flea / only (loppe / kun)' },
   'ひと':   { romanji: 'hito',    translation: 'person' },
   'ふね':   { romanji: 'fune',    translation: 'ship / boat (skip / båt)' },
   'へや':   { romanji: 'heya',    translation: 'room (rom)' },
@@ -90,7 +90,7 @@ const WordDictionary = {
   'あたま':     { romanji: 'atama',    translation: 'head (hode)' },
 
   // natur / tid
-  'はれ':       { romanji: 'hare',     translation: 'sunny (solskinn)' },
+  'はれ':       { romanji: 'hare',     translation: 'clear weather / sunny (klarvær / sol)' },
   'あめ':       { romanji: 'ame',      translation: 'rain (regn)' },
   'きせつ':     { romanji: 'kisetsu',  translation: 'season (årstid)' },
   'ひ':         { romanji: 'hi',       translation: 'day / fire (dag / ild)' },
@@ -255,12 +255,97 @@ const WordDictionary = {
   'ありがとうございます': { romanji: 'arigatougozaimasu', translation: 'thank you very much, formal (tusen takk (høflig))' },
 };
 
+const KatakanaWordDictionary = {
+  // 2 tegn
+  'パン':  { romanji: 'pan',    translation: 'bread (brød)' },
+  'バス':  { romanji: 'basu',   translation: 'bus (buss)' },
+  'ペン':  { romanji: 'pen',    translation: 'pen' },
+  'ガム':  { romanji: 'gamu',   translation: 'chewing gum (tyggegummi)' },
+  'ドア':  { romanji: 'doa',    translation: 'door (dør)' },
+  'メモ':  { romanji: 'memo',   translation: 'memo / note (notat)' },
+  'ヨガ':  { romanji: 'yoga',   translation: 'yoga' },
+  'ビル':  { romanji: 'biru',   translation: 'building (bygning)' },
+  'ガス':  { romanji: 'gasu',   translation: 'gas' },
+
+  // 3 tegn
+  'バナナ': { romanji: 'banana',  translation: 'banana' },
+  'ピアノ': { romanji: 'piano',   translation: 'piano' },
+  'テニス': { romanji: 'tenisu',  translation: 'tennis' },
+  'アイス': { romanji: 'aisu',    translation: 'ice cream (iskrem)' },
+  'ホテル': { romanji: 'hoteru',  translation: 'hotel' },
+  'チーズ': { romanji: 'chiizu',  translation: 'cheese (ost)' },
+  'ギター': { romanji: 'gitaa',   translation: 'guitar (gitar)' },
+  'スキー': { romanji: 'sukii',   translation: 'skiing (ski)' },
+  'ラジオ': { romanji: 'rajio',   translation: 'radio' },
+  'コーラ': { romanji: 'koora',   translation: 'cola' },
+  'ロシア': { romanji: 'roshia',  translation: 'Russia (Russland)' },
+  'カナダ': { romanji: 'kanada',  translation: 'Canada' },
+  'ドイツ': { romanji: 'doitsu',  translation: 'Germany (Tyskland)' },
+  'バレー': { romanji: 'baree',   translation: 'volleyball / ballet (volleyball / ballett)' },
+
+  // 4 tegn
+  'コーヒー': { romanji: 'koohii',    translation: 'coffee (kaffe)' },
+  'パソコン': { romanji: 'pasokon',   translation: 'PC (datamaskin)' },
+  'アパート': { romanji: 'apaato',    translation: 'apartment (leilighet)' },
+  'スポーツ': { romanji: 'supootsu',  translation: 'sports (sport)' },
+  'アルバム': { romanji: 'arubamu',   translation: 'album' },
+  'ジュース': { romanji: 'juusu',     translation: 'juice' },
+  'テーブル': { romanji: 'teeburu',   translation: 'table (bord)' },
+  'コンビニ': { romanji: 'konbini',   translation: 'convenience store (nærbutikk)' },
+  'フランス': { romanji: 'furansu',   translation: 'France (Frankrike)' },
+  'イタリア': { romanji: 'itaria',    translation: 'Italy (Italia)' },
+  'アメリカ': { romanji: 'amerika',   translation: 'America (Amerika)' },
+  'ブラジル': { romanji: 'burajiru',  translation: 'Brazil (Brasil)' },
+  'メキシコ': { romanji: 'mekishiko', translation: 'Mexico' },
+  'ビタミン': { romanji: 'bitamin',   translation: 'vitamin' },
+  'タクシー': { romanji: 'takushii',  translation: 'taxi' },
+  'デパート': { romanji: 'depaato',   translation: 'department store (varehus)' },
+
+  // 5 tegn
+  'レストラン': { romanji: 'resutoran', translation: 'restaurant' },
+  'コンサート': { romanji: 'konsaato',  translation: 'concert (konsert)' },
+  'バスケット': { romanji: 'basuketto', translation: 'basketball' },
+  'ヨーロッパ': { romanji: 'yooroppa',  translation: 'Europe (Europa)' },
+  'ノルウェー': { romanji: 'noruwee',   translation: 'Norway (Norge)' },
+
+  // 6 tegn
+  'チョコレート': { romanji: 'chokoreeto', translation: 'chocolate (sjokolade)' },
+  'ハンバーガー': { romanji: 'hanbaagaa',  translation: 'hamburger' },
+  'エレベーター': { romanji: 'erebeetaa',  translation: 'elevator (heis)' },
+  'ショッピング': { romanji: 'shoppingu',  translation: 'shopping' },
+  'サンドイッチ': { romanji: 'sandoitchi', translation: 'sandwich' },
+  'アクセサリー': { romanji: 'akusesarii', translation: 'accessory (tilbehør)' },
+  'ボランティア': { romanji: 'borantia',   translation: 'volunteer (frivillig)' },
+
+  // 7 tegn
+  'インターネット': { romanji: 'intaanetto',    translation: 'internet' },
+  'コンピューター': { romanji: 'konpyuutaa',    translation: 'computer (datamaskin)' },
+  'アイスクリーム': { romanji: 'aisukuriimu',   translation: 'ice cream (iskrem)' },
+  'スマートフォン': { romanji: 'sumaatofon',    translation: 'smartphone (smarttelefon)' },
+  'エスカレーター': { romanji: 'esukareetaa',   translation: 'escalator (rulltrapp)' },
+
+  // 8 tegn
+  'クリスマスツリー': { romanji: 'kurisumasutsurii', translation: 'Christmas tree (juletre)' },
+  'バースデーケーキ': { romanji: 'baasudeekeeki',    translation: 'birthday cake (bursdagskake)' },
+
+  // 9 tegn
+  'スーパーマーケット':  { romanji: 'suupaamaaketto',  translation: 'supermarket' },
+  'インターナショナル':  { romanji: 'intaanashonaru',  translation: 'international (internasjonal)' },
+
+  // 10 tegn
+  'クリスマスプレゼント': { romanji: 'kurisumasupurezento', translation: 'Christmas present (julegave)' },
+  'インターネットカフェ': { romanji: 'intaanettokafe',      translation: 'internet café (internettkafé)' },
+};
+
 // State
 let characterCount = 2;
+let scriptMode = 'hiragana'; // 'hiragana' | 'katakana' | 'both'
+let currentDict = WordDictionary;
 let wordQueue = [];
 let wordQueueIndex = 0;
 let currentWord = null;
 let incorrectAttempts = 0;
+let charsHidden = false;
 
 // DOM elements
 const charCountSelect  = document.getElementById('char-count');
@@ -270,25 +355,41 @@ const answerInput      = document.getElementById('answer-input');
 const hintDisplay      = document.getElementById('hint-display');
 const nextBtn          = document.getElementById('next-btn');
 const showAnswerBtn    = document.getElementById('show-answer-btn');
+const hideCharsBtn     = document.getElementById('hide-chars-btn');
 const roundProgress    = document.getElementById('round-progress');
 const roundTotal       = document.getElementById('round-total');
 const wordCountDisplay = document.getElementById('word-count');
 
+function updateHideButton() {
+  if (charsHidden) {
+    charDisplay.classList.add('chars-hidden');
+    hideCharsBtn.textContent = t('show-chars');
+    hideCharsBtn.classList.add('active-toggle');
+  } else {
+    charDisplay.classList.remove('chars-hidden');
+    hideCharsBtn.textContent = t('hide-chars');
+    hideCharsBtn.classList.remove('active-toggle');
+  }
+}
+
 function buildQueue() {
-  // inkluder alle ord med nøyaktig karakterCount (bruker codepoint-telling)
-  const matching = Object.keys(WordDictionary).filter(w => [...w].length === characterCount);
+  currentDict = {};
+  if (scriptMode === 'hiragana' || scriptMode === 'both') Object.assign(currentDict, WordDictionary);
+  if (scriptMode === 'katakana' || scriptMode === 'both') Object.assign(currentDict, KatakanaWordDictionary);
+
+  const matching = Object.keys(currentDict).filter(w => [...w].length === characterCount);
   wordQueue = [...matching].sort(() => Math.random() - 0.5);
   wordQueueIndex = 0;
   wordCountDisplay.textContent = matching.length > 0
-    ? `${matching.length} ord`
-    : 'Ingen ord med dette antallet';
+    ? `${matching.length} ${t('words-label')}`
+    : t('no-words-in-count');
   updateProgress();
 }
 
 function nextWord() {
   if (wordQueue.length === 0) {
     charDisplay.textContent = '—';
-    transDisplay.textContent = `Ingen ord med ${characterCount} tegn`;
+    transDisplay.textContent = t('no-words-in-count');
     return;
   }
 
@@ -298,11 +399,11 @@ function nextWord() {
   }
 
   const word = wordQueue[wordQueueIndex++];
-  const entry = WordDictionary[word];
+  const entry = currentDict[word];
   currentWord = { word, romanji: entry.romanji, translation: entry.translation };
 
   charDisplay.textContent = word;
-  transDisplay.textContent = entry.translation;
+  transDisplay.textContent = getWordTranslation(entry.translation);
   answerInput.value = '';
   answerInput.focus();
   hintDisplay.classList.add('hidden');
@@ -333,13 +434,13 @@ function handleAnswer(input) {
 
 function showHint() {
   if (!currentWord) return;
-  hintDisplay.textContent = `Hint: Begynner med "${currentWord.romanji[0]}"`;
+  hintDisplay.textContent = `${t('hint-prefix')} "${currentWord.romanji[0]}"`;
   hintDisplay.classList.remove('hidden');
 }
 
 function showAnswer() {
   if (!currentWord) return;
-  hintDisplay.textContent = `Svar: ${currentWord.romanji}`;
+  hintDisplay.textContent = `${t('answer-prefix')} ${currentWord.romanji}`;
   hintDisplay.classList.remove('hidden');
 }
 
@@ -355,8 +456,22 @@ document.addEventListener('DOMContentLoaded', () => {
     nextWord();
   });
 
+  document.querySelectorAll('.script-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      scriptMode = btn.dataset.script;
+      document.querySelectorAll('.script-btn').forEach(b =>
+        b.classList.toggle('script-btn--active', b === btn));
+      buildQueue();
+      nextWord();
+    });
+  });
+
   nextBtn.addEventListener('click', nextWord);
   showAnswerBtn.addEventListener('click', showAnswer);
+  hideCharsBtn.addEventListener('click', () => {
+    charsHidden = !charsHidden;
+    updateHideButton();
+  });
   answerInput.addEventListener('keypress', e => {
     if (e.key === 'Enter') handleAnswer(answerInput.value);
   });

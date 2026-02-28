@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katakana Trainer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link" data-i18n="back">← Tilbake</a>
+            <h1 data-i18n="katakana-title">Øv på Katakana:</h1>
+        </header>
+
+        <main>
+            <button id="toggle-subset-btn" class="hamburger-btn" title="Velg tegnsett">☰</button>
+
+            <div id="menu-backdrop" class="menu-backdrop hidden"></div>
+
+            <div id="subset-menu" class="subset-menu hidden">
+                <div class="subset-menu-header">
+                    <span class="subset-menu-title" data-i18n="select-charset">Velg tegnsett</span>
+                    <button id="close-subset-btn" class="subset-close-btn" title="Lukk">✕</button>
+                </div>
+
+                <div class="subset-group">
+                    <div id="subset-list" class="subset-checkboxes">
+                        <label class="subset-row">
+                            <input type="checkbox" value="vowels">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="vowels">Vokaler</span>
+                                <span class="subset-row__chars">アイウエオ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="ka">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="ka-row">Ka-rad</span>
+                                <span class="subset-row__chars">カキクケコ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="sa">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="sa-row">Sa-rad</span>
+                                <span class="subset-row__chars">サシスセソ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="ta">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="ta-row">Ta-rad</span>
+                                <span class="subset-row__chars">タチツテト</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="na">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="na-row">Na-rad</span>
+                                <span class="subset-row__chars">ナニヌネノ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="ha">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="ha-row">Ha-rad</span>
+                                <span class="subset-row__chars">ハヒフヘホ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="ma">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="ma-row">Ma-rad</span>
+                                <span class="subset-row__chars">マミムメモ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="ya">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="ya-row">Ya-rad</span>
+                                <span class="subset-row__chars">ヤユヨ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="ra">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="ra-row">Ra-rad</span>
+                                <span class="subset-row__chars">ラリルレロ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="wa">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="wa-row">Wa-rad</span>
+                                <span class="subset-row__chars">ワヲ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" value="n">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name">N</span>
+                                <span class="subset-row__chars">ン</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="subset-controls">
+                    <button id="random-btn" type="button" data-i18n="choose-all">Velg alle</button>
+                    <button id="clear-btn" type="button" data-i18n="remove-all">Fjern alle</button>
+                </div>
+
+                <div class="subset-divider"></div>
+
+                <div class="subset-group">
+                    <p class="subset-settings-title" data-i18n="extra-chars">Ekstra tegn</p>
+                    <div class="subset-settings">
+                        <label class="subset-row">
+                            <input type="checkbox" id="include-dakuten">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name">Dakuten (゛)</span>
+                                <span class="subset-row__chars">ガギグ・ザジズ・バビブ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" id="include-handakuten">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name">Handakuten (゜)</span>
+                                <span class="subset-row__chars">パピプペポ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                        <label class="subset-row">
+                            <input type="checkbox" id="include-small-kana">
+                            <span class="subset-row__info">
+                                <span class="subset-row__name" data-i18n="small-kana">Små kana</span>
+                                <span class="subset-row__chars">ャュョ</span>
+                            </span>
+                            <span class="subset-row__toggle"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <section class="training-area">
+                <div class="character-display">
+                    <div id="hiragana-character" class="hiragana">—</div>
+                    <div id="translation-display" class="translation-always">Velg tegn fra menyen ☰</div>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="answer-input" data-i18n="romanji-placeholder" placeholder="Skriv romanji her..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div id="hint-display" class="hint hidden"></div>
+                </div>
+
+                <div class="controls">
+                    <button id="next-btn" data-i18n="next">Neste →</button>
+                    <button id="show-answer-btn" data-i18n="show-answer">Vis svar</button>
+                </div>
+            </section>
+
+            <section class="progress-section">
+                <h2 data-i18n="mastered-katakana">Mestrede katakanas</h2>
+                <div id="mastered-list" class="mastered-list">
+                    <div id="mastered-characters"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="lang.js"></script>
+    <script src="katakana.js"></script>
+</body>
+</html>
