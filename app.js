@@ -1019,8 +1019,6 @@ class UIController {
     this.showAnswerBtn = document.getElementById("show-answer-btn");
     this.randomBtn = document.getElementById("random-btn");
     this.clearBtn = document.getElementById("clear-btn");
-    this.masteredCountSpan = document.getElementById("mastered-count");
-    this.totalCountSpan = document.getElementById("total-count");
     this.masteredCharactersDiv = document.getElementById("mastered-characters");
     this.toggleSubsetBtn = document.getElementById("toggle-subset-btn");
     this.subsetMenu = document.getElementById("subset-menu");
@@ -1312,12 +1310,6 @@ class UIController {
    * Update progress display
    */
   updateProgressDisplay() {
-    const summary = this.progressTracker.getProgressSummary(
-      this.selectedSubsets,
-    );
-    this.masteredCountSpan.textContent = summary.mastered;
-    this.totalCountSpan.textContent = summary.total;
-
     // Update mastered characters list
     const masteredChars = this.progressTracker.getMasteredCharacters();
     this.masteredCharactersDiv.innerHTML = "";
