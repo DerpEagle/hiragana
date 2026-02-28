@@ -1489,6 +1489,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // apply initial toggles
   applyToggles(dakInit, hanInit, smallInit);
 
+  // Legg "small" til selectedSubsets hvis small-kana er aktivert ved oppstart
+  if (smallInit && uiController.selectedSubsets) {
+    if (!uiController.selectedSubsets.includes("small")) {
+      uiController.selectedSubsets.push("small");
+    }
+  }
+
   // When toggles change, reapply and refresh UI
   function onToggleChange() {
     const dak = dakChk ? dakChk.checked : false;
@@ -1497,6 +1504,14 @@ document.addEventListener("DOMContentLoaded", () => {
     applyToggles(dak, han, small);
 
     if (window.uiController) {
+      // Legg til eller fjern "small" fra selectedSubsets
+      const idx = window.uiController.selectedSubsets.indexOf("small");
+      if (small && idx === -1) {
+        window.uiController.selectedSubsets.push("small");
+      } else if (!small && idx !== -1) {
+        window.uiController.selectedSubsets.splice(idx, 1);
+      }
+
       window.uiController.updateProgressDisplay();
       if (
         window.uiController.selectedSubsets &&
