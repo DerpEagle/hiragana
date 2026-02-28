@@ -659,14 +659,9 @@ const EXTRA_HANDAKUTEN = [
 ];
 
 const EXTRA_SMALL_KANA = [
-  { character: "ャ", romanji: ["xya"], subset: "small" },
-  { character: "ュ", romanji: ["xyu"], subset: "small" },
-  { character: "ョ", romanji: ["xyo"], subset: "small" },
-  { character: "ァ", romanji: ["xa"], subset: "small" },
-  { character: "ィ", romanji: ["xi"], subset: "small" },
-  { character: "ゥ", romanji: ["xu"], subset: "small" },
-  { character: "ェ", romanji: ["xe"], subset: "small" },
-  { character: "ォ", romanji: ["xo"], subset: "small" },
+  { character: "ャ", romanji: ["ya"], subset: "small" },
+  { character: "ュ", romanji: ["yu"], subset: "small" },
+  { character: "ョ", romanji: ["yo"], subset: "small" },
 ];
 
 function applyToggles(dakutenEnabled, handakutenEnabled, smallEnabled) {

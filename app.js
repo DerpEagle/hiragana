@@ -66,14 +66,9 @@ const HiraganaData = {
   ],
   n: [{ character: "ん", romanji: ["n"] }],
   small: [
-    { character: "ぁ", romanji: ["xa", "la"] },
-    { character: "ぃ", romanji: ["xi", "li"] },
-    { character: "ぅ", romanji: ["xu", "lu"] },
-    { character: "ぇ", romanji: ["xe", "le"] },
-    { character: "ぉ", romanji: ["xo", "lo"] },
-    { character: "ゃ", romanji: ["xya", "lya"] },
-    { character: "ゅ", romanji: ["xyu", "lyu"] },
-    { character: "ょ", romanji: ["xyo", "lyo"] },
+    { character: "ゃ", romanji: ["ya"] },
+    { character: "ゅ", romanji: ["yu"] },
+    { character: "ょ", romanji: ["yo"] },
   ],
 };
 
@@ -975,14 +970,9 @@ const EXTRA_HANDAKUTEN = [
 ];
 
 const EXTRA_SMALL_KANA = [
-  { character: "ゃ", romanji: ["xya"], subset: "small" },
-  { character: "ゅ", romanji: ["xyu"], subset: "small" },
-  { character: "ょ", romanji: ["xyo"], subset: "small" },
-  { character: "ぁ", romanji: ["xa"], subset: "small" },
-  { character: "ぃ", romanji: ["xi"], subset: "small" },
-  { character: "ぅ", romanji: ["xu"], subset: "small" },
-  { character: "ぇ", romanji: ["xe"], subset: "small" },
-  { character: "ぉ", romanji: ["xo"], subset: "small" },
+  { character: "ゃ", romanji: ["ya"], subset: "small" },
+  { character: "ゅ", romanji: ["yu"], subset: "small" },
+  { character: "ょ", romanji: ["yo"], subset: "small" },
 ];
 
 function applyToggles(dakutenEnabled, handakutenEnabled) {
