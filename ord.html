@@ -10,13 +10,13 @@
 <body>
     <div class="container">
         <header>
-            <a href="index.html" class="back-link">← Tilbake</a>
-            <h1>Øv på ord</h1>
+            <a href="index.html" class="back-link" data-i18n="back">← Tilbake</a>
+            <h1 data-i18n="ord-title">Øv på ord</h1>
         </header>
 
         <main>
             <section class="mode-section">
-                <span class="mode-label">Antall tegn:</span>
+                <span class="mode-label" data-i18n="char-count-label">Antall tegn:</span>
                 <select id="char-count">
                     <option value="2" selected>2 tegn</option>
                     <option value="3">3 tegn</option>
@@ -29,6 +29,11 @@
                     <option value="10">10 tegn</option>
                 </select>
                 <span class="range-count" id="word-count"></span>
+                <div class="script-toggle">
+                    <button class="script-btn script-btn--active" data-script="hiragana" data-i18n-title="tooltip-hiragana" title="Hiragana">あ</button>
+                    <button class="script-btn" data-script="katakana" data-i18n-title="tooltip-katakana" title="Katakana">ア</button>
+                    <button class="script-btn" data-script="both" data-i18n-title="tooltip-both" title="Begge / Both">あア</button>
+                </div>
             </section>
 
             <section class="training-area">
@@ -38,25 +43,27 @@
                 </div>
 
                 <div class="input-area">
-                    <input type="text" id="answer-input" placeholder="Skriv romanji her..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <input type="text" id="answer-input" data-i18n="romanji-placeholder" placeholder="Skriv romanji her..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <div id="hint-display" class="hint hidden"></div>
                 </div>
 
                 <div class="controls">
-                    <button id="next-btn">Neste →</button>
-                    <button id="show-answer-btn">Vis svar</button>
+                    <button id="next-btn" data-i18n="next">Neste →</button>
+                    <button id="show-answer-btn" data-i18n="show-answer">Vis svar</button>
+                    <button id="hide-chars-btn" data-i18n="hide-chars">Skjul tegn</button>
                 </div>
             </section>
 
             <section class="progress-section">
-                <h2>Fremgang</h2>
+                <h2 data-i18n="progress-heading">Fremgang</h2>
                 <div class="progress-summary">
-                    <p>Denne runden: <span id="round-progress">0</span> / <span id="round-total">0</span></p>
+                    <p><span data-i18n="round-label">Denne runden:</span> <span id="round-progress">0</span> / <span id="round-total">0</span></p>
                 </div>
             </section>
         </main>
     </div>
 
+    <script src="lang.js"></script>
     <script src="ord.js"></script>
 </body>
 </html>

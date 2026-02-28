@@ -111,14 +111,14 @@ function updateRange() {
   const count = rangeSize();
 
   if (count <= 0) {
-    rangeCount.textContent = 'Ingen tall i dette området';
+    rangeCount.textContent = t('no-numbers-in-range');
     charDisplay.textContent = '—';
     charDisplay.style.fontSize = '';
     transDisplay.textContent = '';
     return;
   }
 
-  rangeCount.textContent = `${count.toLocaleString()} tall`;
+  rangeCount.textContent = `${count.toLocaleString()} ${count === 1 ? t('number-singular') : t('numbers-in-range')}`;
 
   if (count <= QUEUE_LIMIT) {
     queue = [];
@@ -205,13 +205,13 @@ function handleAnswer(input) {
 
 function showHint() {
   if (!currentEntry) return;
-  hintDisplay.textContent = `Hint: Begynner med "${currentEntry.romanji[0][0]}"`;
+  hintDisplay.textContent = `${t('hint-prefix')} "${currentEntry.romanji[0][0]}"`;
   hintDisplay.classList.remove('hidden');
 }
 
 function showAnswer() {
   if (!currentEntry) return;
-  hintDisplay.textContent = `Svar: ${currentEntry.romanji[0]}`;
+  hintDisplay.textContent = `${t('answer-prefix')} ${currentEntry.romanji[0]}`;
   hintDisplay.classList.remove('hidden');
 }
 

@@ -15,15 +15,15 @@ const HiraganaData = {
   ],
   sa: [
     { character: "さ", romanji: ["sa"] },
-    { character: "し", romanji: ["shi", "si"] },
+    { character: "し", romanji: ["shi"] },
     { character: "す", romanji: ["su"] },
     { character: "せ", romanji: ["se"] },
     { character: "そ", romanji: ["so"] },
   ],
   ta: [
     { character: "た", romanji: ["ta"] },
-    { character: "ち", romanji: ["chi", "ti"] },
-    { character: "つ", romanji: ["tsu", "tu"] },
+    { character: "ち", romanji: ["chi"] },
+    { character: "つ", romanji: ["tsu"] },
     { character: "て", romanji: ["te"] },
     { character: "と", romanji: ["to"] },
   ],
@@ -37,7 +37,7 @@ const HiraganaData = {
   ha: [
     { character: "は", romanji: ["ha"] },
     { character: "ひ", romanji: ["hi"] },
-    { character: "ふ", romanji: ["fu", "hu"] },
+    { character: "ふ", romanji: ["fu"] },
     { character: "へ", romanji: ["he"] },
     { character: "ほ", romanji: ["ho"] },
   ],
@@ -880,7 +880,7 @@ const StorageManager = {
     } catch (error) {
       if (error.name === "QuotaExceededError") {
         console.error("localStorage quota exceeded");
-        alert("Lagringsplass er full. Fremgang kan ikke lagres.");
+        alert(t('storage-full'));
       } else {
         console.error("Error saving progress:", error);
       }
@@ -1067,8 +1067,10 @@ class UIController {
       }
     });
 
-    // Close menu via backdrop
+    // Close menu via backdrop or close button
     this.menuBackdrop.addEventListener("click", () => this.closeMenu());
+    const closeBtn = document.getElementById("close-subset-btn");
+    if (closeBtn) closeBtn.addEventListener("click", () => this.closeMenu());
 
     // Subset checkboxes
     const checkboxes = document.querySelectorAll(
@@ -1139,7 +1141,7 @@ class UIController {
       this.nextCharacter();
     } else {
       this.characterDisplay.textContent = "—";
-      this.translationDisplay.textContent = "Velg tegn fra menyen ☰";
+      this.translationDisplay.textContent = t('select-from-menu');
       this.answerInput.value = "";
     }
   }
@@ -1260,7 +1262,7 @@ class UIController {
     if (this.currentCharacters.length === 0) return;
 
     const firstRomanji = this.currentCharacters[0].romanji[0];
-    this.hintDisplay.textContent = `Hint: Begynner med "${firstRomanji[0]}"`;
+    this.hintDisplay.textContent = `${t('hint-prefix')} "${firstRomanji[0]}"`;
     this.hintDisplay.classList.remove("hidden");
   }
 
@@ -1272,7 +1274,7 @@ class UIController {
 
     const answer = this.currentCharacters.map((c) => c.romanji[0]).join("");
 
-    this.hintDisplay.textContent = `Svar: ${answer}`;
+    this.hintDisplay.textContent = `${t('answer-prefix')} ${answer}`;
     this.hintDisplay.classList.remove("hidden");
 
     // Count as incorrect
@@ -1289,7 +1291,7 @@ class UIController {
   nextCharacter() {
     if (this.selectedSubsets.length === 0) {
       this.characterDisplay.textContent = "—";
-      this.translationDisplay.textContent = "Velg tegn fra menyen ☰";
+      this.translationDisplay.textContent = t('select-from-menu');
       return;
     }
 
@@ -1362,7 +1364,7 @@ class UIController {
       this.nextCharacter();
     } else {
       this.characterDisplay.textContent = "—";
-      this.translationDisplay.textContent = "Velg tegn fra menyen ☰";
+      this.translationDisplay.textContent = t('select-from-menu');
     }
   }
 }
