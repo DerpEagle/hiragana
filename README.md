@@ -6,3 +6,4 @@ Holder oversikt over din progresjon.
 Filtrer og velg hvilket subset du vil lære/kombinere.
 Forskjellige ord fra 2 til 10 karakterer.
 tall opp til 999 milliarder.
+Bytt mellom norsk og engelsk
