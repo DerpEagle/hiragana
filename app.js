@@ -65,444 +65,15 @@ const HiraganaData = {
     { character: "を", romanji: ["wo", "o"] },
   ],
   n: [{ character: "ん", romanji: ["n"] }],
-  // Numbers 0-9
-  numbers_0_9: [
-    { character: "れい", romanji: ["rei", "0"], translation: "0" },
-    { character: "いち", romanji: ["ichi", "1"], translation: "1" },
-    { character: "に", romanji: ["ni", "2"], translation: "2" },
-    { character: "さん", romanji: ["san", "3"], translation: "3" },
-    { character: "よん", romanji: ["yon", "shi", "4"], translation: "4" },
-    { character: "ご", romanji: ["go", "5"], translation: "5" },
-    { character: "ろく", romanji: ["roku", "6"], translation: "6" },
-    { character: "なな", romanji: ["nana", "shichi", "7"], translation: "7" },
-    { character: "はち", romanji: ["hachi", "8"], translation: "8" },
-    { character: "きゅう", romanji: ["kyuu", "ku", "9"], translation: "9" },
-  ],
-  // Numbers 10-19
-  numbers_10_19: [
-    { character: "じゅう", romanji: ["juu", "10"], translation: "10" },
-    { character: "じゅういち", romanji: ["juuichi", "11"], translation: "11" },
-    { character: "じゅうに", romanji: ["juuni", "12"], translation: "12" },
-    { character: "じゅうさん", romanji: ["juusan", "13"], translation: "13" },
-    { character: "じゅうよん", romanji: ["juuyon", "14"], translation: "14" },
-    { character: "じゅうご", romanji: ["juugo", "15"], translation: "15" },
-    { character: "じゅうろく", romanji: ["juuroku", "16"], translation: "16" },
-    { character: "じゅうなな", romanji: ["juunana", "17"], translation: "17" },
-    { character: "じゅうはち", romanji: ["juuhachi", "18"], translation: "18" },
-    {
-      character: "じゅうきゅう",
-      romanji: ["juukyuu", "19"],
-      translation: "19",
-    },
-  ],
-  // Numbers 20-29
-  numbers_20_29: [
-    { character: "にじゅう", romanji: ["nijuu", "20"], translation: "20" },
-    {
-      character: "にじゅういち",
-      romanji: ["nijuuichi", "21"],
-      translation: "21",
-    },
-    { character: "にじゅうに", romanji: ["nijuuni", "22"], translation: "22" },
-    {
-      character: "にじゅうさん",
-      romanji: ["nijuusan", "23"],
-      translation: "23",
-    },
-    {
-      character: "にじゅうよん",
-      romanji: ["nijuuyon", "24"],
-      translation: "24",
-    },
-    { character: "にじゅうご", romanji: ["nijuugo", "25"], translation: "25" },
-    {
-      character: "にじゅうろく",
-      romanji: ["nijuuroku", "26"],
-      translation: "26",
-    },
-    {
-      character: "にじゅうなな",
-      romanji: ["nijuunana", "27"],
-      translation: "27",
-    },
-    {
-      character: "にじゅうはち",
-      romanji: ["nijuuhachi", "28"],
-      translation: "28",
-    },
-    {
-      character: "にじゅうきゅう",
-      romanji: ["nijuukyuu", "29"],
-      translation: "29",
-    },
-  ],
-  numbers_30_39: [
-    { character: "さんじゅう", romanji: ["sanjuu", "30"], translation: "30" },
-    {
-      character: "さんじゅういち",
-      romanji: ["sanjuuichi", "31"],
-      translation: "31",
-    },
-    {
-      character: "さんじゅうに",
-      romanji: ["sanjuuni", "32"],
-      translation: "32",
-    },
-    {
-      character: "さんじゅうさん",
-      romanji: ["sanjuusan", "33"],
-      translation: "33",
-    },
-    {
-      character: "さんじゅうよん",
-      romanji: ["sanjuuyon", "34"],
-      translation: "34",
-    },
-    {
-      character: "さんじゅうご",
-      romanji: ["sanjuugo", "35"],
-      translation: "35",
-    },
-    {
-      character: "さんじゅうろく",
-      romanji: ["sanjuuroku", "36"],
-      translation: "36",
-    },
-    {
-      character: "さんじゅうなな",
-      romanji: ["sanjuunana", "37"],
-      translation: "37",
-    },
-    {
-      character: "さんじゅうはち",
-      romanji: ["sanjuuhachi", "38"],
-      translation: "38",
-    },
-    {
-      character: "さんじゅうきゅう",
-      romanji: ["sanjuukyuu", "39"],
-      translation: "39",
-    },
-  ],
-  numbers_40_49: [
-    { character: "よんじゅう", romanji: ["yonjuu", "40"], translation: "40" },
-    {
-      character: "よんじゅういち",
-      romanji: ["yonjuuichi", "41"],
-      translation: "41",
-    },
-    {
-      character: "よんじゅうに",
-      romanji: ["yonjuuni", "42"],
-      translation: "42",
-    },
-    {
-      character: "よんじゅうさん",
-      romanji: ["yonjuusan", "43"],
-      translation: "43",
-    },
-    {
-      character: "よんじゅうよん",
-      romanji: ["yonjuuyon", "44"],
-      translation: "44",
-    },
-    {
-      character: "よんじゅうご",
-      romanji: ["yonjuugo", "45"],
-      translation: "45",
-    },
-    {
-      character: "よんじゅうろく",
-      romanji: ["yonjuuroku", "46"],
-      translation: "46",
-    },
-    {
-      character: "よんじゅうなな",
-      romanji: ["yonjuunana", "47"],
-      translation: "47",
-    },
-    {
-      character: "よんじゅうはち",
-      romanji: ["yonjuuhachi", "48"],
-      translation: "48",
-    },
-    {
-      character: "よんじゅうきゅう",
-      romanji: ["yonjuukyuu", "49"],
-      translation: "49",
-    },
-  ],
-  numbers_50_59: [
-    { character: "ごじゅう", romanji: ["gojuu", "50"], translation: "50" },
-    {
-      character: "ごじゅういち",
-      romanji: ["gojuuichi", "51"],
-      translation: "51",
-    },
-    { character: "ごじゅうに", romanji: ["gojuuni", "52"], translation: "52" },
-    {
-      character: "ごじゅうさん",
-      romanji: ["gojuusan", "53"],
-      translation: "53",
-    },
-    {
-      character: "ごじゅうよん",
-      romanji: ["gojuuyon", "54"],
-      translation: "54",
-    },
-    { character: "ごじゅうご", romanji: ["gojuugo", "55"], translation: "55" },
-    {
-      character: "ごじゅうろく",
-      romanji: ["gojuuroku", "56"],
-      translation: "56",
-    },
-    {
-      character: "ごじゅうなな",
-      romanji: ["gojuunana", "57"],
-      translation: "57",
-    },
-    {
-      character: "ごじゅうはち",
-      romanji: ["gojuuhachi", "58"],
-      translation: "58",
-    },
-    {
-      character: "ごじゅうきゅう",
-      romanji: ["gojuukyuu", "59"],
-      translation: "59",
-    },
-  ],
-  numbers_60_69: [
-    { character: "ろくじゅう", romanji: ["rokujuu", "60"], translation: "60" },
-    {
-      character: "ろくじゅういち",
-      romanji: ["rokujuuichi", "61"],
-      translation: "61",
-    },
-    {
-      character: "ろくじゅうに",
-      romanji: ["rokujuuni", "62"],
-      translation: "62",
-    },
-    {
-      character: "ろくじゅうさん",
-      romanji: ["rokujuusan", "63"],
-      translation: "63",
-    },
-    {
-      character: "ろくじゅうよん",
-      romanji: ["rokujuuyon", "64"],
-      translation: "64",
-    },
-    {
-      character: "ろくじゅうご",
-      romanji: ["rokujuugo", "65"],
-      translation: "65",
-    },
-    {
-      character: "ろくじゅうろく",
-      romanji: ["rokujuuroku", "66"],
-      translation: "66",
-    },
-    {
-      character: "ろくじゅうなな",
-      romanji: ["rokujuunana", "67"],
-      translation: "67",
-    },
-    {
-      character: "ろくじゅうはち",
-      romanji: ["rokujuuhachi", "68"],
-      translation: "68",
-    },
-    {
-      character: "ろくじゅうきゅう",
-      romanji: ["rokujuukyuu", "69"],
-      translation: "69",
-    },
-  ],
-  numbers_70_79: [
-    { character: "ななじゅう", romanji: ["nanajuu", "70"], translation: "70" },
-    {
-      character: "ななじゅういち",
-      romanji: ["nanajuuichi", "71"],
-      translation: "71",
-    },
-    {
-      character: "ななじゅうに",
-      romanji: ["nanajuuni", "72"],
-      translation: "72",
-    },
-    {
-      character: "ななじゅうさん",
-      romanji: ["nanajuusan", "73"],
-      translation: "73",
-    },
-    {
-      character: "ななじゅうよん",
-      romanji: ["nanajuuyon", "74"],
-      translation: "74",
-    },
-    {
-      character: "ななじゅうご",
-      romanji: ["nanajuugo", "75"],
-      translation: "75",
-    },
-    {
-      character: "ななじゅうろく",
-      romanji: ["nanajuuroku", "76"],
-      translation: "76",
-    },
-    {
-      character: "ななじゅうなな",
-      romanji: ["nanajuunana", "77"],
-      translation: "77",
-    },
-    {
-      character: "ななじゅうはち",
-      romanji: ["nanajuuhachi", "78"],
-      translation: "78",
-    },
-    {
-      character: "ななじゅうきゅう",
-      romanji: ["nanajuukyuu", "79"],
-      translation: "79",
-    },
-  ],
-  numbers_80_89: [
-    { character: "はちじゅう", romanji: ["hachijuu", "80"], translation: "80" },
-    {
-      character: "はちじゅういち",
-      romanji: ["hachijuuichi", "81"],
-      translation: "81",
-    },
-    {
-      character: "はちじゅうに",
-      romanji: ["hachijuuni", "82"],
-      translation: "82",
-    },
-    {
-      character: "はちじゅうさん",
-      romanji: ["hachijuusan", "83"],
-      translation: "83",
-    },
-    {
-      character: "はちじゅうよん",
-      romanji: ["hachijuuyon", "84"],
-      translation: "84",
-    },
-    {
-      character: "はちじゅうご",
-      romanji: ["hachijuugo", "85"],
-      translation: "85",
-    },
-    {
-      character: "はちじゅうろく",
-      romanji: ["hachijuuroku", "86"],
-      translation: "86",
-    },
-    {
-      character: "はちじゅうなな",
-      romanji: ["hachijuunana", "87"],
-      translation: "87",
-    },
-    {
-      character: "はちじゅうはち",
-      romanji: ["hachijuuhachi", "88"],
-      translation: "88",
-    },
-    {
-      character: "はちじゅうきゅう",
-      romanji: ["hachijuukyuu", "89"],
-      translation: "89",
-    },
-  ],
-  numbers_90_99: [
-    {
-      character: "きゅうじゅう",
-      romanji: ["kyuujuu", "90"],
-      translation: "90",
-    },
-    {
-      character: "きゅうじゅういち",
-      romanji: ["kyuujuuichi", "91"],
-      translation: "91",
-    },
-    {
-      character: "きゅうじゅうに",
-      romanji: ["kyuujuuni", "92"],
-      translation: "92",
-    },
-    {
-      character: "きゅうじゅうさん",
-      romanji: ["kyuujuusan", "93"],
-      translation: "93",
-    },
-    {
-      character: "きゅうじゅうよん",
-      romanji: ["kyuujuuyon", "94"],
-      translation: "94",
-    },
-    {
-      character: "きゅうじゅうご",
-      romanji: ["kyuujuugo", "95"],
-      translation: "95",
-    },
-    {
-      character: "きゅうじゅうろく",
-      romanji: ["kyuujuuroku", "96"],
-      translation: "96",
-    },
-    {
-      character: "きゅうじゅうなな",
-      romanji: ["kyuujuunana", "97"],
-      translation: "97",
-    },
-    {
-      character: "きゅうじゅうはち",
-      romanji: ["kyuujuuhachi", "98"],
-      translation: "98",
-    },
-    {
-      character: "きゅうじゅうきゅう",
-      romanji: ["kyuujuukyuu", "99"],
-      translation: "99",
-    },
-  ],
-  numbers_hundreds: [
-    { character: "ひゃく", romanji: ["hyaku", "100"], translation: "100" },
-    { character: "にひゃく", romanji: ["nihyaku", "200"], translation: "200" },
-    {
-      character: "さんびゃく",
-      romanji: ["sanbyaku", "300"],
-      translation: "300",
-    },
-    {
-      character: "よんひゃく",
-      romanji: ["yonhyaku", "400"],
-      translation: "400",
-    },
-    { character: "ごひゃく", romanji: ["gohyaku", "500"], translation: "500" },
-    {
-      character: "ろっぴゃく",
-      romanji: ["roppyaku", "600"],
-      translation: "600",
-    },
-    {
-      character: "ななひゃく",
-      romanji: ["nanahyaku", "700"],
-      translation: "700",
-    },
-    {
-      character: "はっぴゃく",
-      romanji: ["happyaku", "800"],
-      translation: "800",
-    },
-    {
-      character: "きゅうひゃく",
-      romanji: ["kyuuhyaku", "900"],
-      translation: "900",
-    },
-    { character: "せん", romanji: ["sen", "1000"], translation: "1000" },
+  small: [
+    { character: "ぁ", romanji: ["xa", "la"] },
+    { character: "ぃ", romanji: ["xi", "li"] },
+    { character: "ぅ", romanji: ["xu", "lu"] },
+    { character: "ぇ", romanji: ["xe", "le"] },
+    { character: "ぉ", romanji: ["xo", "lo"] },
+    { character: "ゃ", romanji: ["xya", "lya"] },
+    { character: "ゅ", romanji: ["xyu", "lyu"] },
+    { character: "ょ", romanji: ["xyo", "lyo"] },
   ],
 };
 
@@ -1414,22 +985,15 @@ const EXTRA_SMALL_KANA = [
   { character: "ぉ", romanji: ["xo"], subset: "small" },
 ];
 
-function applyToggles(dakutenEnabled, handakutenEnabled, smallEnabled) {
-  // reset HiraganaData to base
+function applyToggles(dakutenEnabled, handakutenEnabled) {
   Object.keys(BASE_HIRAGANA_DATA).forEach((key) => {
     HiraganaData[key] = JSON.parse(JSON.stringify(BASE_HIRAGANA_DATA[key]));
   });
 
-  // remove small subset if present
-  if (HiraganaData.small) delete HiraganaData.small;
-
   if (dakutenEnabled) {
     EXTRA_DAKUTEN.forEach((item) => {
       if (HiraganaData[item.subset]) {
-        HiraganaData[item.subset].push({
-          character: item.character,
-          romanji: item.romanji,
-        });
+        HiraganaData[item.subset].push({ character: item.character, romanji: item.romanji });
       }
     });
   }
@@ -1437,81 +1001,42 @@ function applyToggles(dakutenEnabled, handakutenEnabled, smallEnabled) {
   if (handakutenEnabled) {
     EXTRA_HANDAKUTEN.forEach((item) => {
       if (HiraganaData[item.subset]) {
-        HiraganaData[item.subset].push({
-          character: item.character,
-          romanji: item.romanji,
-        });
+        HiraganaData[item.subset].push({ character: item.character, romanji: item.romanji });
       }
     });
-  }
-
-  if (smallEnabled) {
-    HiraganaData.small = EXTRA_SMALL_KANA.map((item) => ({
-      character: item.character,
-      romanji: item.romanji,
-    }));
   }
 
   try {
     localStorage.setItem("include-dakuten", dakutenEnabled ? "1" : "0");
     localStorage.setItem("include-handakuten", handakutenEnabled ? "1" : "0");
-    localStorage.setItem("include-small-kana", smallEnabled ? "1" : "0");
   } catch (e) {}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Load or create progress tracker
   let progressTracker = StorageManager.loadProgress();
-  if (!progressTracker) {
-    progressTracker = new ProgressTracker();
-  }
+  if (!progressTracker) progressTracker = new ProgressTracker();
 
-  // Create character selector
   const characterSelector = new CharacterSelector(progressTracker);
-
-  // Create UI controller and expose globally
   const uiController = new UIController(progressTracker, characterSelector);
   window.uiController = uiController;
 
-  // Wire up toggle checkboxes (present in index.html)
   const dakChk = document.getElementById("include-dakuten");
   const hanChk = document.getElementById("include-handakuten");
-  const smallChk = document.getElementById("include-small-kana");
 
   const dakInit = localStorage.getItem("include-dakuten") === "1";
   const hanInit = localStorage.getItem("include-handakuten") === "1";
-  const smallInit = localStorage.getItem("include-small-kana") === "1";
 
   if (dakChk) dakChk.checked = dakInit;
   if (hanChk) hanChk.checked = hanInit;
-  if (smallChk) smallChk.checked = smallInit;
 
-  // apply initial toggles
-  applyToggles(dakInit, hanInit, smallInit);
+  applyToggles(dakInit, hanInit);
 
-  // Legg "small" til selectedSubsets hvis small-kana er aktivert ved oppstart
-  if (smallInit && uiController.selectedSubsets) {
-    if (!uiController.selectedSubsets.includes("small")) {
-      uiController.selectedSubsets.push("small");
-    }
-  }
-
-  // When toggles change, reapply and refresh UI
   function onToggleChange() {
     const dak = dakChk ? dakChk.checked : false;
     const han = hanChk ? hanChk.checked : false;
-    const small = smallChk ? smallChk.checked : false;
-    applyToggles(dak, han, small);
+    applyToggles(dak, han);
 
     if (window.uiController) {
-      // Legg til eller fjern "small" fra selectedSubsets
-      const idx = window.uiController.selectedSubsets.indexOf("small");
-      if (small && idx === -1) {
-        window.uiController.selectedSubsets.push("small");
-      } else if (!small && idx !== -1) {
-        window.uiController.selectedSubsets.splice(idx, 1);
-      }
-
       window.uiController.updateProgressDisplay();
       if (
         window.uiController.selectedSubsets &&
@@ -1524,5 +1049,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (dakChk) dakChk.addEventListener("change", onToggleChange);
   if (hanChk) hanChk.addEventListener("change", onToggleChange);
-  if (smallChk) smallChk.addEventListener("change", onToggleChange);
 });
