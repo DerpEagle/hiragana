@@ -2,6 +2,8 @@
 
 A browser-based app for learning Japanese scripts and numbers. No installation, no account — just open and practise.
 
+**Live at: [derpeagle.github.io/hiragana](https://derpeagle.github.io/hiragana)**
+
 Supports **Norwegian 🇳🇴** and **English 🇬🇧** — switch language in the top right corner.
 
 ---
