@@ -1,165 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="no">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Min Progresjon</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <a href="index.html" class="back-link" data-i18n="back">← Tilbake</a>
-            <h1 data-i18n="prog-title">Min Progresjon</h1>
-        </header>
+      <header>
+        <a href="index.html" class="back-link" data-i18n="back">← Tilbake</a>
+        <h1 data-i18n="prog-title">Min Progresjon</h1>
+      </header>
 
-        <main id="progress-content"></main>
+      <main id="progress-content"></main>
     </div>
 
     <script src="lang.js"></script>
     <script>
-        const HIRAGANA_KEY = 'hiragana-trainer-progress';
-        const KATAKANA_KEY = 'katakana-trainer-progress';
+      const HIRAGANA_KEY = "hiragana-trainer-progress";
+      const KATAKANA_KEY = "katakana-trainer-progress";
 
-        // Bruk i18n-nøkler i stedet for hardkodet tekst
-        const HIRAGANA_SUBSETS = [
-            { key: 'vowels',        chars: ['あ','い','う','え','お'] },
-            { key: 'ka-row',        chars: ['か','き','く','け','こ','が','ぎ','ぐ','げ','ご'] },
-            { key: 'sa-row',        chars: ['さ','し','す','せ','そ','ざ','じ','ず','ぜ','ぞ'] },
-            { key: 'ta-row',        chars: ['た','ち','つ','て','と','だ','ぢ','づ','で','ど'] },
-            { key: 'na-row',        chars: ['な','に','ぬ','ね','の'] },
-            { key: 'ha-row',        chars: ['は','ひ','ふ','へ','ほ','ば','び','ぶ','べ','ぼ','ぱ','ぴ','ぷ','ぺ','ぽ'] },
-            { key: 'ma-row',        chars: ['ま','み','む','め','も'] },
-            { key: 'ya-row',        chars: ['や','ゆ','よ'] },
-            { key: 'ra-row',        chars: ['ら','り','る','れ','ろ'] },
-            { key: 'wa-row',        chars: ['わ','を'] },
-            { key: 'n-row',         chars: ['ん'] },
-            { key: 'small-kana-row',chars: ['ゃ','ゅ','ょ'] },
-        ];
+      // using i18n keys for labels
+      const HIRAGANA_SUBSETS = [
+        { key: "vowels", chars: ["あ", "い", "う", "え", "お"] },
+        {
+          key: "ka-row",
+          chars: ["か", "き", "く", "け", "こ", "が", "ぎ", "ぐ", "げ", "ご"],
+        },
+        {
+          key: "sa-row",
+          chars: ["さ", "し", "す", "せ", "そ", "ざ", "じ", "ず", "ぜ", "ぞ"],
+        },
+        {
+          key: "ta-row",
+          chars: ["た", "ち", "つ", "て", "と", "だ", "ぢ", "づ", "で", "ど"],
+        },
+        { key: "na-row", chars: ["な", "に", "ぬ", "ね", "の"] },
+        {
+          key: "ha-row",
+          chars: [
+            "は",
+            "ひ",
+            "ふ",
+            "へ",
+            "ほ",
+            "ば",
+            "び",
+            "ぶ",
+            "べ",
+            "ぼ",
+            "ぱ",
+            "ぴ",
+            "ぷ",
+            "ぺ",
+            "ぽ",
+          ],
+        },
+        { key: "ma-row", chars: ["ま", "み", "む", "め", "も"] },
+        { key: "ya-row", chars: ["や", "ゆ", "よ"] },
+        { key: "ra-row", chars: ["ら", "り", "る", "れ", "ろ"] },
+        { key: "wa-row", chars: ["わ", "を"] },
+        { key: "n-row", chars: ["ん"] },
+        { key: "small-kana-row", chars: ["ゃ", "ゅ", "ょ"] },
+      ];
 
-        const KATAKANA_SUBSETS = [
-            { key: 'vowels',        chars: ['ア','イ','ウ','エ','オ'] },
-            { key: 'ka-row',        chars: ['カ','キ','ク','ケ','コ','ガ','ギ','グ','ゲ','ゴ'] },
-            { key: 'sa-row',        chars: ['サ','シ','ス','セ','ソ','ザ','ジ','ズ','ゼ','ゾ'] },
-            { key: 'ta-row',        chars: ['タ','チ','ツ','テ','ト','ダ','ヂ','ヅ','デ','ド'] },
-            { key: 'na-row',        chars: ['ナ','ニ','ヌ','ネ','ノ'] },
-            { key: 'ha-row',        chars: ['ハ','ヒ','フ','ヘ','ホ','バ','ビ','ブ','ベ','ボ','パ','ピ','プ','ペ','ポ'] },
-            { key: 'ma-row',        chars: ['マ','ミ','ム','メ','モ'] },
-            { key: 'ya-row',        chars: ['ヤ','ユ','ヨ'] },
-            { key: 'ra-row',        chars: ['ラ','リ','ル','レ','ロ'] },
-            { key: 'wa-row',        chars: ['ワ','ヲ'] },
-            { key: 'n-row',         chars: ['ン'] },
-            { key: 'small-kana-row',chars: ['ャ','ュ','ョ'] },
-        ];
+      const KATAKANA_SUBSETS = [
+        { key: "vowels", chars: ["ア", "イ", "ウ", "エ", "オ"] },
+        {
+          key: "ka-row",
+          chars: ["カ", "キ", "ク", "ケ", "コ", "ガ", "ギ", "グ", "ゲ", "ゴ"],
+        },
+        {
+          key: "sa-row",
+          chars: ["サ", "シ", "ス", "セ", "ソ", "ザ", "ジ", "ズ", "ゼ", "ゾ"],
+        },
+        {
+          key: "ta-row",
+          chars: ["タ", "チ", "ツ", "テ", "ト", "ダ", "ヂ", "ヅ", "デ", "ド"],
+        },
+        { key: "na-row", chars: ["ナ", "ニ", "ヌ", "ネ", "ノ"] },
+        {
+          key: "ha-row",
+          chars: [
+            "ハ",
+            "ヒ",
+            "フ",
+            "ヘ",
+            "ホ",
+            "バ",
+            "ビ",
+            "ブ",
+            "ベ",
+            "ボ",
+            "パ",
+            "ピ",
+            "プ",
+            "ペ",
+            "ポ",
+          ],
+        },
+        { key: "ma-row", chars: ["マ", "ミ", "ム", "メ", "モ"] },
+        { key: "ya-row", chars: ["ヤ", "ユ", "ヨ"] },
+        { key: "ra-row", chars: ["ラ", "リ", "ル", "レ", "ロ"] },
+        { key: "wa-row", chars: ["ワ", "ヲ"] },
+        { key: "n-row", chars: ["ン"] },
+        { key: "small-kana-row", chars: ["ャ", "ュ", "ョ"] },
+      ];
 
-        function renderSubsets(subsets, data, container) {
-            let totalMastered = 0;
-            let totalChars = 0;
+      function renderSubsets(subsets, data, container) {
+        let totalMastered = 0;
+        let totalChars = 0;
 
-            subsets.forEach(subset => {
-                const mastered = subset.chars.filter(ch => data[ch] && data[ch].isMastered);
-                totalMastered += mastered.length;
-                totalChars += subset.chars.length;
+        subsets.forEach((subset) => {
+          const mastered = subset.chars.filter(
+            (ch) => data[ch] && data[ch].isMastered,
+          );
+          totalMastered += mastered.length;
+          totalChars += subset.chars.length;
 
-                const section = document.createElement('section');
-                section.className = 'prog-section';
+          const section = document.createElement("section");
+          section.className = "prog-section";
 
-                const header = document.createElement('div');
-                header.className = 'prog-section-header';
-                header.innerHTML = `
+          const header = document.createElement("div");
+          header.className = "prog-section-header";
+          header.innerHTML = `
                     <span class="prog-section-name">${t(subset.key)}</span>
-                    <span class="prog-section-count ${mastered.length === subset.chars.length ? 'prog-count--complete' : ''}">
-                        ${mastered.length} / ${subset.chars.length} ${t('learned-label')}
+                    <span class="prog-section-count ${mastered.length === subset.chars.length ? "prog-count--complete" : ""}">
+                        ${mastered.length} / ${subset.chars.length} ${t("learned-label")}
                     </span>
                 `;
-                section.appendChild(header);
+          section.appendChild(header);
 
-                const chipsRow = document.createElement('div');
-                chipsRow.className = 'prog-chips';
+          const chipsRow = document.createElement("div");
+          chipsRow.className = "prog-chips";
 
-                subset.chars.forEach(ch => {
-                    const chip = document.createElement('span');
-                    const isMastered = data[ch] && data[ch].isMastered;
-                    const isSeen = data[ch] !== undefined;
-                    chip.className = 'prog-chip' +
-                        (isMastered ? ' prog-chip--mastered' : '') +
-                        (!isSeen ? ' prog-chip--unseen' : '');
-                    chip.textContent = ch;
+          subset.chars.forEach((ch) => {
+            const chip = document.createElement("span");
+            const isMastered = data[ch] && data[ch].isMastered;
+            const isSeen = data[ch] !== undefined;
+            chip.className =
+              "prog-chip" +
+              (isMastered ? " prog-chip--mastered" : "") +
+              (!isSeen ? " prog-chip--unseen" : "");
+            chip.textContent = ch;
 
-                    if (isMastered) {
-                        chip.title = t('mastered-check');
-                    } else if (isSeen) {
-                        const correct = data[ch].correctCount || 0;
-                        const streak = data[ch].currentStreak || 0;
-                        chip.title = `${t('correct-label')}: ${correct}, ${t('streak-label')}: ${streak}/10`;
-                    } else {
-                        chip.title = t('not-practiced');
-                    }
+            if (isMastered) {
+              chip.title = t("mastered-check");
+            } else if (isSeen) {
+              const correct = data[ch].correctCount || 0;
+              const streak = data[ch].currentStreak || 0;
+              chip.title = `${t("correct-label")}: ${correct}, ${t("streak-label")}: ${streak}/10`;
+            } else {
+              chip.title = t("not-practiced");
+            }
 
-                    chipsRow.appendChild(chip);
-                });
+            chipsRow.appendChild(chip);
+          });
 
-                section.appendChild(chipsRow);
-                container.appendChild(section);
-            });
+          section.appendChild(chipsRow);
+          container.appendChild(section);
+        });
 
-            return { totalMastered, totalChars };
-        }
+        return { totalMastered, totalChars };
+      }
 
-        function makeSummary(totalMastered, totalChars) {
-            const summary = document.createElement('section');
-            summary.className = 'prog-summary';
-            const pct = totalChars > 0 ? Math.round((totalMastered / totalChars) * 100) : 0;
-            summary.innerHTML = `
-                <span class="prog-summary-text">${t('total-mastered')}</span>
+      function makeSummary(totalMastered, totalChars) {
+        const summary = document.createElement("section");
+        summary.className = "prog-summary";
+        const pct =
+          totalChars > 0 ? Math.round((totalMastered / totalChars) * 100) : 0;
+        summary.innerHTML = `
+                <span class="prog-summary-text">${t("total-mastered")}</span>
                 <span class="prog-summary-count">${totalMastered} / ${totalChars}</span>
                 <div class="prog-bar-bg">
                     <div class="prog-bar-fill" style="width: ${pct}%"></div>
                 </div>
                 <span class="prog-summary-pct">${pct}%</span>
             `;
-            return summary;
-        }
+        return summary;
+      }
 
-        function renderProgress() {
-            const hData = JSON.parse(localStorage.getItem(HIRAGANA_KEY) || '{}');
-            const kData = JSON.parse(localStorage.getItem(KATAKANA_KEY) || '{}');
+      function renderProgress() {
+        const hData = JSON.parse(localStorage.getItem(HIRAGANA_KEY) || "{}");
+        const kData = JSON.parse(localStorage.getItem(KATAKANA_KEY) || "{}");
 
-            const container = document.getElementById('progress-content');
-            container.innerHTML = '';
+        const container = document.getElementById("progress-content");
+        container.innerHTML = "";
 
-            // ── Hiragana section ──
-            const hGroup = document.createElement('div');
+        // ── Hiragana section ──
+        const hGroup = document.createElement("div");
 
-            const hTitle = document.createElement('h2');
-            hTitle.className = 'prog-group-title';
-            hTitle.textContent = 'Hiragana';
-            hGroup.appendChild(hTitle);
+        const hTitle = document.createElement("h2");
+        hTitle.className = "prog-group-title";
+        hTitle.textContent = "Hiragana";
+        hGroup.appendChild(hTitle);
 
-            const { totalMastered: hMastered, totalChars: hTotal } =
-                renderSubsets(HIRAGANA_SUBSETS, hData, hGroup);
+        const { totalMastered: hMastered, totalChars: hTotal } = renderSubsets(
+          HIRAGANA_SUBSETS,
+          hData,
+          hGroup,
+        );
 
-            hGroup.insertBefore(makeSummary(hMastered, hTotal), hTitle.nextSibling);
-            container.appendChild(hGroup);
+        hGroup.insertBefore(makeSummary(hMastered, hTotal), hTitle.nextSibling);
+        container.appendChild(hGroup);
 
-            // ── Katakana section ──
-            const kGroup = document.createElement('div');
-            kGroup.style.marginTop = '2rem';
+        // ── Katakana section ──
+        const kGroup = document.createElement("div");
+        kGroup.style.marginTop = "2rem";
 
-            const kTitle = document.createElement('h2');
-            kTitle.className = 'prog-group-title';
-            kTitle.textContent = 'Katakana';
-            kGroup.appendChild(kTitle);
+        const kTitle = document.createElement("h2");
+        kTitle.className = "prog-group-title";
+        kTitle.textContent = "Katakana";
+        kGroup.appendChild(kTitle);
 
-            const { totalMastered: kMastered, totalChars: kTotal } =
-                renderSubsets(KATAKANA_SUBSETS, kData, kGroup);
+        const { totalMastered: kMastered, totalChars: kTotal } = renderSubsets(
+          KATAKANA_SUBSETS,
+          kData,
+          kGroup,
+        );
 
-            kGroup.insertBefore(makeSummary(kMastered, kTotal), kTitle.nextSibling);
-            container.appendChild(kGroup);
-        }
+        kGroup.insertBefore(makeSummary(kMastered, kTotal), kTitle.nextSibling);
+        container.appendChild(kGroup);
+      }
 
-        document.addEventListener('DOMContentLoaded', renderProgress);
+      document.addEventListener("DOMContentLoaded", renderProgress);
     </script>
-</body>
+  </body>
 </html>
