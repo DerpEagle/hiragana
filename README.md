@@ -47,7 +47,7 @@ Each character has a **streak** of 10 dots:
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/<your-username>/learn-hiragana.git
+   git clone https://github.com/DerpEagle/learn-hiragana.git
    ```
 2. Open `index.html` in your browser — that's it!
 
