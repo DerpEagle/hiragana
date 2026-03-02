@@ -349,7 +349,10 @@ class UIController {
 
     this.translationDisplay.textContent = "";
     this.answerInput.value = "";
-    this.answerInput.focus();
+    // don't focus while the subset menu is open — avoids keyboard popup on mobile
+    if (this.subsetMenu.classList.contains("hidden")) {
+      this.answerInput.focus();
+    }
     this.hintDisplay.classList.add("hidden");
     this.incorrectAttempts = 0;
     this.updateStreakDisplay();
