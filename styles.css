@@ -34,6 +34,7 @@ body {
 }
 
 header {
+  position: relative;
   text-align: center;
   margin-bottom: 40px;
   padding-top: 20px;
@@ -756,9 +757,9 @@ button:active {
 
 /* ── Language toggle ── */
 .lang-toggle {
-  position: fixed;
+  position: absolute;
   top: 20px;
-  right: 20px;
+  right: 14px;
   display: flex;
   gap: 6px;
   z-index: 100;
@@ -768,8 +769,8 @@ button:active {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  padding: 6px 10px;
-  font-size: 1.3rem;
+  padding: 4px 7px;
+  font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
   transition: all 0.2s;
