@@ -11,12 +11,16 @@
     <link rel="stylesheet" href="styles.css" />
     <script data-goatcounter="https://derpeagle.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f3460">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
   </head>
   <body>
     <div class="container">
       <header>
         <h1>日本語</h1>
         <p class="menu-subtitle" data-i18n="menu-subtitle">Japansk Læring</p>
+        <p id="streak-badge" class="streak-badge" style="display:none">🔥 <span id="streak-num">0</span> <span id="streak-days-text"></span></p>
         <div class="lang-toggle">
           <button class="lang-btn" data-lang="no">🇳🇴</button>
           <button class="lang-btn" data-lang="en">🇬🇧</button>
@@ -62,6 +66,13 @@
           <span class="menu-card__arrow">→</span>
         </a>
 
+        <a href="daily.html" class="menu-card menu-card--daily">
+          <span class="menu-card__icon">🏆</span>
+          <span class="menu-card__title" data-i18n="daily-challenge">Dagens Utfordring</span>
+          <span id="daily-check" style="display:none" class="menu-card__check">✓</span>
+          <span class="menu-card__arrow">→</span>
+        </a>
+
         <a href="howto.html" class="menu-card menu-card--howto">
           <span class="menu-card__icon">?</span>
           <span class="menu-card__title" data-i18n="howto-title"
@@ -80,12 +91,14 @@
     </div>
 
     <script src="lang.js"></script>
+    <script src="streak.js"></script>
     <script>
       document.querySelectorAll(".lang-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           localStorage.setItem("app-language", btn.dataset.lang);
           applyLang();
           updateActiveLangBtn();
+          updateStreakBadge();
         });
       });
 
@@ -96,11 +109,33 @@
         });
       }
 
+      function updateStreakBadge() {
+        const sd = StreakManager.getDisplay();
+        if (sd.current > 0) {
+          document.getElementById("streak-num").textContent = sd.current;
+          document.getElementById("streak-days-text").textContent =
+            sd.current === 1 ? t("streak-day") : t("streak-days");
+          document.getElementById("streak-badge").style.display = "";
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         updateActiveLangBtn();
         document.getElementById("footer-year").textContent =
           new Date().getFullYear();
+        updateStreakBadge();
+
+        const today = new Date().toISOString().slice(0, 10);
+        const dh = JSON.parse(localStorage.getItem("daily-challenge-h") || "null");
+        const dk = JSON.parse(localStorage.getItem("daily-challenge-k") || "null");
+        const done = (dh && dh.date === today && dh.done.length >= 10) ||
+                     (dk && dk.date === today && dk.done.length >= 10);
+        if (done) document.getElementById("daily-check").style.display = "";
       });
+    </script>
+    <script>
+      if ('serviceWorker' in navigator)
+        navigator.serviceWorker.register('./sw.js');
     </script>
   </body>
 </html>

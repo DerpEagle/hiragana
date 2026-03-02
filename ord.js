@@ -508,6 +508,7 @@ function handleAnswer(input) {
     input.trim().toLowerCase() === currentWord.romanji.toLowerCase();
 
   if (isCorrect) {
+    if (typeof StreakManager !== "undefined") StreakManager.recordActivity();
     answerInput.classList.add("flash-correct");
     setTimeout(() => {
       answerInput.classList.remove("flash-correct");
@@ -574,7 +575,10 @@ document.addEventListener("DOMContentLoaded", () => {
     updateHideButton();
   });
   answerInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") handleAnswer(answerInput.value);
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleAnswer(answerInput.value);
+    }
   });
 
   buildQueue();

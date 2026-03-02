@@ -1,3 +1,13 @@
+/*
+ * ┌─────────────────────────────────────────┐
+ * │         Glenn's Japanese Trainer        │
+ * │    あ ア — hiragana, katakana & more    │
+ * └─────────────────────────────────────────┘
+ *
+ * lang.js — Glenn A.
+ * Norwegian / English strings. Call applyLang() after DOM ready.
+ */
+
 const LANG = {
   no: {
     // Navigation
@@ -65,6 +75,17 @@ const LANG = {
     // How-to page
     "howto-title": "Slik bruker du appen",
 
+    // Daily challenge
+    "daily-challenge": "Dagens Utfordring",
+    "daily-subtitle": "10 tilfeldige tegn — nye hvert døgn",
+    "daily-complete-title": "Fullført! 🎉",
+    "daily-complete-msg": "Du klarte alle 10 tegn for i dag!",
+    "daily-streak-label": "Daglig utfordring på rad",
+    "daily-streak-singular": "Daglig utfordring på rad",
+    "daily-already-done": "Allerede fullført i dag",
+    "daily-progress-label": "tegn fullført",
+    "daily-try-again": "Øv mer",
+
     // Main menu
     "menu-subtitle": "Lær japansk",
     "footer-sub": "Laget for å gjøre japansk gøy og lett for alle!",
@@ -86,6 +107,23 @@ const LANG = {
     "words-label": "ord",
     "show-chars": "Vis tegn",
     "storage-full": "Lagringsplass er full. Fremgang kan ikke lagres.",
+
+    // Streak
+    "streak-day": "dag på rad",
+    "streak-days": "dager på rad",
+    "streak-current": "Dager på rad",
+    "streak-longest": "Din rekord",
+
+    // Detailed stats
+    "needs-practice": "Trenger mer øving",
+    "needs-practice-desc": "Tegnene du oftest svarer feil på — høyere % betyr bedre",
+    "accuracy-label": "Nøyaktighet",
+    "correct-short": "riktig",
+    "no-mistakes-yet": "Ingen feil registrert ennå — bra jobba!",
+    "streak-day-unit": "dager",
+    "legend-mastered": "Mestret",
+    "legend-seen": "Sett, ikke mestret",
+    "legend-unseen": "Ikke øvd på",
 
     // Script type toggle tooltips
     "tooltip-hiragana": "Øv bare på Hiragana",
@@ -158,6 +196,17 @@ const LANG = {
     // How-to page
     "howto-title": "How to use the app",
 
+    // Daily challenge
+    "daily-challenge": "Daily Challenge",
+    "daily-subtitle": "10 random characters — new every day",
+    "daily-complete-title": "Completed! 🎉",
+    "daily-complete-msg": "You got all 10 characters for today!",
+    "daily-streak-label": "Daily challenges in a row",
+    "daily-streak-singular": "Daily challenge in a row",
+    "daily-already-done": "Already completed today",
+    "daily-progress-label": "characters done",
+    "daily-try-again": "Keep practising",
+
     // Main menu
     "menu-subtitle": "Learn Japanese",
     "footer-sub": "Made to make Japanese fun and easy for everyone!",
@@ -179,6 +228,23 @@ const LANG = {
     "words-label": "words",
     "show-chars": "Show characters",
     "storage-full": "Storage is full. Progress cannot be saved.",
+
+    // Streak
+    "streak-day": "day in a row",
+    "streak-days": "days in a row",
+    "streak-current": "Days in a row",
+    "streak-longest": "Your record",
+
+    // Detailed stats
+    "needs-practice": "Needs more practice",
+    "needs-practice-desc": "Characters you answer incorrectly most often — higher % is better",
+    "accuracy-label": "Accuracy",
+    "correct-short": "correct",
+    "no-mistakes-yet": "No mistakes recorded yet — great work!",
+    "streak-day-unit": "days",
+    "legend-mastered": "Mastered",
+    "legend-seen": "Seen, not mastered",
+    "legend-unseen": "Not practiced",
 
     // Script type toggle tooltips
     "tooltip-hiragana": "Practice Hiragana only",

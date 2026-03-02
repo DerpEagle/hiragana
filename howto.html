@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="styles.css" />
     <script data-goatcounter="https://derpeagle.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f3460">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
   </head>
   <body>
     <div class="container">
@@ -128,7 +131,7 @@
                 <strong>ka</strong> for <span class="tip-char">か</span>.
               </li>
               <li>
-                Trykk <strong>Enter</strong> eller <strong>Neste →</strong> for
+                Trykk <strong>Enter</strong>, <strong>Space</strong> eller <strong>Neste →</strong> for
                 å gå videre.
               </li>
               <li>
@@ -151,7 +154,7 @@
                 <strong>ka</strong> for <span class="tip-char">か</span>.
               </li>
               <li>
-                Press <strong>Enter</strong> or <strong>Next →</strong> to
+                Press <strong>Enter</strong>, <strong>Space</strong> or <strong>Next →</strong> to
                 continue.
               </li>
               <li>
@@ -228,6 +231,95 @@
           </div>
         </section>
 
+        <!-- ── Daily streak ── -->
+        <section class="howto-section">
+          <div class="howto-section__icon">🔥</div>
+          <div class="howto-section__body">
+            <h2 class="lang-no">Daglig streak</h2>
+            <h2 class="lang-en">Daily streak</h2>
+            <ul class="howto-steps lang-no">
+              <li>
+                Hver dag du svarer riktig på minst ett tegn, øker streaken din
+                med én dag.
+              </li>
+              <li>
+                På startsiden vises et <strong>🔥</strong>-merke som viser
+                nåværende streak.
+              </li>
+              <li>
+                Under <strong>Min Progresjon</strong> ser du nåværende streak og
+                din personlige rekord.
+              </li>
+              <li>
+                Glemmer du én dag, nullstilles streaken — men rekorden din
+                beholdes.
+              </li>
+            </ul>
+            <ul class="howto-steps lang-en">
+              <li>
+                Every day you answer at least one character correctly, your
+                streak increases by one day.
+              </li>
+              <li>
+                On the home screen a <strong>🔥</strong> badge appears,
+                showing you the current streak.
+              </li>
+              <li>
+                Under <strong>My Progress</strong> you can see your current
+                streak and your personal record.
+              </li>
+              <li>
+                Miss a day and the streak resets — but your record is kept.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ── Daily challenge ── -->
+        <section class="howto-section">
+          <div class="howto-section__icon">🏆</div>
+          <div class="howto-section__body">
+            <h2 class="lang-no">Dagens Utfordring</h2>
+            <h2 class="lang-en">Daily Challenge</h2>
+            <ul class="howto-steps lang-no">
+              <li>
+                Hver dag får du 10 tilfeldige tegn valgt fra hele
+                hiragana- eller katakana-settet — inkludert dakuten og handakuten.
+              </li>
+              <li>
+                Velg hiragana eller katakana øverst, og svar riktig på alle 10.
+                Rekkefølgen og antall forsøk spiller ingen rolle.
+              </li>
+              <li>
+                Klarer du alle 10, registreres det som en fullført dag. Gjør
+                det flere dager på rad for å bygge opp streaken din.
+              </li>
+              <li>
+                På startsiden vises et <strong>✓</strong> på kortet hvis du har
+                fullført utfordringen for i dag.
+              </li>
+            </ul>
+            <ul class="howto-steps lang-en">
+              <li>
+                Every day you get 10 random characters chosen from the full
+                hiragana or katakana set — including dakuten and handakuten.
+              </li>
+              <li>
+                Choose hiragana or katakana at the top and answer all 10
+                correctly. Order and number of attempts don't matter.
+              </li>
+              <li>
+                Complete all 10 and the day is counted as done. Do it several
+                days in a row to build your challenge streak.
+              </li>
+              <li>
+                On the home screen a <strong>✓</strong> appears on the card
+                once you've completed today's challenge.
+              </li>
+            </ul>
+          </div>
+        </section>
+
         <!-- ── Other sections ── -->
         <section class="howto-section">
           <div class="howto-section__icon">語</div>
@@ -240,7 +332,7 @@
                 katakana.
               </li>
               <li>
-                Velg antall tegn i ordet (2–10) og om du vil se hiragana,
+                Velg antall tegn i ordet (1–10) og om du vil se hiragana,
                 katakana eller begge.
               </li>
               <li>
@@ -253,7 +345,7 @@
                 katakana.
               </li>
               <li>
-                Choose the number of characters (2–10) and whether to show
+                Choose the number of characters (1–10) and whether to show
                 hiragana, katakana, or both.
               </li>
               <li>
@@ -316,22 +408,42 @@
             <ul class="howto-steps lang-no">
               <li>
                 Se en oversikt over alle hiragana og katakana-tegn med
-                fargekoder.
+                fargekoder: <span class="tip-green">grønn</span> = mestret,
+                normal = sett men ikke mestret, nedtonet = ikke øvd på ennå.
               </li>
               <li>
-                <span class="tip-green">Grønn</span> = mestret, normal = sett
-                men ikke mestret, nedtonet = ikke øvd på ennå.
+                Hold musen over et tegn (eller trykk på det på mobil) for å se
+                nøyaktighetsprosenten din og nåværende streak for det tegnet.
+              </li>
+              <li>
+                Seksjonen <strong>Trenger mer øving</strong> viser de 5 tegnene
+                du oftest svarer feil på, med en farget linje som viser
+                nøyaktigheten — rød er lavest, grønn er best.
+              </li>
+              <li>
+                Streak og rekord vises øverst — se om du klarer å holde
+                streaken i gang!
               </li>
               <li>Fremgangen din lagres automatisk i nettleseren.</li>
             </ul>
             <ul class="howto-steps lang-en">
               <li>
                 See an overview of all hiragana and katakana characters with
-                colour coding.
+                colour coding: <span class="tip-green">green</span> = mastered,
+                normal = seen but not mastered, faded = not practised yet.
               </li>
               <li>
-                <span class="tip-green">Green</span> = mastered, normal = seen
-                but not mastered, faded = not practised yet.
+                Hover over a character (or tap it on mobile) to see your
+                accuracy percentage and current streak for that character.
+              </li>
+              <li>
+                The <strong>Needs more practice</strong> section shows the 5
+                characters you answer incorrectly most often, with a coloured
+                bar showing accuracy — red is lowest, green is best.
+              </li>
+              <li>
+                Your streak and record are shown at the top — see if you can
+                keep the streak going!
               </li>
               <li>Your progress is saved automatically in the browser.</li>
             </ul>
@@ -390,6 +502,13 @@
       document.addEventListener("DOMContentLoaded", () => {
         applyLang();
       });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") window.location.href = "index.html";
+      });
+    </script>
+    <script>
+      if ('serviceWorker' in navigator)
+        navigator.serviceWorker.register('./sw.js');
     </script>
   </body>
 </html>

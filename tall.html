@@ -21,6 +21,9 @@
     </style>
     <script data-goatcounter="https://derpeagle.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f3460">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
   </head>
 
   <body>
@@ -104,6 +107,14 @@
     </div>
 
     <script src="lang.js"></script>
+    <script src="streak.js"></script>
     <script src="tall.js"></script>
+    <script>
+      if ('serviceWorker' in navigator)
+        navigator.serviceWorker.register('./sw.js');
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") window.location.href = "index.html";
+      });
+    </script>
   </body>
 </html>

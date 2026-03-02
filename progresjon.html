@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="styles.css" />
     <script data-goatcounter="https://derpeagle.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f3460">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
   </head>
   <body>
     <div class="container">
@@ -23,6 +26,7 @@
     </div>
 
     <script src="lang.js"></script>
+    <script src="streak.js"></script>
     <script>
       const HIRAGANA_KEY = "hiragana-trainer-progress";
       const KATAKANA_KEY = "katakana-trainer-progress";
@@ -155,8 +159,11 @@
               chip.title = t("mastered-check");
             } else if (isSeen) {
               const correct = data[ch].correctCount || 0;
+              const incorrect = data[ch].incorrectCount || 0;
               const streak = data[ch].currentStreak || 0;
-              chip.title = `${t("correct-label")}: ${correct}, ${t("streak-label")}: ${streak}/10`;
+              const total = correct + incorrect;
+              const accuracy = total > 0 ? Math.round(correct / total * 100) : 100;
+              chip.title = `${t("correct-label")}: ${correct}, ${t("streak-label")}: ${streak}/10, ${t("accuracy-label")}: ${accuracy}%`;
             } else {
               chip.title = t("not-practiced");
             }
@@ -187,12 +194,84 @@
         return summary;
       }
 
+      function makeNeedsPracticeSection(hData, kData) {
+        const candidates = [];
+        [...Object.entries(hData), ...Object.entries(kData)].forEach(([ch, d]) => {
+          if (!d || d.incorrectCount === 0) return;
+          const correct = d.correctCount || 0;
+          const incorrect = d.incorrectCount || 0;
+          const total = correct + incorrect;
+          const accuracy = total > 0 ? Math.round(correct / total * 100) : 0;
+          candidates.push({ ch, accuracy, incorrect });
+        });
+
+        const section = document.createElement("section");
+        section.className = "prog-needs-practice";
+        const title = document.createElement("h3");
+        title.className = "prog-needs-practice__title";
+        title.textContent = t("needs-practice");
+        section.appendChild(title);
+
+        const desc = document.createElement("p");
+        desc.className = "prog-needs-practice__desc";
+        desc.textContent = t("needs-practice-desc");
+        section.appendChild(desc);
+
+        if (candidates.length === 0) {
+          const msg = document.createElement("p");
+          msg.className = "prog-needs-practice__empty";
+          msg.textContent = t("no-mistakes-yet");
+          section.appendChild(msg);
+          return section;
+        }
+
+        candidates.sort((a, b) => a.accuracy - b.accuracy || b.incorrect - a.incorrect);
+        const top5 = candidates.slice(0, 5);
+
+        const list = document.createElement("div");
+        list.className = "prog-needs-practice__list";
+        top5.forEach(({ ch, accuracy }) => {
+          const color = accuracy < 50 ? "#ff5555" : accuracy < 75 ? "#ffaa33" : "#4caf50";
+          const item = document.createElement("div");
+          item.className = "prog-needs-practice__item";
+          item.innerHTML = `
+            <span class="prog-needs-practice__char">${ch}</span>
+            <div class="prog-needs-practice__bar-bg">
+              <div class="prog-needs-practice__bar-fill" style="width:${accuracy}%;background:${color}"></div>
+            </div>
+            <span class="prog-needs-practice__pct">${accuracy}% ${t("correct-short")}</span>
+          `;
+          list.appendChild(item);
+        });
+        section.appendChild(list);
+        return section;
+      }
+
       function renderProgress() {
         const hData = JSON.parse(localStorage.getItem(HIRAGANA_KEY) || "{}");
         const kData = JSON.parse(localStorage.getItem(KATAKANA_KEY) || "{}");
 
         const container = document.getElementById("progress-content");
         container.innerHTML = "";
+
+        // ── Streak section ──
+        const sd = StreakManager.getDisplay();
+        const streakSection = document.createElement("section");
+        streakSection.className = "prog-streak";
+        streakSection.innerHTML = `
+          <div class="prog-streak__item">
+            <span class="prog-streak__value">🔥 ${sd.current}</span>
+            <span class="prog-streak__label">${sd.current === 1 ? t("streak-day") : t("streak-current")}</span>
+          </div>
+          <div class="prog-streak__item">
+            <span class="prog-streak__value">⭐ ${sd.longest}</span>
+            <span class="prog-streak__label">${t("streak-longest")}</span>
+          </div>
+        `;
+        container.appendChild(streakSection);
+
+        // ── Needs practice section ──
+        container.appendChild(makeNeedsPracticeSection(hData, kData));
 
         // ── Hiragana section ──
         const hGroup = document.createElement("div");
@@ -209,6 +288,15 @@
         );
 
         hGroup.insertBefore(makeSummary(hMastered, hTotal), hTitle.nextSibling);
+
+        const hLegend = document.createElement("div");
+        hLegend.className = "prog-legend";
+        hLegend.innerHTML = `
+          <span class="prog-legend__item"><span class="prog-chip prog-chip--mastered">あ</span>${t("legend-mastered")}</span>
+          <span class="prog-legend__item"><span class="prog-chip">あ</span>${t("legend-seen")}</span>
+          <span class="prog-legend__item"><span class="prog-chip prog-chip--unseen">あ</span>${t("legend-unseen")}</span>
+        `;
+        hGroup.appendChild(hLegend);
         container.appendChild(hGroup);
 
         // ── Katakana section ──
@@ -227,10 +315,26 @@
         );
 
         kGroup.insertBefore(makeSummary(kMastered, kTotal), kTitle.nextSibling);
+
+        const kLegend = document.createElement("div");
+        kLegend.className = "prog-legend";
+        kLegend.innerHTML = `
+          <span class="prog-legend__item"><span class="prog-chip prog-chip--mastered">ア</span>${t("legend-mastered")}</span>
+          <span class="prog-legend__item"><span class="prog-chip">ア</span>${t("legend-seen")}</span>
+          <span class="prog-legend__item"><span class="prog-chip prog-chip--unseen">ア</span>${t("legend-unseen")}</span>
+        `;
+        kGroup.appendChild(kLegend);
         container.appendChild(kGroup);
       }
 
       document.addEventListener("DOMContentLoaded", renderProgress);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") window.location.href = "index.html";
+      });
+    </script>
+    <script>
+      if ('serviceWorker' in navigator)
+        navigator.serviceWorker.register('./sw.js');
     </script>
   </body>
 </html>

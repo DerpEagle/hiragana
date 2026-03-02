@@ -410,6 +410,12 @@ section {
   text-shadow: 0 0 11px rgba(76, 175, 80, 0.2);
 }
 
+.hiragana.char-wrong {
+  color: #ff5555;
+  animation: none;
+  text-shadow: 0 0 11px rgba(255, 85, 85, 0.2);
+}
+
 .streak-display {
   font-size: 0.78rem;
   letter-spacing: 3px;
@@ -904,13 +910,13 @@ button:active {
 }
 
 .menu-card--katakana {
-  border-color: rgba(255, 100, 180, 0.35);
-  color: #ff64b4;
+  border-color: rgba(125, 211, 252, 0.35);
+  color: #7dd3fc;
 }
 .menu-card--katakana:hover {
-  border-color: #ff64b4;
-  box-shadow: 0 12px 40px rgba(255, 100, 180, 0.1);
-  color: #ff64b4;
+  border-color: #7dd3fc;
+  box-shadow: 0 12px 40px rgba(125, 211, 252, 0.1);
+  color: #7dd3fc;
 }
 
 .menu-card--ord {
@@ -924,13 +930,13 @@ button:active {
 }
 
 .menu-card--tall {
-  border-color: rgba(255, 165, 0, 0.35);
-  color: #ffa500;
+  border-color: rgba(129, 140, 248, 0.35);
+  color: #818cf8;
 }
 .menu-card--tall:hover {
-  border-color: #ffa500;
-  box-shadow: 0 12px 40px rgba(255, 165, 0, 0.1);
-  color: #ffa500;
+  border-color: #818cf8;
+  box-shadow: 0 12px 40px rgba(129, 140, 248, 0.1);
+  color: #818cf8;
 }
 
 .menu-card--progresjon {
@@ -944,18 +950,107 @@ button:active {
 }
 
 .menu-card--howto {
-  border-color: rgba(100, 181, 246, 0.35);
-  color: #64b5f6;
+  border-color: rgba(100, 116, 139, 0.35);
+  color: #64748b;
 }
 .menu-card--howto:hover {
-  border-color: #64b5f6;
-  box-shadow: 0 12px 40px rgba(100, 181, 246, 0.1);
-  color: #64b5f6;
+  border-color: #64748b;
+  box-shadow: 0 12px 40px rgba(100, 116, 139, 0.1);
+  color: #64748b;
+}
+
+.menu-card--daily {
+  border-color: rgba(251, 191, 36, 0.35);
+  color: #fbbf24;
+}
+.menu-card--daily:hover {
+  border-color: #fbbf24;
+  box-shadow: 0 12px 40px rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+}
+
+.menu-card__check {
+  font-size: 1.1rem;
+  color: #4caf50;
+  font-weight: 700;
+  margin-right: 4px;
 }
 
 .menu-card--disabled {
   cursor: default;
   opacity: 0.45;
+}
+
+/* ── Daily challenge page ── */
+.daily-script-toggle {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.daily-script-btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 1.1rem;
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  border-radius: 10px;
+  background: rgba(15, 52, 96, 0.4);
+  color: rgba(0, 212, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.daily-script-btn--active {
+  border-color: #00d4ff;
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.daily-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.daily-complete {
+  text-align: center;
+  padding: 32px 24px;
+  border: 2px solid rgba(76, 175, 80, 0.4);
+  border-radius: 15px;
+  background: rgba(76, 175, 80, 0.07);
+}
+
+.daily-complete__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4caf50;
+  margin-bottom: 0.5rem;
+}
+
+.daily-complete__msg {
+  font-size: 1.1rem;
+  color: #c8e6c9;
+  margin-bottom: 1.5rem;
+}
+
+.daily-complete__streak {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffd700;
+}
+
+.daily-complete__streak-label {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.daily-subtitle {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 /* ── Progress page ── */
@@ -966,6 +1061,134 @@ button:active {
   margin: 0 0 12px 0;
   padding-bottom: 6px;
   border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* ── Streak badge (index.html) ── */
+.streak-badge {
+  color: rgba(0, 212, 255, 0.85);
+  font-size: 0.95rem;
+  margin: 4px 0 0;
+  letter-spacing: 0.02em;
+}
+
+/* ── Streak section (progresjon.html) ── */
+.prog-streak {
+  display: flex;
+  gap: 32px;
+  padding: 14px 20px;
+  margin-bottom: 1.5rem;
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.18);
+  border-radius: 12px;
+}
+
+.prog-streak__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prog-streak__label {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.prog-streak__value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00d4ff;
+}
+
+/* ── Needs practice section ── */
+.prog-needs-practice {
+  margin-bottom: 1.5rem;
+  padding: 14px 20px;
+  background: rgba(255, 85, 85, 0.05);
+  border: 1px solid rgba(255, 85, 85, 0.18);
+  border-radius: 12px;
+}
+
+.prog-needs-practice__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin: 0 0 4px;
+}
+
+.prog-needs-practice__desc {
+  font-size: 0.82rem;
+  color: #888;
+  margin: 0 0 12px;
+}
+
+.prog-needs-practice__empty {
+  color: #4caf50;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.prog-needs-practice__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prog-needs-practice__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prog-needs-practice__char {
+  font-size: 1.3rem;
+  width: 1.8rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.prog-needs-practice__bar-bg {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.prog-needs-practice__bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.prog-needs-practice__pct {
+  font-size: 0.82rem;
+  color: #b0b0b0;
+  width: 5.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Chip legend ── */
+.prog-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding: 4px 0;
+}
+
+.prog-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.prog-legend__item .prog-chip {
+  pointer-events: none;
+  font-size: 0.85rem;
+  padding: 2px 6px;
 }
 
 .prog-summary {

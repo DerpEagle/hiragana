@@ -253,7 +253,10 @@ class UIController {
 
   initializeEventListeners() {
     this.answerInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") this.handleAnswer(this.answerInput.value);
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        this.handleAnswer(this.answerInput.value);
+      }
     });
     this.nextBtn.addEventListener("click", () => this.nextCharacter());
     this.showAnswerBtn.addEventListener("click", () => this.showAnswer());
@@ -267,6 +270,15 @@ class UIController {
     this.menuBackdrop.addEventListener("click", () => this.closeMenu());
     const closeBtn = document.getElementById("close-subset-btn");
     if (closeBtn) closeBtn.addEventListener("click", () => this.closeMenu());
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (!this.subsetMenu.classList.contains("hidden")) {
+          this.closeMenu();
+        } else {
+          window.location.href = "index.html";
+        }
+      }
+    });
     document
       .querySelectorAll('.subset-checkboxes input[type="checkbox"]')
       .forEach((cb) => {
@@ -369,6 +381,7 @@ class UIController {
     });
     StorageManager.saveProgress(this.progressTracker);
     this.updateProgressDisplay();
+    if (typeof StreakManager !== "undefined") StreakManager.recordActivity();
 
     this.answerInput.classList.add("flash-correct");
     setTimeout(() => {

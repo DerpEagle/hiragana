@@ -288,6 +288,7 @@ function handleAnswer(input) {
   markCharacterResult(currentEntry, isCorrect);
 
   if (isCorrect) {
+    if (typeof StreakManager !== "undefined") StreakManager.recordActivity();
     sessionCount++;
     lifetimeCorrect++;
     saveLifetime();
@@ -349,7 +350,10 @@ document.addEventListener("DOMContentLoaded", () => {
   nextBtn.addEventListener("click", nextNumber);
   showAnswerBtn.addEventListener("click", showAnswer);
   answerInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") handleAnswer(answerInput.value);
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleAnswer(answerInput.value);
+    }
   });
 
   updateRange();
