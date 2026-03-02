@@ -81,6 +81,11 @@ h2 {
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.25);
 }
 
+main:has(.subset-menu:not(.hidden)) .hamburger-btn,
+body:has(.subset-menu:not(.hidden)) .back-link {
+  display: none;
+}
+
 /* ── Backdrop ── */
 .menu-backdrop {
   position: fixed;

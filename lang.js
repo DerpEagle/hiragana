@@ -29,20 +29,20 @@ const LANG = {
     "small-kana-row": "Små kana",
 
     // Hiragana page
-    "hiragana-title": "Øv på Hiragana:",
+    "hiragana-title": "Hiragana",
     "mastered-hiragana": "Mestrede hiraganas",
 
     // Katakana page
-    "katakana-title": "Øv på Katakana:",
+    "katakana-title": "Katakana",
     "mastered-katakana": "Mestrede katakanas",
 
     // Ord page
-    "ord-title": "Øv på ord",
+    "ord-title": "Ord",
     "char-count-label": "Antall tegn:",
     "hide-chars": "Skjul tegn",
 
     // Tall page
-    "tall-title": "Øv på tall:",
+    "tall-title": "Tall",
     "from-label": "Fra",
     "to-label": "til",
     "tall-placeholder": "Skriv romanji eller tall...",
@@ -122,20 +122,20 @@ const LANG = {
     "small-kana-row": "Small kana",
 
     // Hiragana page
-    "hiragana-title": "Practice Hiragana:",
+    "hiragana-title": "Hiragana",
     "mastered-hiragana": "Mastered hiragana",
 
     // Katakana page
-    "katakana-title": "Practice Katakana:",
+    "katakana-title": "Katakana",
     "mastered-katakana": "Mastered katakana",
 
     // Ord page
-    "ord-title": "Practice words",
+    "ord-title": "Words",
     "char-count-label": "Number of characters:",
     "hide-chars": "Hide characters",
 
     // Tall page
-    "tall-title": "Practice numbers:",
+    "tall-title": "Numbers",
     "from-label": "From",
     "to-label": "to",
     "tall-placeholder": "Type romaji or number...",
