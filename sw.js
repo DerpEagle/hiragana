@@ -1,4 +1,4 @@
-const CACHE = "japansk-v4";
+const CACHE = "japansk-v5";
 const ASSETS = [
   "/hiragana/",
   "/hiragana/index.html",
