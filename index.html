@@ -426,6 +426,10 @@
     <script>
       if ('serviceWorker' in navigator)
         navigator.serviceWorker.register('./sw.js');
+
+      // ask the browser to keep localStorage permanently
+      if (navigator.storage && navigator.storage.persist)
+        navigator.storage.persist();
     </script>
   </body>
 </html>
