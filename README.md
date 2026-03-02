@@ -63,7 +63,7 @@ Each day, 10 characters are deterministically selected from the full hiragana or
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/DerpEagle/learn-hiragana.git
+   git clone https://github.com/DerpEagle/hiragana.git
    ```
 2. Open `index.html` in your browser — that's it!
 
