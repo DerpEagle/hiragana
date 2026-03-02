@@ -1,7 +1,7 @@
 const LANG = {
   no: {
     // Navigation
-    back: "← Tilbake",
+    back: "◀",
 
     // Common controls
     next: "Neste →",
@@ -94,7 +94,7 @@ const LANG = {
   },
   en: {
     // Navigation
-    back: "← Back",
+    back: "◀",
 
     // Common controls
     next: "Next →",
