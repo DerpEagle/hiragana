@@ -1,3 +1,15 @@
+<!-- prettier-ignore -->
+<!--
+      _____ _     _____ _   _ _   _
+     / ____| |   |  ___| \ | | \ | |
+    | |  __| |   | |__ |  \| |  \| |
+    | | |_ | |   |  __|| . ` | . ` |
+    | |__| | |___| |___| |\  | |\  |
+     \_____|_____|_____|_| \_|_| \_|
+
+    index.html — Main menu + settings
+    Glenn's Japanese Trainer
+-->
 <!doctype html>
 <html lang="no">
   <head>
@@ -24,6 +36,107 @@
         <div class="lang-toggle">
           <button class="lang-btn" data-lang="no">🇳🇴</button>
           <button class="lang-btn" data-lang="en">🇬🇧</button>
+          <button class="index-settings-btn" id="btn-settings"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 00-.48-.41h-3.84a.48.48 0 00-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 00-.59.22L2.74 8.87a.48.48 0 00.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
+        </div>
+
+        <!-- Settings overlay -->
+        <div id="index-settings-overlay" class="challenge-help-overlay hidden">
+          <div class="challenge-help-content settings-overlay-content">
+            <button class="challenge-help-close" id="btn-settings-close">&times;</button>
+
+            <!-- Group 1: Training settings -->
+            <div class="settings-group">
+              <p class="settings-group-title" data-i18n="settings-training">Treningsinnstillinger</p>
+              <div class="challenge-help-mode">
+                <label class="challenge-setting-row">
+                  <input type="checkbox" id="setting-auto-answer">
+                  <span class="challenge-setting-label" data-i18n="auto-answer">Auto-svar</span>
+                  <span class="challenge-setting-preview"></span>
+                  <span class="subset-row__toggle"></span>
+                </label>
+              </div>
+              <div class="challenge-help-mode">
+                <label class="challenge-setting-row">
+                  <input type="checkbox" id="setting-dakuten">
+                  <span class="challenge-setting-label" data-i18n="setting-dakuten">Dakuten (゛) standard</span>
+                  <span class="challenge-setting-preview"></span>
+                  <span class="subset-row__toggle"></span>
+                </label>
+              </div>
+              <div class="challenge-help-mode">
+                <label class="challenge-setting-row">
+                  <input type="checkbox" id="setting-handakuten">
+                  <span class="challenge-setting-label" data-i18n="setting-handakuten">Handakuten (゜) standard</span>
+                  <span class="challenge-setting-preview"></span>
+                  <span class="subset-row__toggle"></span>
+                </label>
+              </div>
+              <div class="challenge-help-mode">
+                <div class="settings-select-row">
+                  <span class="challenge-setting-label" data-i18n="setting-hint-threshold">Visning av hint</span>
+                  <select id="setting-hint-threshold" class="settings-select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="5">5</option>
+                    <option value="never" data-i18n="setting-hint-never">Aldri</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Group 2: Data -->
+            <div class="settings-group">
+              <p class="settings-group-title" data-i18n="settings-data">Data</p>
+              <div class="challenge-help-mode">
+                <div class="settings-btn-row">
+                  <button id="btn-export" class="settings-action-btn" data-i18n="setting-export">Eksporter data</button>
+                  <button id="btn-import" class="settings-action-btn" data-i18n="setting-import">Importer data</button>
+                  <input type="file" id="import-file-input" accept=".json" style="display:none">
+                </div>
+              </div>
+            </div>
+
+            <!-- Group 3: Reset highscores -->
+            <div class="settings-group">
+              <p class="settings-group-title settings-group-title--danger" data-i18n="setting-reset-highscore">Nullstill highscore</p>
+              <div class="challenge-help-mode">
+                <div id="reset-hs-section">
+                  <button id="btn-reset-hs" class="settings-danger-btn" data-i18n="setting-reset-highscore-btn">Nullstill highscore...</button>
+                  <div id="reset-hs-confirm" class="hidden">
+                    <p class="settings-confirm-text" data-i18n="setting-reset-hs-prompt">Skriv SLETT eller DELETE for å bekrefte:</p>
+                    <input type="text" id="reset-hs-input" class="settings-confirm-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <button id="btn-reset-hs-go" class="settings-danger-btn settings-danger-btn--red hidden" data-i18n="setting-reset-hs-confirm">Slett highscores</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Group 4: Reset all -->
+            <div class="settings-group">
+              <p class="settings-group-title settings-group-title--danger" data-i18n="setting-reset-all">Nullstill all progresjon</p>
+              <div class="challenge-help-mode">
+                <div id="reset-all-section">
+                  <button id="btn-reset-all" class="settings-danger-btn" data-i18n="setting-reset-all-btn">Nullstill all progresjon...</button>
+                  <div id="reset-all-step1" class="hidden">
+                    <p class="settings-confirm-text" data-i18n="setting-reset-all-sure">Er du helt sikker?</p>
+                    <div class="settings-btn-row">
+                      <button id="btn-reset-all-yes" class="settings-danger-btn" data-i18n="setting-yes">Ja</button>
+                      <button id="btn-reset-all-no" class="settings-action-btn" data-i18n="setting-no">Nei</button>
+                    </div>
+                  </div>
+                  <div id="reset-all-step2" class="hidden">
+                    <p class="settings-confirm-text" data-i18n="setting-reset-all-romanji">Skriv 'はい' for ja, 'いいえ' for nei:</p>
+                    <input type="text" id="reset-all-input" class="settings-confirm-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                  </div>
+                  <div id="reset-all-step3" class="hidden">
+                    <button id="btn-reset-all-final" class="settings-danger-btn settings-danger-btn--red" data-i18n="setting-reset-all-final">Trykk for å slette alt</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </header>
 
@@ -73,20 +186,25 @@
           <span class="menu-card__arrow">→</span>
         </a>
 
+        <a href="challenge.html" class="menu-card menu-card--challenge">
+          <span class="menu-card__icon">⚡</span>
+          <span class="menu-card__title" data-i18n="challenge-title">Utfordring</span>
+          <span class="menu-card__arrow">→</span>
+        </a>
+
         <a href="howto.html" class="menu-card menu-card--howto">
           <span class="menu-card__icon">?</span>
-          <span class="menu-card__title" data-i18n="howto-title"
-            >Slik bruker du appen</span
-          >
+          <span class="menu-card__title" data-i18n="howto-title">Slik bruker du appen</span>
           <span class="menu-card__arrow">→</span>
         </a>
       </main>
 
       <footer class="site-footer">
-        <p>&copy; <span id="footer-year"></span> Glenn A</p>
         <p class="footer-sub" data-i18n="footer-sub">
           Laget for å gjøre japansk gøy og lett for alle!
         </p>
+        <p>&copy; <span id="footer-year"></span> Glenn Aleksandersen. <span data-i18n="footer-rights">Alle rettigheter forbeholdt.</span></p>
+        
       </footer>
     </div>
 
@@ -118,6 +236,176 @@
           document.getElementById("streak-badge").style.display = "";
         }
       }
+
+      // settings overlay
+      var settingsOverlay = document.getElementById("index-settings-overlay");
+
+      // auto-answer toggle
+      var autoAnswerCb = document.getElementById("setting-auto-answer");
+      autoAnswerCb.checked = localStorage.getItem("auto-answer") === "true";
+      autoAnswerCb.addEventListener("change", function () {
+        localStorage.setItem("auto-answer", autoAnswerCb.checked);
+      });
+
+      // dakuten toggle — writes to both hiragana + katakana keys
+      var dakutenCb = document.getElementById("setting-dakuten");
+      dakutenCb.checked = localStorage.getItem("include-dakuten") === "1";
+      dakutenCb.addEventListener("change", function () {
+        var v = dakutenCb.checked ? "1" : "0";
+        localStorage.setItem("include-dakuten", v);
+        localStorage.setItem("katakana-include-dakuten", v);
+      });
+
+      // handakuten toggle
+      var handakutenCb = document.getElementById("setting-handakuten");
+      handakutenCb.checked = localStorage.getItem("include-handakuten") === "1";
+      handakutenCb.addEventListener("change", function () {
+        var v = handakutenCb.checked ? "1" : "0";
+        localStorage.setItem("include-handakuten", v);
+        localStorage.setItem("katakana-include-handakuten", v);
+      });
+
+      // hint threshold dropdown
+      var hintSelect = document.getElementById("setting-hint-threshold");
+      var savedHint = localStorage.getItem("hint-threshold") || "3";
+      hintSelect.value = savedHint;
+      hintSelect.addEventListener("change", function () {
+        localStorage.setItem("hint-threshold", hintSelect.value);
+      });
+
+      // export data
+      document.getElementById("btn-export").addEventListener("click", function () {
+        var data = {};
+        for (var i = 0; i < localStorage.length; i++) {
+          var key = localStorage.key(i);
+          data[key] = localStorage.getItem(key);
+        }
+        var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "japansk-data.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // import data
+      var importInput = document.getElementById("import-file-input");
+      document.getElementById("btn-import").addEventListener("click", function () {
+        importInput.click();
+      });
+      importInput.addEventListener("change", function () {
+        var file = importInput.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            var data = JSON.parse(e.target.result);
+            if (typeof data !== "object" || data === null || Array.isArray(data)) {
+              alert(t("setting-import-invalid"));
+              return;
+            }
+            Object.keys(data).forEach(function (key) {
+              localStorage.setItem(key, data[key]);
+            });
+            location.reload();
+          } catch (err) {
+            alert(t("setting-import-error"));
+          }
+        };
+        reader.readAsText(file);
+        importInput.value = "";
+      });
+
+      // reset highscores
+      var hsKeys = [
+        "challenge-hourglass-h", "challenge-hourglass-k",
+        "challenge-lives-h", "challenge-lives-k",
+        "challenge-speedrun-h", "challenge-speedrun-k",
+        "challenge-sr-combos-h", "challenge-sr-combos-k"
+      ];
+      var resetHsConfirm = document.getElementById("reset-hs-confirm");
+      var resetHsInput = document.getElementById("reset-hs-input");
+      var resetHsGo = document.getElementById("btn-reset-hs-go");
+
+      document.getElementById("btn-reset-hs").addEventListener("click", function () {
+        this.classList.add("hidden");
+        resetHsConfirm.classList.remove("hidden");
+        resetHsInput.value = "";
+        resetHsGo.classList.add("hidden");
+        resetHsInput.focus();
+      });
+
+      resetHsInput.addEventListener("input", function () {
+        var val = resetHsInput.value.trim().toLowerCase();
+        if (val === "slett" || val === "delete") {
+          resetHsGo.classList.remove("hidden");
+        } else {
+          resetHsGo.classList.add("hidden");
+        }
+      });
+
+      resetHsGo.addEventListener("click", function () {
+        hsKeys.forEach(function (k) { localStorage.removeItem(k); });
+        resetHsConfirm.classList.add("hidden");
+        document.getElementById("btn-reset-hs").classList.remove("hidden");
+        var done = document.createElement("p");
+        done.className = "settings-confirm-done";
+        done.textContent = t("setting-reset-done");
+        resetHsConfirm.parentNode.appendChild(done);
+        setTimeout(function () { done.remove(); }, 2000);
+      });
+
+      // reset all progression — 3-step flow
+      var resetAllStep1 = document.getElementById("reset-all-step1");
+      var resetAllStep2 = document.getElementById("reset-all-step2");
+      var resetAllStep3 = document.getElementById("reset-all-step3");
+      var resetAllInput = document.getElementById("reset-all-input");
+
+      document.getElementById("btn-reset-all").addEventListener("click", function () {
+        this.classList.add("hidden");
+        resetAllStep1.classList.remove("hidden");
+      });
+
+      document.getElementById("btn-reset-all-no").addEventListener("click", function () {
+        resetAllStep1.classList.add("hidden");
+        document.getElementById("btn-reset-all").classList.remove("hidden");
+      });
+
+      document.getElementById("btn-reset-all-yes").addEventListener("click", function () {
+        resetAllStep1.classList.add("hidden");
+        resetAllStep2.classList.remove("hidden");
+        resetAllInput.value = "";
+        resetAllInput.focus();
+      });
+
+      resetAllInput.addEventListener("input", function () {
+        var val = resetAllInput.value.trim().toLowerCase();
+        if (val === "hai") {
+          resetAllStep2.classList.add("hidden");
+          resetAllStep3.classList.remove("hidden");
+        } else if (val === "iie") {
+          resetAllStep2.classList.add("hidden");
+          resetAllStep3.classList.add("hidden");
+          document.getElementById("btn-reset-all").classList.remove("hidden");
+        }
+      });
+
+      document.getElementById("btn-reset-all-final").addEventListener("click", function () {
+        localStorage.clear();
+        location.reload();
+      });
+
+      // open/close overlay
+      document.getElementById("btn-settings").addEventListener("click", function () {
+        settingsOverlay.classList.remove("hidden");
+      });
+      document.getElementById("btn-settings-close").addEventListener("click", function () {
+        settingsOverlay.classList.add("hidden");
+      });
+      settingsOverlay.addEventListener("click", function (e) {
+        if (e.target === settingsOverlay) settingsOverlay.classList.add("hidden");
+      });
 
       document.addEventListener("DOMContentLoaded", () => {
         updateActiveLangBtn();

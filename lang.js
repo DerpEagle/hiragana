@@ -1,11 +1,14 @@
+/* prettier-ignore */
 /*
- * ┌─────────────────────────────────────────┐
- * │         Glenn's Japanese Trainer        │
- * │    あ ア — hiragana, katakana & more    │
- * └─────────────────────────────────────────┘
+ *    _____ _     _____ _   _ _   _
+ *   / ____| |   |  ___| \ | | \ | |
+ *  | |  __| |   | |__ |  \| |  \| |
+ *  | | |_ | |   |  __|| . ` | . ` |
+ *  | |__| | |___| |___| |\  | |\  |
+ *   \_____|_____|_____|_| \_|_| \_|
  *
- * lang.js — Glenn A.
- * Norwegian / English strings. Call applyLang() after DOM ready.
+ *  lang.js — Translations (no/en)
+ *  Glenn's Japanese Trainer
  */
 
 const LANG = {
@@ -82,13 +85,12 @@ const LANG = {
     "daily-complete-msg": "Du klarte alle 10 tegn for i dag!",
     "daily-streak-label": "Daglig utfordring på rad",
     "daily-streak-singular": "Daglig utfordring på rad",
-    "daily-already-done": "Allerede fullført i dag",
     "daily-progress-label": "tegn fullført",
-    "daily-try-again": "Øv mer",
 
     // Main menu
     "menu-subtitle": "Lær japansk",
-    "footer-sub": "Laget for å gjøre japansk gøy og lett for alle!",
+    "footer-sub": "Laget for å gjøre det gøy og enkelt å lære japansk - for alle!",
+    "footer-rights": "Alle rettigheter forbeholdt.",
     "learn-hiragana": "Lær Hiragana",
     "learn-katakana": "Lær Katakana",
     "learn-words": "Lær Ord",
@@ -107,6 +109,7 @@ const LANG = {
     "words-label": "ord",
     "show-chars": "Vis tegn",
     "storage-full": "Lagringsplass er full. Fremgang kan ikke lagres.",
+    "auto-answer": "Auto-svar",
 
     // Streak
     "streak-day": "dag på rad",
@@ -120,15 +123,70 @@ const LANG = {
     "accuracy-label": "Nøyaktighet",
     "correct-short": "riktig",
     "no-mistakes-yet": "Ingen feil registrert ennå — bra jobba!",
-    "streak-day-unit": "dager",
     "legend-mastered": "Mestret",
     "legend-seen": "Sett, ikke mestret",
     "legend-unseen": "Ikke øvd på",
 
-    // Script type toggle tooltips
+    // Script type friend tooltips
     "tooltip-hiragana": "Øv bare på Hiragana",
     "tooltip-katakana": "Øv bare på Katakana",
     "tooltip-both": "Begge",
+
+    // Challenge page
+    "challenge-title": "Utfordring",
+    "mode-hourglass": "Tidspresset",
+    "mode-hourglass-desc": "30 sek. +2s riktig, −5s feil.",
+    "mode-lives": "3 Liv",
+    "mode-lives-desc": "Ingen tidtaker. Hvor mange tegn klarer du?",
+    "mode-speedrun": "Speedrun",
+    "mode-speedrun-desc": "Velg tegnsett. Klokka tikker oppover.",
+    "challenge-start": "Start",
+    "challenge-back-mode": "◀ Tilbake",
+    "challenge-quit": "Avslutt",
+    "challenge-game-over": "Ferdig!",
+    "challenge-complete": "Bra jobba!",
+    "challenge-score-label": "Poeng",
+    "challenge-chars-answered": "tegn riktig",
+    "challenge-personal-best": "Personlig rekord",
+    "challenge-new-best": "Ny rekord!",
+    "challenge-play-again": "Spill igjen",
+    "challenge-change-mode": "Bytt modus",
+    "challenge-chars-selected": "tegn valgt",
+    "challenge-no-chars": "Velg minst ett tegnsett",
+    "challenge-today-best": "I dag",
+    "challenge-best-time": "Lengst overlevd",
+    "challenge-avg-time": "Beste snitt",
+    "challenge-per-char": "per tegn",
+    "challenge-survival": "Overlevd",
+    "challenge-highscore": "Highscore",
+    "challenge-no-data": "Ingen data ennå",
+    "challenge-combo-best": "Rekord for dette settet",
+    "challenge-change-subsets": "Bytt tegnsett",
+
+    // Settings overlay
+    "settings-training": "Treningsinnstillinger",
+    "settings-data": "Data",
+    "setting-dakuten": "Dakuten (゛) standard",
+    "setting-handakuten": "Handakuten (゜) standard",
+    "setting-hint-threshold": "Visning av hint",
+    "setting-hint-never": "Aldri",
+    "setting-export": "Eksporter data",
+    "setting-import": "Importer data",
+    "setting-reset-highscore": "Nullstill highscore",
+    "setting-reset-highscore-btn": "Nullstill highscore...",
+    "setting-reset-hs-prompt": "Skriv SLETT eller DELETE for å bekrefte:",
+    "setting-reset-hs-confirm": "Slett highscores",
+    "setting-reset-done": "Ferdig!",
+    "setting-reset-all": "Nullstill all progresjon",
+    "setting-reset-all-btn": "Nullstill all progresjon...",
+    "setting-reset-all-sure": "Er du helt sikker?",
+    "setting-yes": "Ja",
+    "setting-no": "Nei",
+    "setting-reset-all-romanji": "Skriv 'はい' for ja, 'いいえ' for nei:",
+    "setting-reset-all-final": "Trykk for å slette alt",
+    "setting-import-invalid": "Ugyldig fil. Forventet en JSON-eksport fra denne appen.",
+    "setting-import-error": "Kunne ikke lese filen.",
+    "setting-deleted-reloading": "Slettet. Laster på nytt...",
   },
   en: {
     // Navigation
@@ -203,13 +261,12 @@ const LANG = {
     "daily-complete-msg": "You got all 10 characters for today!",
     "daily-streak-label": "Daily challenges in a row",
     "daily-streak-singular": "Daily challenge in a row",
-    "daily-already-done": "Already completed today",
     "daily-progress-label": "characters done",
-    "daily-try-again": "Keep practising",
 
     // Main menu
     "menu-subtitle": "Learn Japanese",
-    "footer-sub": "Made to make Japanese fun and easy for everyone!",
+    "footer-sub": "Created to make learning Japanese fun and easy for everyone!",
+    "footer-rights": "All rights reserved.",
     "learn-hiragana": "Learn Hiragana",
     "learn-katakana": "Learn Katakana",
     "learn-words": "Learn Words",
@@ -228,6 +285,7 @@ const LANG = {
     "words-label": "words",
     "show-chars": "Show characters",
     "storage-full": "Storage is full. Progress cannot be saved.",
+    "auto-answer": "Auto-answer",
 
     // Streak
     "streak-day": "day in a row",
@@ -241,7 +299,6 @@ const LANG = {
     "accuracy-label": "Accuracy",
     "correct-short": "correct",
     "no-mistakes-yet": "No mistakes recorded yet — great work!",
-    "streak-day-unit": "days",
     "legend-mastered": "Mastered",
     "legend-seen": "Seen, not mastered",
     "legend-unseen": "Not practiced",
@@ -250,6 +307,62 @@ const LANG = {
     "tooltip-hiragana": "Practice Hiragana only",
     "tooltip-katakana": "Practice Katakana only",
     "tooltip-both": "Both",
+
+    // Challenge page
+    "challenge-title": "Challenge",
+    "mode-hourglass": "Hourglass",
+    "mode-hourglass-desc": "30 sec. +2s correct, −5s wrong.",
+    "mode-lives": "3 Lives",
+    "mode-lives-desc": "No timer. How many characters can you get?",
+    "mode-speedrun": "Speedrun",
+    "mode-speedrun-desc": "Pick character sets. Clock ticks up.",
+    "challenge-start": "Start",
+    "challenge-back-mode": "◀ Back",
+    "challenge-quit": "Quit",
+    "challenge-game-over": "Game over!",
+    "challenge-complete": "Well done!",
+    "challenge-score-label": "Score",
+    "challenge-chars-answered": "characters correct",
+    "challenge-personal-best": "Personal best",
+    "challenge-new-best": "New record!",
+    "challenge-play-again": "Play again",
+    "challenge-change-mode": "Change mode",
+    "challenge-chars-selected": "characters selected",
+    "challenge-no-chars": "Select at least one character set",
+    "challenge-today-best": "Today",
+    "challenge-best-time": "Longest survived",
+    "challenge-avg-time": "Best average",
+    "challenge-per-char": "per char",
+    "challenge-survival": "Survived",
+    "challenge-highscore": "Highscore",
+    "challenge-no-data": "No data yet",
+    "challenge-combo-best": "Record for this set",
+    "challenge-change-subsets": "Change subsets",
+
+    // Settings overlay
+    "settings-training": "Training settings",
+    "settings-data": "Data",
+    "setting-dakuten": "Dakuten (゛) default",
+    "setting-handakuten": "Handakuten (゜) default",
+    "setting-hint-threshold": "Hint display",
+    "setting-hint-never": "Never",
+    "setting-export": "Export data",
+    "setting-import": "Import data",
+    "setting-reset-highscore": "Reset highscores",
+    "setting-reset-highscore-btn": "Reset highscores...",
+    "setting-reset-hs-prompt": "Type SLETT or DELETE to confirm:",
+    "setting-reset-hs-confirm": "Delete highscores",
+    "setting-reset-done": "Done!",
+    "setting-reset-all": "Reset all progress",
+    "setting-reset-all-btn": "Reset all progress...",
+    "setting-reset-all-sure": "Are you completely sure?",
+    "setting-yes": "Yes",
+    "setting-no": "No",
+    "setting-reset-all-romanji": "Type 'はい' for yes, 'いいえ' for no:",
+    "setting-reset-all-final": "Press to delete everything",
+    "setting-import-invalid": "Invalid file. Expected a JSON export from this app.",
+    "setting-import-error": "Could not read file.",
+    "setting-deleted-reloading": "Deleted. Reloading...",
   },
 };
 
@@ -288,3 +401,32 @@ function applyLang() {
 }
 
 document.addEventListener("DOMContentLoaded", applyLang);
+
+// Escape — capture phase on window so nothing can block it
+window.addEventListener("keydown", function (e) {
+  if (e.key !== "Escape") return;
+
+  // close subset menu if open (hiragana / katakana pages)
+  var menu = document.getElementById("subset-menu");
+  if (menu && !menu.classList.contains("hidden")) {
+    menu.classList.add("hidden");
+    var bd = document.getElementById("menu-backdrop");
+    if (bd) bd.classList.add("hidden");
+    e.stopImmediatePropagation();
+    return;
+  }
+
+  // page-specific override (e.g. challenge.html navigates to mode select first)
+  if (typeof window.onEscapeKey === "function" && window.onEscapeKey()) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    return;
+  }
+
+  // navigate back to index (every sub-page has .back-link)
+  if (document.querySelector(".back-link")) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.location.href = "index.html";
+  }
+}, true);

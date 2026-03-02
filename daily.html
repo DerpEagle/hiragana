@@ -1,3 +1,15 @@
+<!-- prettier-ignore -->
+<!--
+      _____ _     _____ _   _ _   _
+     / ____| |   |  ___| \ | | \ | |
+    | |  __| |   | |__ |  \| |  \| |
+    | | |_ | |   |  __|| . ` | . ` |
+    | |__| | |___| |___| |\  | |\  |
+     \_____|_____|_____|_| \_|_| \_|
+
+    daily.html — Daily challenge
+    Glenn's Japanese Trainer
+-->
 <!doctype html>
 <html lang="no">
   <head>
@@ -74,7 +86,6 @@
     <script src="lang.js"></script>
     <script src="streak.js"></script>
     <script>
-      // daily.html — Glenn A.
       // date-seeded daily challenge, 10 chars per script
 
       // character data
@@ -231,7 +242,8 @@
           dailyCharEl.classList.add('char-wrong');
           setTimeout(() => dailyCharEl.classList.remove('char-wrong'), 400);
           answerInput.value = '';
-          if (incorrectAttempts >= 3) {
+          var _ht = localStorage.getItem("hint-threshold") || "3";
+          if (_ht !== "never" && incorrectAttempts >= parseInt(_ht, 10)) {
             hintDisplay.textContent = `${t('hint-prefix')} "${currentChar.r[0][0]}"`;
             hintDisplay.className = 'hint';
           }
@@ -281,6 +293,7 @@
       document.getElementById('btn-hiragana').addEventListener('click', () => loadScript('h'));
       document.getElementById('btn-katakana').addEventListener('click', () => loadScript('k'));
 
+      // Enter/Space fallback when auto-answer is off
       answerInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -288,15 +301,20 @@
         }
       });
 
+      // auto-answer — only submit on exact match
+      answerInput.addEventListener('input', () => {
+        if (localStorage.getItem('auto-answer') !== 'true') return;
+        if (!currentChar) return;
+        const val = answerInput.value.trim().toLowerCase();
+        if (!val) return;
+        if (currentChar.r.some(r => r === val)) checkAnswer();
+      });
+
       document.getElementById('show-answer-btn').addEventListener('click', () => {
         hintDisplay.textContent = `${t('answer-prefix')} ${currentChar.r[0]}`;
         hintDisplay.className = 'hint';
         answerInput.value = '';
         answerInput.focus();
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') window.location.href = 'index.html';
       });
 
       document.addEventListener('DOMContentLoaded', () => {

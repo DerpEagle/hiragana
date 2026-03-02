@@ -1,12 +1,12 @@
+/* prettier-ignore */
 /*
- * ┌─────────────────────────────────────────┐
- * │         Glenn's Japanese Trainer        │
- * │    あ ア — hiragana, katakana & more    │
- * └─────────────────────────────────────────┘
+ *     _   _    ___ _  _____   _   _  _ ___  ___ ___  ___ ___ _  _
+ *    /_\ | |  | __| |/ / __| /_\ | \| |   \| __| _ \/ __| __| \| |
+ *   / _ \| |__| _|| ' <\__ \/ _ \| .` | |) | _||   /\__ \ _|| .` |
+ *  /_/ \_\____|___|_|\_\___/_/ \_\_|\_|___/|___|_|_\|___/___|_|\_|
  *
- * trainer-core.js — Glenn A.
- * Shared classes used by both hiragana and katakana trainers.
- * Must be loaded before app.js / katakana.js
+ *  trainer-core.js — Shared trainer engine
+ *  Glenn's Japanese Trainer
  */
 
 class CharacterProgress {
@@ -252,11 +252,29 @@ class UIController {
   }
 
   initializeEventListeners() {
+    // Enter/Space fallback when auto-answer is off
     this.answerInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         this.handleAnswer(this.answerInput.value);
       }
+    });
+    // auto-answer — only submit on exact match
+    this.answerInput.addEventListener("input", () => {
+      if (localStorage.getItem("auto-answer") !== "true") return;
+      if (this.currentCharacters.length === 0) return;
+      const val = this.answerInput.value.trim().toLowerCase();
+      if (!val) return;
+      const answers = this.currentCharacters
+        .map((c) => c.romanji)
+        .reduce((acc, arr) => {
+          if (acc.length === 0) return arr;
+          const combos = [];
+          acc.forEach((a) => arr.forEach((b) => combos.push(a + b)));
+          return combos;
+        }, [])
+        .map((r) => r.toLowerCase());
+      if (answers.some((r) => r === val)) this.handleAnswer(this.answerInput.value);
     });
     this.nextBtn.addEventListener("click", () => this.nextCharacter());
     this.showAnswerBtn.addEventListener("click", () => this.showAnswer());
@@ -270,15 +288,6 @@ class UIController {
     this.menuBackdrop.addEventListener("click", () => this.closeMenu());
     const closeBtn = document.getElementById("close-subset-btn");
     if (closeBtn) closeBtn.addEventListener("click", () => this.closeMenu());
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        if (!this.subsetMenu.classList.contains("hidden")) {
-          this.closeMenu();
-        } else {
-          window.location.href = "index.html";
-        }
-      }
-    });
     document
       .querySelectorAll('.subset-checkboxes input[type="checkbox"]')
       .forEach((cb) => {
@@ -398,7 +407,8 @@ class UIController {
     this.answerInput.classList.add("flash-incorrect");
     setTimeout(() => this.answerInput.classList.remove("flash-incorrect"), 400);
 
-    if (this.incorrectAttempts >= 3) {
+    var threshold = localStorage.getItem("hint-threshold") || "3";
+    if (threshold !== "never" && this.incorrectAttempts >= parseInt(threshold, 10)) {
       this.currentCharacters.forEach((charObj) => {
         this.progressTracker.recordAnswer(charObj.character, false);
       });
@@ -448,7 +458,10 @@ class UIController {
   updateProgressDisplay() {
     document.querySelectorAll(".subset-row__chars").forEach((el) => {
       if (!el.dataset.initialized) {
-        const chars = [...el.textContent];
+        // data-char-units lets multi-codepoint combos (e.g. "きゃ") be tracked as one unit
+        const chars = el.dataset.charUnits
+          ? el.dataset.charUnits.split(",")
+          : [...el.textContent];
         el.innerHTML = "";
         chars.forEach((ch) => {
           const span = document.createElement("span");
@@ -510,5 +523,6 @@ class UIController {
       this.characterDisplay.textContent = "—";
       this.translationDisplay.textContent = t("select-from-menu");
     }
+
   }
 }

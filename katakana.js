@@ -1,3 +1,16 @@
+/* prettier-ignore */
+/*
+ *    _____ _     _____ _   _ _   _
+ *   / ____| |   |  ___| \ | | \ | |
+ *  | |  __| |   | |__ |  \| |  \| |
+ *  | | |_ | |   |  __|| . ` | . ` |
+ *  | |__| | |___| |___| |\  | |\  |
+ *   \_____|_____|_____|_| \_|_| \_|
+ *
+ *  katakana.js — Katakana data
+ *  Glenn's Japanese Trainer
+ */
+
 const KatakanaData = {
   vowels: [
     { character: "ア", romanji: ["a"] },
@@ -65,6 +78,29 @@ const KatakanaData = {
     { character: "ヲ", romanji: ["wo", "o"] },
   ],
   n: [{ character: "ン", romanji: ["n"] }],
+  small: [
+    { character: "キャ", romanji: ["kya"] },
+    { character: "キュ", romanji: ["kyu"] },
+    { character: "キョ", romanji: ["kyo"] },
+    { character: "シャ", romanji: ["sha"] },
+    { character: "シュ", romanji: ["shu"] },
+    { character: "ショ", romanji: ["sho"] },
+    { character: "チャ", romanji: ["cha"] },
+    { character: "チュ", romanji: ["chu"] },
+    { character: "チョ", romanji: ["cho"] },
+    { character: "ニャ", romanji: ["nya"] },
+    { character: "ニュ", romanji: ["nyu"] },
+    { character: "ニョ", romanji: ["nyo"] },
+    { character: "ヒャ", romanji: ["hya"] },
+    { character: "ヒュ", romanji: ["hyu"] },
+    { character: "ヒョ", romanji: ["hyo"] },
+    { character: "ミャ", romanji: ["mya"] },
+    { character: "ミュ", romanji: ["myu"] },
+    { character: "ミョ", romanji: ["myo"] },
+    { character: "リャ", romanji: ["rya"] },
+    { character: "リュ", romanji: ["ryu"] },
+    { character: "リョ", romanji: ["ryo"] },
+  ],
 };
 
 // set storage keys before DOMContentLoaded fires
@@ -112,18 +148,29 @@ const EXTRA_HANDAKUTEN = [
   { character: "ポ", romanji: ["po"], subset: "ha" },
 ];
 
-const EXTRA_SMALL_KANA = [
-  { character: "ャ", romanji: ["ya"], subset: "small" },
-  { character: "ュ", romanji: ["yu"], subset: "small" },
-  { character: "ョ", romanji: ["yo"], subset: "small" },
+// yōon combos added to small subset when toggles are on
+const EXTRA_DAKUTEN_SMALL = [
+  { character: "ギャ", romanji: ["gya"] },
+  { character: "ギュ", romanji: ["gyu"] },
+  { character: "ギョ", romanji: ["gyo"] },
+  { character: "ジャ", romanji: ["ja"] },
+  { character: "ジュ", romanji: ["ju"] },
+  { character: "ジョ", romanji: ["jo"] },
+  { character: "ビャ", romanji: ["bya"] },
+  { character: "ビュ", romanji: ["byu"] },
+  { character: "ビョ", romanji: ["byo"] },
 ];
 
-function applyToggles(dakutenEnabled, handakutenEnabled, smallEnabled) {
+const EXTRA_HANDAKUTEN_SMALL = [
+  { character: "ピャ", romanji: ["pya"] },
+  { character: "ピュ", romanji: ["pyu"] },
+  { character: "ピョ", romanji: ["pyo"] },
+];
+
+function applyToggles(dakutenEnabled, handakutenEnabled) {
   Object.keys(BASE_KATAKANA_DATA).forEach((key) => {
     KatakanaData[key] = JSON.parse(JSON.stringify(BASE_KATAKANA_DATA[key]));
   });
-
-  if (KatakanaData.small) delete KatakanaData.small;
 
   if (dakutenEnabled) {
     EXTRA_DAKUTEN.forEach((item) => {
@@ -133,6 +180,9 @@ function applyToggles(dakutenEnabled, handakutenEnabled, smallEnabled) {
           romanji: item.romanji,
         });
       }
+    });
+    EXTRA_DAKUTEN_SMALL.forEach((item) => {
+      KatakanaData.small.push({ character: item.character, romanji: item.romanji });
     });
   }
 
@@ -145,28 +195,14 @@ function applyToggles(dakutenEnabled, handakutenEnabled, smallEnabled) {
         });
       }
     });
-  }
-
-  if (smallEnabled) {
-    KatakanaData.small = EXTRA_SMALL_KANA.map((item) => ({
-      character: item.character,
-      romanji: item.romanji,
-    }));
+    EXTRA_HANDAKUTEN_SMALL.forEach((item) => {
+      KatakanaData.small.push({ character: item.character, romanji: item.romanji });
+    });
   }
 
   try {
-    localStorage.setItem(
-      "katakana-include-dakuten",
-      dakutenEnabled ? "1" : "0",
-    );
-    localStorage.setItem(
-      "katakana-include-handakuten",
-      handakutenEnabled ? "1" : "0",
-    );
-    localStorage.setItem(
-      "katakana-include-small-kana",
-      smallEnabled ? "1" : "0",
-    );
+    localStorage.setItem("katakana-include-dakuten", dakutenEnabled ? "1" : "0");
+    localStorage.setItem("katakana-include-handakuten", handakutenEnabled ? "1" : "0");
   } catch (e) {}
 }
 
@@ -180,23 +216,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const dakChk = document.getElementById("include-dakuten");
   const hanChk = document.getElementById("include-handakuten");
-  const smallChk = document.getElementById("include-small-kana");
 
   const dakInit = localStorage.getItem("katakana-include-dakuten") === "1";
   const hanInit = localStorage.getItem("katakana-include-handakuten") === "1";
-  const smallInit = localStorage.getItem("katakana-include-small-kana") === "1";
 
   if (dakChk) dakChk.checked = dakInit;
   if (hanChk) hanChk.checked = hanInit;
-  if (smallChk) smallChk.checked = smallInit;
 
-  applyToggles(dakInit, hanInit, smallInit);
+  applyToggles(dakInit, hanInit);
 
   function onToggleChange() {
     const dak = dakChk ? dakChk.checked : false;
     const han = hanChk ? hanChk.checked : false;
-    const small = smallChk ? smallChk.checked : false;
-    applyToggles(dak, han, small);
+    applyToggles(dak, han);
     if (window.uiController) {
       window.uiController.updateProgressDisplay();
       if (
@@ -210,5 +242,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (dakChk) dakChk.addEventListener("change", onToggleChange);
   if (hanChk) hanChk.addEventListener("change", onToggleChange);
-  if (smallChk) smallChk.addEventListener("change", onToggleChange);
 });

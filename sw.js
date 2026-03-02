@@ -1,4 +1,17 @@
-const CACHE = "japansk-v5";
+/* prettier-ignore */
+/*
+ *    _____ _     _____ _   _ _   _
+ *   / ____| |   |  ___| \ | | \ | |
+ *  | |  __| |   | |__ |  \| |  \| |
+ *  | | |_ | |   |  __|| . ` | . ` |
+ *  | |__| | |___| |___| |\  | |\  |
+ *   \_____|_____|_____|_| \_|_| \_|
+ *
+ *  sw.js — Service worker (offline cache)
+ *  Glenn's Japanese Trainer
+ */
+
+const CACHE = "japansk-v10";
 const ASSETS = [
   "/hiragana/",
   "/hiragana/index.html",
@@ -9,6 +22,7 @@ const ASSETS = [
   "/hiragana/howto.html",
   "/hiragana/progresjon.html",
   "/hiragana/daily.html",
+  "/hiragana/challenge.html",
   "/hiragana/styles.css",
   "/hiragana/lang.js",
   "/hiragana/streak.js",
@@ -40,7 +54,24 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  e.respondWith(
-    caches.match(e.request).then((cached) => cached || fetch(e.request))
-  );
+  const url = new URL(e.request.url);
+  const isAsset = url.pathname.match(/\.(js|html|css)$/);
+
+  if (isAsset) {
+    // network-first for JS/HTML/CSS — oppdaterer alltid til ny versjon
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          const clone = res.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, clone));
+          return res;
+        })
+        .catch(() => caches.match(e.request))
+    );
+  } else {
+    // cache-first for bilder/fonter
+    e.respondWith(
+      caches.match(e.request).then((cached) => cached || fetch(e.request))
+    );
+  }
 });

@@ -1,3 +1,16 @@
+/* prettier-ignore */
+/*
+ *    _____ _     _____ _   _ _   _
+ *   / ____| |   |  ___| \ | | \ | |
+ *  | |  __| |   | |__ |  \| |  \| |
+ *  | | |_ | |   |  __|| . ` | . ` |
+ *  | |__| | |___| |___| |\  | |\  |
+ *   \_____|_____|_____|_| \_|_| \_|
+ *
+ *  ord.js — Word trainer logic
+ *  Glenn's Japanese Trainer
+ */
+
 const WordDictionary = {
   // 2-char
   あい: { romanji: "ai", translation: "love (kjærlighet)" },
@@ -518,7 +531,8 @@ function handleAnswer(input) {
     incorrectAttempts++;
     answerInput.classList.add("flash-incorrect");
     setTimeout(() => answerInput.classList.remove("flash-incorrect"), 400);
-    if (incorrectAttempts >= 3) showHint();
+    var _ht = localStorage.getItem("hint-threshold") || "3";
+    if (_ht !== "never" && incorrectAttempts >= parseInt(_ht, 10)) showHint();
     answerInput.value = "";
     answerInput.focus();
   }
@@ -581,6 +595,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // auto-answer — only submit on exact match
+  answerInput.addEventListener("input", () => {
+    if (localStorage.getItem("auto-answer") !== "true") return;
+    if (!currentWord) return;
+    const val = answerInput.value.trim().toLowerCase();
+    if (val === currentWord.romanji.toLowerCase()) handleAnswer(answerInput.value);
+  });
+
   buildQueue();
   nextWord();
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const backLink = document.querySelector(".back-link");
+      if (backLink) backLink.click();
+    }
+  });
 });

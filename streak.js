@@ -1,11 +1,14 @@
+/* prettier-ignore */
 /*
- * ┌─────────────────────────────────────────┐
- * │         Glenn's Japanese Trainer        │
- * │    あ ア — hiragana, katakana & more    │
- * └─────────────────────────────────────────┘
+ *    _____ _     _____ _   _ _   _
+ *   / ____| |   |  ___| \ | | \ | |
+ *  | |  __| |   | |__ |  \| |  \| |
+ *  | | |_ | |   |  __|| . ` | . ` |
+ *  | |__| | |___| |___| |\  | |\  |
+ *   \_____|_____|_____|_| \_|_| \_|
  *
- * streak.js — Glenn A.
- * Tracks daily activity streak in localStorage.
+ *  streak.js — Daily streak tracking
+ *  Glenn's Japanese Trainer
  */
 
 const StreakManager = {

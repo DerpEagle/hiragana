@@ -1,0 +1,962 @@
+<!-- prettier-ignore -->
+<!--
+      _____ _     _____ _   _ _   _
+     / ____| |   |  ___| \ | | \ | |
+    | |  __| |   | |__ |  \| |  \| |
+    | | |_ | |   |  __|| . ` | . ` |
+    | |__| | |___| |___| |\  | |\  |
+     \_____|_____|_____|_| \_|_| \_|
+
+    challenge.html — Challenge modes
+    Glenn's Japanese Trainer
+-->
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Utfordring</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script data-goatcounter="https://derpeagle.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f3460">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="index.html" id="back-btn" class="back-link" data-i18n="back">←</a>
+        <h1 data-i18n="challenge-title">Utfordring</h1>
+      </header>
+
+      <main>
+        <!-- Script toggle (hidden during active game) -->
+        <div id="script-toggle" class="daily-script-toggle">
+          <button id="btn-hiragana" class="daily-script-btn daily-script-btn--active">Hiragana (あ)</button>
+          <button id="btn-katakana" class="daily-script-btn">Katakana (ア)</button>
+        </div>
+
+        <!-- SCREEN: Mode select -->
+        <section id="screen-select">
+          <div class="menu-grid">
+            <button class="menu-card menu-card--challenge" data-mode="hourglass">
+              <span class="menu-card__icon">⏳</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title" data-i18n="mode-hourglass">Tidspresset</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+
+            <button class="menu-card menu-card--challenge" data-mode="lives">
+              <span class="menu-card__icon">❤️</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title" data-i18n="mode-lives">3 Liv</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+
+            <button class="menu-card menu-card--challenge" data-mode="speedrun">
+              <span class="menu-card__icon">🏁</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title" data-i18n="mode-speedrun">Speedrun</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+
+            <button class="menu-card menu-card--highscore" id="btn-highscore">
+              <span class="menu-card__icon">🏆</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title" data-i18n="challenge-highscore">Highscore</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+          </div>
+          <button class="challenge-corner-btn challenge-corner-btn--left" id="btn-settings">&#9881;</button>
+          <button class="challenge-corner-btn challenge-corner-btn--right" id="btn-help">?</button>
+        </section>
+
+
+        <!-- Help overlay -->
+        <div id="challenge-help-overlay" class="challenge-help-overlay hidden">
+          <div class="challenge-help-content">
+            <button class="challenge-help-close" id="btn-help-close">&times;</button>
+            <div class="challenge-help-mode">
+              <span class="challenge-help-mode__icon">⏳</span>
+              <div>
+                <strong data-i18n="mode-hourglass">Tidspresset</strong>
+                <p class="lang-no">Start med 30 sekunder. +2s for riktig svar, −5s for feil. Game over når klokka når 0.</p>
+                <p class="lang-en">Start with 30 seconds. +2s for correct, −5s for wrong. Game over when the clock hits 0.</p>
+              </div>
+            </div>
+            <div class="challenge-help-mode">
+              <span class="challenge-help-mode__icon">❤️</span>
+              <div>
+                <strong data-i18n="mode-lives">3 Liv</strong>
+                <p class="lang-no">Ingen tidtaker. Tre sjanser — mister du alle, er det game over. Hvor mange tegn klarer du?</p>
+                <p class="lang-en">No timer. Three chances — lose them all and it's game over. How many characters can you get?</p>
+              </div>
+            </div>
+            <div class="challenge-help-mode">
+              <span class="challenge-help-mode__icon">🏁</span>
+              <div>
+                <strong data-i18n="mode-speedrun">Speedrun</strong>
+                <p class="lang-no">Velg tegnsett og svar riktig på alle. Klokka tikker oppover — feil sender tegnet tilbake i køen.</p>
+                <p class="lang-en">Pick character sets and answer all correctly. Clock ticks up — wrong answers put the character back in the queue.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings overlay -->
+        <div id="challenge-settings-overlay" class="challenge-help-overlay hidden">
+          <div class="challenge-help-content">
+            <button class="challenge-help-close" id="btn-settings-close">&times;</button>
+            <div class="challenge-help-mode">
+              <label class="challenge-setting-row">
+                <input type="checkbox" id="include-daku">
+                <span class="challenge-setting-label">Dakuten (゛)</span>
+                <span class="challenge-setting-preview">がざだば</span>
+                <span class="subset-row__toggle"></span>
+              </label>
+            </div>
+            <div class="challenge-help-mode">
+              <label class="challenge-setting-row">
+                <input type="checkbox" id="include-handaku">
+                <span class="challenge-setting-label">Handakuten (゜)</span>
+                <span class="challenge-setting-preview">ぱぴぷぺぽ</span>
+                <span class="subset-row__toggle"></span>
+              </label>
+            </div>
+            <div class="challenge-help-mode">
+              <label class="challenge-setting-row">
+                <input type="checkbox" id="setting-auto-answer">
+                <span class="challenge-setting-label" data-i18n="auto-answer">Auto-svar</span>
+                <span class="challenge-setting-preview"></span>
+                <span class="subset-row__toggle"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN: Speedrun setup -->
+        <section id="screen-setup" style="display:none">
+          <h2 data-i18n="select-charset">Velg tegnsett</h2>
+          <div class="sr-setup-controls">
+            <button id="btn-select-all" type="button" data-i18n="choose-all">Velg alle</button>
+            <button id="btn-deselect-all" type="button" data-i18n="remove-all">Fjern alle</button>
+          </div>
+          <div id="setup-subsets" class="sr-subset-list"></div>
+          <p id="setup-count" class="challenge-count"></p>
+          <div class="controls">
+            <button id="btn-start-speedrun" data-i18n="challenge-start">Start</button>
+          </div>
+          <div class="controls" style="margin-top:8px">
+            <button id="btn-back-setup" class="challenge-quit-btn" data-i18n="challenge-back-mode">◀ Tilbake</button>
+          </div>
+        </section>
+
+        <!-- SCREEN: Game -->
+        <section id="screen-game" style="display:none">
+          <div id="game-hud" class="challenge-hud"></div>
+
+          <section class="training-area">
+            <div class="character-display">
+              <div id="game-char" class="hiragana">—</div>
+            </div>
+
+            <div class="input-area">
+              <input
+                type="text"
+                id="game-input"
+                data-i18n="romanji-placeholder"
+                placeholder="Skriv romanji her..."
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+              />
+            </div>
+
+            <p id="game-score" class="challenge-score"></p>
+
+            <div class="controls">
+              <button id="btn-quit" class="challenge-quit-btn" data-i18n="challenge-quit">Avslutt</button>
+            </div>
+          </section>
+        </section>
+
+        <!-- SCREEN: Results -->
+        <section id="screen-results" style="display:none">
+          <div class="challenge-results">
+            <div id="result-icon" class="challenge-results__icon"></div>
+            <div id="result-title" class="challenge-results__title"></div>
+            <div id="result-score" class="challenge-results__score"></div>
+            <div id="result-extra" class="challenge-results__stat" style="display:none"></div>
+            <div id="result-today" class="challenge-results__stat" style="display:none"></div>
+            <div id="result-best" class="challenge-results__best"></div>
+            <div id="result-new-best" class="challenge-results__new-best" style="display:none" data-i18n="challenge-new-best">Ny rekord!</div>
+          </div>
+          <div class="challenge-results-actions">
+            <button id="btn-play-again" data-i18n="challenge-play-again">Spill igjen</button>
+          </div>
+          <div class="challenge-results-secondary">
+            <button id="btn-change-mode" class="challenge-quit-btn" data-i18n="challenge-change-mode">Bytt modus</button>
+            <button id="btn-change-subsets" class="challenge-quit-btn" data-i18n="challenge-change-subsets" style="display:none">Bytt tegnsett</button>
+          </div>
+        </section>
+
+        <!-- SCREEN: Highscore -->
+        <section id="screen-highscore" style="display:none">
+          <h2 data-i18n="challenge-highscore">Highscore</h2>
+          <div id="highscore-content"></div>
+          <div class="controls" style="margin-top:1rem">
+            <button id="btn-back-highscore" class="challenge-quit-btn" data-i18n="challenge-back-mode">◀ Tilbake</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="lang.js"></script>
+    <script src="streak.js"></script>
+    <script>
+      // three challenge modes: hourglass, 3 lives, speedrun
+
+      // character data (flat arrays, same format as daily.html)
+      var ALL_H = [
+        { c: "あ", r: ["a"] }, { c: "い", r: ["i"] }, { c: "う", r: ["u"] }, { c: "え", r: ["e"] }, { c: "お", r: ["o"] },
+        { c: "か", r: ["ka"] }, { c: "き", r: ["ki"] }, { c: "く", r: ["ku"] }, { c: "け", r: ["ke"] }, { c: "こ", r: ["ko"] },
+        { c: "さ", r: ["sa"] }, { c: "し", r: ["shi"] }, { c: "す", r: ["su"] }, { c: "せ", r: ["se"] }, { c: "そ", r: ["so"] },
+        { c: "た", r: ["ta"] }, { c: "ち", r: ["chi"] }, { c: "つ", r: ["tsu"] }, { c: "て", r: ["te"] }, { c: "と", r: ["to"] },
+        { c: "な", r: ["na"] }, { c: "に", r: ["ni"] }, { c: "ぬ", r: ["nu"] }, { c: "ね", r: ["ne"] }, { c: "の", r: ["no"] },
+        { c: "は", r: ["ha"] }, { c: "ひ", r: ["hi"] }, { c: "ふ", r: ["fu"] }, { c: "へ", r: ["he"] }, { c: "ほ", r: ["ho"] },
+        { c: "ま", r: ["ma"] }, { c: "み", r: ["mi"] }, { c: "む", r: ["mu"] }, { c: "め", r: ["me"] }, { c: "も", r: ["mo"] },
+        { c: "や", r: ["ya"] }, { c: "ゆ", r: ["yu"] }, { c: "よ", r: ["yo"] },
+        { c: "ら", r: ["ra"] }, { c: "り", r: ["ri"] }, { c: "る", r: ["ru"] }, { c: "れ", r: ["re"] }, { c: "ろ", r: ["ro"] },
+        { c: "わ", r: ["wa"] }, { c: "を", r: ["wo", "o"] }, { c: "ん", r: ["n"] },
+        { c: "が", r: ["ga"] }, { c: "ぎ", r: ["gi"] }, { c: "ぐ", r: ["gu"] }, { c: "げ", r: ["ge"] }, { c: "ご", r: ["go"] },
+        { c: "ざ", r: ["za"] }, { c: "じ", r: ["ji"] }, { c: "ず", r: ["zu"] }, { c: "ぜ", r: ["ze"] }, { c: "ぞ", r: ["zo"] },
+        { c: "だ", r: ["da"] }, { c: "ぢ", r: ["ji"] }, { c: "づ", r: ["zu"] }, { c: "で", r: ["de"] }, { c: "ど", r: ["do"] },
+        { c: "ば", r: ["ba"] }, { c: "び", r: ["bi"] }, { c: "ぶ", r: ["bu"] }, { c: "べ", r: ["be"] }, { c: "ぼ", r: ["bo"] },
+        { c: "ぱ", r: ["pa"] }, { c: "ぴ", r: ["pi"] }, { c: "ぷ", r: ["pu"] }, { c: "ぺ", r: ["pe"] }, { c: "ぽ", r: ["po"] },
+      ];
+
+      var ALL_K = [
+        { c: "ア", r: ["a"] }, { c: "イ", r: ["i"] }, { c: "ウ", r: ["u"] }, { c: "エ", r: ["e"] }, { c: "オ", r: ["o"] },
+        { c: "カ", r: ["ka"] }, { c: "キ", r: ["ki"] }, { c: "ク", r: ["ku"] }, { c: "ケ", r: ["ke"] }, { c: "コ", r: ["ko"] },
+        { c: "サ", r: ["sa"] }, { c: "シ", r: ["shi"] }, { c: "ス", r: ["su"] }, { c: "セ", r: ["se"] }, { c: "ソ", r: ["so"] },
+        { c: "タ", r: ["ta"] }, { c: "チ", r: ["chi"] }, { c: "ツ", r: ["tsu"] }, { c: "テ", r: ["te"] }, { c: "ト", r: ["to"] },
+        { c: "ナ", r: ["na"] }, { c: "ニ", r: ["ni"] }, { c: "ヌ", r: ["nu"] }, { c: "ネ", r: ["ne"] }, { c: "ノ", r: ["no"] },
+        { c: "ハ", r: ["ha"] }, { c: "ヒ", r: ["hi"] }, { c: "フ", r: ["fu"] }, { c: "ヘ", r: ["he"] }, { c: "ホ", r: ["ho"] },
+        { c: "マ", r: ["ma"] }, { c: "ミ", r: ["mi"] }, { c: "ム", r: ["mu"] }, { c: "メ", r: ["me"] }, { c: "モ", r: ["mo"] },
+        { c: "ヤ", r: ["ya"] }, { c: "ユ", r: ["yu"] }, { c: "ヨ", r: ["yo"] },
+        { c: "ラ", r: ["ra"] }, { c: "リ", r: ["ri"] }, { c: "ル", r: ["ru"] }, { c: "レ", r: ["re"] }, { c: "ロ", r: ["ro"] },
+        { c: "ワ", r: ["wa"] }, { c: "ヲ", r: ["wo", "o"] }, { c: "ン", r: ["n"] },
+        { c: "ガ", r: ["ga"] }, { c: "ギ", r: ["gi"] }, { c: "グ", r: ["gu"] }, { c: "ゲ", r: ["ge"] }, { c: "ゴ", r: ["go"] },
+        { c: "ザ", r: ["za"] }, { c: "ジ", r: ["ji"] }, { c: "ズ", r: ["zu"] }, { c: "ゼ", r: ["ze"] }, { c: "ゾ", r: ["zo"] },
+        { c: "ダ", r: ["da"] }, { c: "ヂ", r: ["ji"] }, { c: "ヅ", r: ["zu"] }, { c: "デ", r: ["de"] }, { c: "ド", r: ["do"] },
+        { c: "バ", r: ["ba"] }, { c: "ビ", r: ["bi"] }, { c: "ブ", r: ["bu"] }, { c: "ベ", r: ["be"] }, { c: "ボ", r: ["bo"] },
+        { c: "パ", r: ["pa"] }, { c: "ピ", r: ["pi"] }, { c: "プ", r: ["pu"] }, { c: "ペ", r: ["pe"] }, { c: "ポ", r: ["po"] },
+      ];
+
+      // subset mapping for speedrun mode
+      var SUBSETS = {
+        vowels: { h: ["あ","い","う","え","お"], k: ["ア","イ","ウ","エ","オ"], label: "vowels" },
+        ka:     { h: ["か","き","く","け","こ","が","ぎ","ぐ","げ","ご"], k: ["カ","キ","ク","ケ","コ","ガ","ギ","グ","ゲ","ゴ"], label: "ka-row" },
+        sa:     { h: ["さ","し","す","せ","そ","ざ","じ","ず","ぜ","ぞ"], k: ["サ","シ","ス","セ","ソ","ザ","ジ","ズ","ゼ","ゾ"], label: "sa-row" },
+        ta:     { h: ["た","ち","つ","て","と","だ","ぢ","づ","で","ど"], k: ["タ","チ","ツ","テ","ト","ダ","ヂ","ヅ","デ","ド"], label: "ta-row" },
+        na:     { h: ["な","に","ぬ","ね","の"], k: ["ナ","ニ","ヌ","ネ","ノ"], label: "na-row" },
+        ha:     { h: ["は","ひ","ふ","へ","ほ","ば","び","ぶ","べ","ぼ","ぱ","ぴ","ぷ","ぺ","ぽ"], k: ["ハ","ヒ","フ","ヘ","ホ","バ","ビ","ブ","ベ","ボ","パ","ピ","プ","ペ","ポ"], label: "ha-row" },
+        ma:     { h: ["ま","み","む","め","も"], k: ["マ","ミ","ム","メ","モ"], label: "ma-row" },
+        ya:     { h: ["や","ゆ","よ"], k: ["ヤ","ユ","ヨ"], label: "ya-row" },
+        ra:     { h: ["ら","り","る","れ","ろ"], k: ["ラ","リ","ル","レ","ロ"], label: "ra-row" },
+        wa:     { h: ["わ","を"], k: ["ワ","ヲ"], label: "wa-row" },
+        n:      { h: ["ん"], k: ["ン"], label: "n-row" },
+      };
+
+      // dakuten / handakuten characters
+      var DAKUTEN = new Set([
+        "が","ぎ","ぐ","げ","ご","ざ","じ","ず","ぜ","ぞ","だ","ぢ","づ","で","ど","ば","び","ぶ","べ","ぼ",
+        "ガ","ギ","グ","ゲ","ゴ","ザ","ジ","ズ","ゼ","ゾ","ダ","ヂ","ヅ","デ","ド","バ","ビ","ブ","ベ","ボ",
+      ]);
+      var HANDAKUTEN = new Set([
+        "ぱ","ぴ","ぷ","ぺ","ぽ",
+        "パ","ピ","プ","ペ","ポ",
+      ]);
+
+      var lastSelectedSubsets = []; // remember selections between rounds
+
+      function filterPool(chars) {
+        var useDaku = document.getElementById("include-daku").checked;
+        var useHandaku = document.getElementById("include-handaku").checked;
+        return chars.filter(function (ch) {
+          if (!useDaku && DAKUTEN.has(ch.c)) return false;
+          if (!useHandaku && HANDAKUTEN.has(ch.c)) return false;
+          return true;
+        });
+      }
+
+      // speedrun combo tracking — one record per unique subset combination
+      function getComboKey(subsets) {
+        var key = subsets.slice().sort().join(",");
+        if (document.getElementById("include-daku").checked) key += "_d";
+        if (document.getElementById("include-handaku").checked) key += "_h";
+        return key;
+      }
+
+      function getComboRecords(s) {
+        try {
+          var raw = localStorage.getItem("challenge-sr-combos-" + s);
+          return raw ? JSON.parse(raw) : {};
+        } catch (e) { return {}; }
+      }
+
+      function saveComboRecord(s, comboKey, data) {
+        var combos = getComboRecords(s);
+        var existing = combos[comboKey];
+        var isNew = false;
+        if (!existing || data.time < existing.best) {
+          combos[comboKey] = {
+            best: Math.round(data.time * 10) / 10,
+            avg: Math.round(data.avg * 100) / 100,
+            count: data.count,
+            subsets: data.subsets,
+            daku: data.daku,
+            handaku: data.handaku,
+          };
+          isNew = true;
+        }
+        try { localStorage.setItem("challenge-sr-combos-" + s, JSON.stringify(combos)); } catch (e) {}
+        return isNew;
+      }
+
+      // state
+      var mode = null;       // "hourglass" | "lives" | "speedrun"
+      var script = "h";      // "h" | "k"
+      var pool = [];         // characters for this round
+      var queue = [];        // remaining (speedrun)
+      var currentChar = null;
+      var score = 0;
+      var lives = 3;
+      var timeLeft = 30;
+      var startTime = 0;     // Date.now() at game start (speedrun/hourglass)
+      var elapsed = 0;
+      var timerInterval = null;
+      var gameActive = false;
+      var timerStarted = false; // timer waits for first input
+      var gameStartTime = 0; // set once at timer start, not overwritten
+
+      // DOM refs
+      var charEl = document.getElementById("game-char");
+      var inputEl = document.getElementById("game-input");
+      var hudEl = document.getElementById("game-hud");
+      var scoreEl = document.getElementById("game-score");
+
+      // helpers
+      function shuffle(arr) {
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+        }
+        return arr;
+      }
+
+      function formatTime(secs) {
+        var m = Math.floor(secs / 60);
+        var s = Math.floor(secs % 60);
+        var ms = Math.floor((secs % 1) * 10);
+        return m + ":" + String(s).padStart(2, "0") + "." + ms;
+      }
+
+      function getTodayStr() {
+        var d = new Date();
+        return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+      }
+
+      // localStorage records
+      function getRecordKey(m, s) { return "challenge-" + m + "-" + s; }
+
+      function getRecord(m, s) {
+        try {
+          var raw = localStorage.getItem(getRecordKey(m, s));
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+      }
+
+      function saveRecord(m, s, data) {
+        var key = getRecordKey(m, s);
+        var rec = getRecord(m, s) || {};
+        var isNew = false;
+        var today = getTodayStr();
+        if (m === "speedrun") {
+          if (!rec.bestAvg || data.avg < rec.bestAvg) {
+            rec.bestAvg = Math.round(data.avg * 100) / 100;
+            isNew = true;
+          }
+        } else {
+          if (!rec.best || data.score > rec.best) {
+            rec.best = data.score;
+            isNew = true;
+          }
+          if (rec.todayDate !== today) {
+            rec.todayBest = data.score;
+            rec.todayDate = today;
+          } else if (data.score > (rec.todayBest || 0)) {
+            rec.todayBest = data.score;
+          }
+          if (m === "hourglass" && data.survivalTime) {
+            if (!rec.bestTime || data.survivalTime > rec.bestTime) {
+              rec.bestTime = Math.round(data.survivalTime * 10) / 10;
+            }
+          }
+        }
+        try { localStorage.setItem(key, JSON.stringify(rec)); } catch (e) {}
+        return isNew;
+      }
+
+      // screen management
+      function showScreen(name) {
+        ["screen-select", "screen-setup", "screen-game", "screen-results", "screen-highscore"].forEach(function (id) {
+          document.getElementById(id).style.display = id === "screen-" + name ? "" : "none";
+        });
+        var hide = name === "game";
+        document.getElementById("script-toggle").style.display = hide ? "none" : "";
+      }
+
+
+      // highscore screen
+      function renderHighscore() {
+        var today = getTodayStr();
+        var modes = [
+          { key: "hourglass", icon: "⏳" },
+          { key: "lives", icon: "❤️" },
+          { key: "speedrun", icon: "🏁" },
+        ];
+        var html = "";
+        modes.forEach(function (m) {
+          var rec = getRecord(m.key, script);
+          html += '<div class="hs-section">';
+          html += '<div class="hs-section__header">' + m.icon + ' ' + t("mode-" + m.key) + '</div>';
+          if (m.key === "speedrun") {
+            var combos = getComboRecords(script);
+            var ckeys = Object.keys(combos);
+            if (rec && rec.bestAvg) {
+              html += '<div class="hs-row">' + t("challenge-avg-time") + ': <strong>' + rec.bestAvg.toFixed(1) + 's/' + t("challenge-per-char") + '</strong></div>';
+            }
+            if (ckeys.length > 0) {
+              ckeys.sort(function(a, b) { return combos[a].avg - combos[b].avg; });
+              ckeys.forEach(function(ck) {
+                var c = combos[ck];
+                var clabel = c.subsets.map(function(s) { return t(SUBSETS[s] ? SUBSETS[s].label : s); }).join(", ");
+                if (c.daku) clabel += " +゛";
+                if (c.handaku) clabel += " +゜";
+                html += '<div class="hs-row">' + clabel + ' (' + c.count + ') — <strong>' + formatTime(c.best) + '</strong> (' + c.avg.toFixed(1) + 's/' + t("challenge-per-char") + ')</div>';
+              });
+            } else if (!rec || !rec.bestAvg) {
+              html += '<div class="hs-row hs-row--empty">' + t("challenge-no-data") + '</div>';
+            }
+          } else {
+            if (rec && rec.best) {
+              if (rec.todayDate === today && rec.todayBest > 0)
+                html += '<div class="hs-row">' + t("challenge-today-best") + ': <strong>' + rec.todayBest + ' ' + t("challenge-chars-answered") + '</strong></div>';
+              html += '<div class="hs-row">' + t("challenge-personal-best") + ': <strong>' + rec.best + ' ' + t("challenge-chars-answered") + '</strong></div>';
+              if (m.key === "hourglass" && rec.bestTime > 0)
+                html += '<div class="hs-row">' + t("challenge-best-time") + ': <strong>' + formatTime(rec.bestTime) + '</strong></div>';
+            } else {
+              html += '<div class="hs-row hs-row--empty">' + t("challenge-no-data") + '</div>';
+            }
+          }
+          html += '</div>';
+        });
+        document.getElementById("highscore-content").innerHTML = html;
+      }
+
+      // help overlay
+      var helpOverlay = document.getElementById("challenge-help-overlay");
+      document.getElementById("btn-help").addEventListener("click", function () {
+        helpOverlay.classList.remove("hidden");
+      });
+      document.getElementById("btn-help-close").addEventListener("click", function () {
+        helpOverlay.classList.add("hidden");
+      });
+      helpOverlay.addEventListener("click", function (e) {
+        if (e.target === helpOverlay) helpOverlay.classList.add("hidden");
+      });
+
+      // settings overlay
+      var settingsOverlay = document.getElementById("challenge-settings-overlay");
+      document.getElementById("btn-settings").addEventListener("click", function () {
+        settingsOverlay.classList.remove("hidden");
+      });
+      document.getElementById("btn-settings-close").addEventListener("click", function () {
+        settingsOverlay.classList.add("hidden");
+      });
+      settingsOverlay.addEventListener("click", function (e) {
+        if (e.target === settingsOverlay) settingsOverlay.classList.add("hidden");
+      });
+
+      // auto-answer setting
+      var autoAnswerCb = document.getElementById("setting-auto-answer");
+      autoAnswerCb.checked = localStorage.getItem("auto-answer-challenge") === "true";
+      autoAnswerCb.addEventListener("change", function () {
+        localStorage.setItem("auto-answer-challenge", autoAnswerCb.checked);
+      });
+
+      document.getElementById("btn-highscore").addEventListener("click", function () {
+        renderHighscore();
+        showScreen("highscore");
+      });
+
+      document.getElementById("btn-back-highscore").addEventListener("click", function () {
+        showScreen("select");
+
+      });
+
+      // script toggle
+      function setScript(s) {
+        script = s;
+        document.getElementById("btn-hiragana").className = "daily-script-btn" + (s === "h" ? " daily-script-btn--active" : "");
+        document.getElementById("btn-katakana").className = "daily-script-btn" + (s === "k" ? " daily-script-btn--active" : "");
+
+        // re-render speedrun setup if visible
+        if (document.getElementById("screen-setup").style.display !== "none") renderSetup();
+      }
+
+      document.getElementById("btn-hiragana").addEventListener("click", function () { setScript("h"); });
+      document.getElementById("btn-katakana").addEventListener("click", function () { setScript("k"); });
+
+      // mode select
+      document.querySelectorAll("[data-mode]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          mode = btn.dataset.mode;
+          if (mode === "speedrun") {
+            renderSetup();
+            showScreen("setup");
+          } else {
+            pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
+            startGame();
+          }
+        });
+      });
+
+      // speedrun setup
+      function renderSetup() {
+        var container = document.getElementById("setup-subsets");
+        container.innerHTML = "";
+        var keys = Object.keys(SUBSETS);
+        keys.forEach(function (key) {
+          var sub = SUBSETS[key];
+          var chars = sub[script === "k" ? "k" : "h"];
+          var preview = chars.join("");
+          var lbl = document.createElement("label");
+          lbl.className = "subset-row sr-subset-row";
+          lbl.innerHTML =
+            '<input type="checkbox" value="' + key + '"' + (lastSelectedSubsets.indexOf(key) !== -1 ? ' checked' : '') + '>' +
+            '<span class="subset-row__info">' +
+              '<span class="subset-row__name">' + t(sub.label) + '</span>' +
+              '<span class="subset-row__chars">' + preview + '</span>' +
+            '</span>' +
+            '<span class="subset-row__toggle"></span>';
+          container.appendChild(lbl);
+        });
+        updateSetupCount();
+        container.addEventListener("change", updateSetupCount);
+      }
+
+      // select all / deselect all
+      document.getElementById("btn-select-all").addEventListener("click", function () {
+        document.querySelectorAll("#setup-subsets input[type='checkbox']").forEach(function (cb) { cb.checked = true; });
+        updateSetupCount();
+      });
+      document.getElementById("btn-deselect-all").addEventListener("click", function () {
+        document.querySelectorAll("#setup-subsets input[type='checkbox']").forEach(function (cb) { cb.checked = false; });
+        updateSetupCount();
+      });
+
+      function updateSetupCount() {
+        var checked = document.querySelectorAll("#setup-subsets input:checked");
+        var total = 0;
+        checked.forEach(function (cb) {
+          var sub = SUBSETS[cb.value];
+          if (sub) total += sub[script === "k" ? "k" : "h"].length;
+        });
+        document.getElementById("setup-count").textContent =
+          total > 0 ? total + " " + t("challenge-chars-selected") : t("challenge-no-chars");
+        document.getElementById("btn-start-speedrun").disabled = total === 0;
+      }
+
+      document.getElementById("btn-start-speedrun").addEventListener("click", function () {
+        var checked = document.querySelectorAll("#setup-subsets input:checked");
+        lastSelectedSubsets = [];
+        checked.forEach(function (cb) { lastSelectedSubsets.push(cb.value); });
+        var chars = [];
+        var allData = script === "k" ? ALL_K : ALL_H;
+        checked.forEach(function (cb) {
+          var sub = SUBSETS[cb.value];
+          if (!sub) return;
+          var charList = sub[script === "k" ? "k" : "h"];
+          charList.forEach(function (c) {
+            var found = allData.find(function (x) { return x.c === c; });
+            if (found) chars.push(found);
+          });
+        });
+        chars = filterPool(chars);
+        if (chars.length === 0) return;
+        pool = chars;
+        startGame();
+      });
+
+      document.getElementById("btn-back-setup").addEventListener("click", function () {
+        showScreen("select");
+      });
+
+      // game
+      function startGame() {
+        gameActive = true;
+        timerStarted = false;
+        score = 0;
+        currentChar = null;
+
+        if (mode === "hourglass") {
+          timeLeft = 30;
+        }
+
+        if (mode === "lives") {
+          lives = 3;
+        }
+
+        if (mode === "speedrun") {
+          queue = shuffle(pool.slice());
+          elapsed = 0;
+        }
+
+        renderHUD();
+        showScreen("game");
+        nextQuestion();
+      }
+
+      // start the timer on first input (called from checkAnswer)
+      function ensureTimerStarted() {
+        if (timerStarted) return;
+        timerStarted = true;
+        gameStartTime = Date.now();
+
+        if (mode === "hourglass") {
+          startTime = Date.now();
+          timerInterval = setInterval(function () {
+            var now = Date.now();
+            timeLeft -= (now - startTime) / 1000;
+            startTime = now;
+            if (timeLeft <= 0) { timeLeft = 0; endGame(); return; }
+            renderHUD();
+          }, 100);
+        }
+
+        if (mode === "speedrun") {
+          startTime = Date.now();
+          timerInterval = setInterval(function () {
+            elapsed = (Date.now() - startTime) / 1000;
+            renderHUD();
+          }, 100);
+        }
+      }
+
+      function nextQuestion() {
+        if (!gameActive) return;
+
+        if (mode === "speedrun") {
+          if (queue.length === 0) { endGame(); return; }
+          currentChar = queue.pop();
+        } else {
+          currentChar = pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        charEl.textContent = currentChar.c;
+        charEl.className = "hiragana";
+        inputEl.value = "";
+        inputEl.focus();
+        renderScore();
+      }
+
+      function checkAnswer() {
+        var input = inputEl.value.trim().toLowerCase();
+        if (!input || !gameActive || !currentChar) return;
+        ensureTimerStarted();
+
+        var correct = currentChar.r.some(function (r) { return r === input; });
+
+        if (correct) {
+          score++;
+          charEl.classList.add("char-correct");
+          inputEl.classList.add("flash-correct");
+          if (mode === "hourglass") timeLeft = Math.min(timeLeft + 2, 99);
+
+          setTimeout(function () {
+            charEl.classList.remove("char-correct");
+            inputEl.classList.remove("flash-correct");
+            nextQuestion();
+          }, 200);
+        } else {
+          charEl.classList.add("char-wrong");
+          inputEl.classList.add("flash-incorrect");
+          setTimeout(function () {
+            charEl.classList.remove("char-wrong");
+            inputEl.classList.remove("flash-incorrect");
+          }, 400);
+
+          if (mode === "hourglass") {
+            timeLeft = Math.max(timeLeft - 5, 0);
+            if (timeLeft <= 0) { endGame(); return; }
+          }
+
+          if (mode === "lives") {
+            lives--;
+            renderHUD();
+            if (lives <= 0) { endGame(); return; }
+          }
+
+          if (mode === "speedrun") {
+            // re-insert at random position and move on
+            var pos = Math.floor(Math.random() * (queue.length + 1));
+            queue.splice(pos, 0, currentChar);
+            inputEl.value = "";
+            setTimeout(function () { nextQuestion(); }, 200);
+            return;
+          }
+
+          inputEl.value = "";
+          inputEl.focus();
+        }
+
+        renderHUD();
+      }
+
+      function renderHUD() {
+        if (mode === "hourglass") {
+          var s = Math.ceil(timeLeft);
+          var pct = Math.max(0, Math.min(100, (timeLeft / 30) * 100));
+          var urgent = timeLeft < 10 ? " challenge-timer--urgent" : "";
+          hudEl.innerHTML =
+            '<div class="challenge-timer' + urgent + '">' +
+              '<div class="challenge-timer__bar" style="width:' + pct + '%"></div>' +
+            '</div>' +
+            '<span class="challenge-timer__text' + (urgent ? '" style="color:#ff5555' : '') + '">⏳ ' + s + 's</span>';
+        }
+
+        if (mode === "lives") {
+          var hearts = "";
+          for (var i = 0; i < 3; i++) hearts += i < lives ? "❤️" : "🖤";
+          hudEl.innerHTML = '<span class="challenge-lives">' + hearts + '</span>';
+        }
+
+        if (mode === "speedrun") {
+          var total = pool.length;
+          var done = total - queue.length - (currentChar ? 1 : 0);
+          hudEl.innerHTML =
+            '<span class="challenge-stopwatch">🏁 ' + formatTime(elapsed) + '</span>' +
+            '<span class="challenge-progress">' + Math.max(0, done) + ' / ' + total + '</span>';
+        }
+      }
+
+      function renderScore() {
+        if (mode === "speedrun") {
+          scoreEl.textContent = "";
+        } else {
+          scoreEl.textContent = t("challenge-score-label") + ": " + score;
+        }
+      }
+
+      function endGame() {
+        gameActive = false;
+        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+
+        var survivalTime = 0;
+        if (mode === "hourglass" && gameStartTime) {
+          survivalTime = (Date.now() - gameStartTime) / 1000;
+        }
+        if (mode === "speedrun") {
+          elapsed = (Date.now() - startTime) / 1000;
+        }
+
+        StreakManager.recordActivity();
+
+        // build data for record saving
+        var data = { score: score };
+        if (mode === "hourglass") data.survivalTime = survivalTime;
+        if (mode === "speedrun") data.avg = pool.length > 0 ? elapsed / pool.length : 0;
+        var isNewBest;
+        if (mode === "speedrun") {
+          saveRecord(mode, script, data); // update global bestAvg
+          var comboKey = getComboKey(lastSelectedSubsets);
+          isNewBest = saveComboRecord(script, comboKey, {
+            time: elapsed,
+            avg: data.avg,
+            count: pool.length,
+            subsets: lastSelectedSubsets.slice(),
+            daku: document.getElementById("include-daku").checked,
+            handaku: document.getElementById("include-handaku").checked,
+          });
+        } else {
+          isNewBest = saveRecord(mode, script, data);
+        }
+
+        showScreen("results");
+
+        // icon + title
+        document.getElementById("result-icon").textContent =
+          mode === "hourglass" ? "⏳" : mode === "lives" ? "❤️" : "🎉";
+        document.getElementById("result-title").textContent =
+          mode === "speedrun" ? t("challenge-complete") : t("challenge-game-over");
+
+        // main score
+        if (mode === "speedrun") {
+          document.getElementById("result-score").textContent = formatTime(elapsed);
+        } else {
+          document.getElementById("result-score").textContent = score + " " + t("challenge-chars-answered");
+        }
+
+        // extra stats (survival time / avg per char)
+        var extraEl = document.getElementById("result-extra");
+        if (mode === "hourglass") {
+          extraEl.textContent = t("challenge-survival") + ": " + formatTime(survivalTime);
+          extraEl.style.display = "";
+        } else if (mode === "speedrun" && pool.length > 0) {
+          extraEl.textContent = data.avg.toFixed(1) + "s " + t("challenge-per-char");
+          extraEl.style.display = "";
+        } else {
+          extraEl.style.display = "none";
+        }
+
+        // today's best / combo best
+        var rec = getRecord(mode, script);
+        var todayEl = document.getElementById("result-today");
+        if (mode === "speedrun") {
+          var crKey = getComboKey(lastSelectedSubsets);
+          var crec = getComboRecords(script)[crKey];
+          if (crec) {
+            todayEl.textContent = t("challenge-combo-best") + ": " + formatTime(crec.best) + " (" + crec.avg.toFixed(1) + "s/" + t("challenge-per-char") + ")";
+            todayEl.style.display = "";
+          } else {
+            todayEl.style.display = "none";
+          }
+        } else if (rec && rec.todayBest > 0) {
+          todayEl.textContent = t("challenge-today-best") + ": " + rec.todayBest + " " + t("challenge-chars-answered");
+          todayEl.style.display = "";
+        } else {
+          todayEl.style.display = "none";
+        }
+
+        // personal best
+        var bestEl = document.getElementById("result-best");
+        if (rec) {
+          if (mode === "speedrun" && rec.bestAvg) {
+            bestEl.textContent = t("challenge-avg-time") + ": " + rec.bestAvg.toFixed(1) + "s/" + t("challenge-per-char");
+          } else if (rec.best) {
+            bestEl.textContent = t("challenge-personal-best") + ": " + rec.best + " " + t("challenge-chars-answered");
+          }
+          bestEl.style.display = "";
+        } else {
+          bestEl.style.display = "none";
+        }
+
+        document.getElementById("result-new-best").style.display = isNewBest ? "" : "none";
+        document.getElementById("btn-change-subsets").style.display = mode === "speedrun" ? "" : "none";
+      }
+
+      // Enter/Space fallback when auto-answer is off
+      inputEl.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          checkAnswer();
+        }
+      });
+
+      // auto-answer — only submit on exact match
+      inputEl.addEventListener("input", function () {
+        if (localStorage.getItem("auto-answer-challenge") !== "true") return;
+        if (!gameActive || !currentChar) return;
+        var val = inputEl.value.trim().toLowerCase();
+        if (!val) return;
+        ensureTimerStarted();
+        if (currentChar.r.some(function (r) { return r === val; })) checkAnswer();
+      });
+
+      // quit button
+      document.getElementById("btn-quit").addEventListener("click", function () {
+        gameActive = false;
+        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+        showScreen("select");
+
+      });
+
+      // result buttons
+      document.getElementById("btn-play-again").addEventListener("click", function () {
+        if (mode === "speedrun") {
+          // restart same subsets
+          var chars = [];
+          var allData = script === "k" ? ALL_K : ALL_H;
+          lastSelectedSubsets.forEach(function (key) {
+            var sub = SUBSETS[key];
+            if (!sub) return;
+            var charList = sub[script === "k" ? "k" : "h"];
+            charList.forEach(function (c) {
+              var found = allData.find(function (x) { return x.c === c; });
+              if (found) chars.push(found);
+            });
+          });
+          chars = filterPool(chars);
+          if (chars.length === 0) return;
+          pool = chars;
+          startGame();
+        } else {
+          pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
+          startGame();
+        }
+      });
+
+      document.getElementById("btn-change-subsets").addEventListener("click", function () {
+        renderSetup();
+        showScreen("setup");
+      });
+
+      document.getElementById("btn-change-mode").addEventListener("click", function () {
+        showScreen("select");
+
+      });
+
+      // go back one step (shared by escape + back button)
+      function goBack() {
+        // on mode select — go to index
+        if (document.getElementById("screen-select").style.display !== "none") return false;
+        // stop game if active
+        if (gameActive) {
+          gameActive = false;
+          if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+        }
+        showScreen("select");
+
+        return true;
+      }
+
+      window.onEscapeKey = goBack;
+
+      document.getElementById("back-btn").addEventListener("click", function (e) {
+        if (goBack()) e.preventDefault();
+      });
+
+      // init
+      document.addEventListener("DOMContentLoaded", function () {
+        applyLang();
+
+      });
+    </script>
+    <script>
+      if ('serviceWorker' in navigator)
+        navigator.serviceWorker.register('./sw.js');
+    </script>
+  </body>
+</html>

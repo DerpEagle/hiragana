@@ -1,3 +1,16 @@
+/* prettier-ignore */
+/*
+ *    _____ _     _____ _   _ _   _
+ *   / ____| |   |  ___| \ | | \ | |
+ *  | |  __| |   | |__ |  \| |  \| |
+ *  | | |_ | |   |  __|| . ` | . ` |
+ *  | |__| | |___| |___| |\  | |\  |
+ *   \_____|_____|_____|_| \_|_| \_|
+ *
+ *  app.js — Hiragana data and settings
+ *  Glenn's Japanese Trainer
+ */
+
 const HiraganaData = {
   vowels: [
     { character: "あ", romanji: ["a"] },
@@ -66,9 +79,27 @@ const HiraganaData = {
   ],
   n: [{ character: "ん", romanji: ["n"] }],
   small: [
-    { character: "ゃ", romanji: ["ya"] },
-    { character: "ゅ", romanji: ["yu"] },
-    { character: "ょ", romanji: ["yo"] },
+    { character: "きゃ", romanji: ["kya"] },
+    { character: "きゅ", romanji: ["kyu"] },
+    { character: "きょ", romanji: ["kyo"] },
+    { character: "しゃ", romanji: ["sha"] },
+    { character: "しゅ", romanji: ["shu"] },
+    { character: "しょ", romanji: ["sho"] },
+    { character: "ちゃ", romanji: ["cha"] },
+    { character: "ちゅ", romanji: ["chu"] },
+    { character: "ちょ", romanji: ["cho"] },
+    { character: "にゃ", romanji: ["nya"] },
+    { character: "にゅ", romanji: ["nyu"] },
+    { character: "にょ", romanji: ["nyo"] },
+    { character: "ひゃ", romanji: ["hya"] },
+    { character: "ひゅ", romanji: ["hyu"] },
+    { character: "ひょ", romanji: ["hyo"] },
+    { character: "みゃ", romanji: ["mya"] },
+    { character: "みゅ", romanji: ["myu"] },
+    { character: "みょ", romanji: ["myo"] },
+    { character: "りゃ", romanji: ["rya"] },
+    { character: "りゅ", romanji: ["ryu"] },
+    { character: "りょ", romanji: ["ryo"] },
   ],
 };
 
@@ -117,6 +148,25 @@ const EXTRA_HANDAKUTEN = [
   { character: "ぽ", romanji: ["po"], subset: "ha" },
 ];
 
+// yōon (small kana combinations) added to the small subset when toggles are on
+const EXTRA_DAKUTEN_SMALL = [
+  { character: "ぎゃ", romanji: ["gya"] },
+  { character: "ぎゅ", romanji: ["gyu"] },
+  { character: "ぎょ", romanji: ["gyo"] },
+  { character: "じゃ", romanji: ["ja"] },
+  { character: "じゅ", romanji: ["ju"] },
+  { character: "じょ", romanji: ["jo"] },
+  { character: "びゃ", romanji: ["bya"] },
+  { character: "びゅ", romanji: ["byu"] },
+  { character: "びょ", romanji: ["byo"] },
+];
+
+const EXTRA_HANDAKUTEN_SMALL = [
+  { character: "ぴゃ", romanji: ["pya"] },
+  { character: "ぴゅ", romanji: ["pyu"] },
+  { character: "ぴょ", romanji: ["pyo"] },
+];
+
 function applyToggles(dakutenEnabled, handakutenEnabled) {
   Object.keys(BASE_HIRAGANA_DATA).forEach((key) => {
     HiraganaData[key] = JSON.parse(JSON.stringify(BASE_HIRAGANA_DATA[key]));
@@ -131,6 +181,9 @@ function applyToggles(dakutenEnabled, handakutenEnabled) {
         });
       }
     });
+    EXTRA_DAKUTEN_SMALL.forEach((item) => {
+      HiraganaData.small.push({ character: item.character, romanji: item.romanji });
+    });
   }
 
   if (handakutenEnabled) {
@@ -141,6 +194,9 @@ function applyToggles(dakutenEnabled, handakutenEnabled) {
           romanji: item.romanji,
         });
       }
+    });
+    EXTRA_HANDAKUTEN_SMALL.forEach((item) => {
+      HiraganaData.small.push({ character: item.character, romanji: item.romanji });
     });
   }
 
