@@ -415,6 +415,7 @@ function applyLang() {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.dataset.i18n;
     const val = t(key);
+    if (val === key) return; // no translation found, keep HTML default
     if (el.tagName === "INPUT") {
       el.placeholder = val;
     } else {
@@ -422,7 +423,10 @@ function applyLang() {
     }
   });
   document.querySelectorAll("[data-i18n-title]").forEach((el) => {
-    el.title = t(el.dataset.i18nTitle);
+    const key = el.dataset.i18nTitle;
+    const val = t(key);
+    if (val === key) return;
+    el.title = val;
   });
 }
 
