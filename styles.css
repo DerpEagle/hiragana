@@ -1575,9 +1575,20 @@ button.menu-card {
   .range-inputs {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
   }
   .range-label-group input[type="number"] {
-    width: 120px;
+    width: 100px;
+    padding: 7px 8px;
+    font-size: 1.1rem;
+  }
+  .range-dash {
+    font-size: 1.2rem;
+    margin-top: 14px;
+  }
+  .range-label-group {
+    gap: 3px;
+    font-size: 0.8rem;
   }
   .howto-section {
     flex-direction: column;
