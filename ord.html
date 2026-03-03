@@ -36,11 +36,13 @@
 
       <main>
         <section class="mode-section">
-          <span class="mode-label" data-i18n="char-count-label"
-            >Antall tegn:</span
-          >
-          <select id="char-count"></select>
-          <span class="range-count" id="word-count"></span>
+          <div class="mode-row">
+            <span class="mode-label" data-i18n="char-count-label"
+              >Antall tegn:</span
+            >
+            <select id="char-count"></select>
+            <span class="range-count" id="word-count"></span>
+          </div>
           <div class="script-toggle">
             <button
               class="script-btn script-btn--active"
@@ -62,6 +64,13 @@
               data-i18n-title="tooltip-both"
             >
               あア
+            </button>
+            <button
+              id="dict-btn"
+              class="script-btn"
+              data-i18n="dictionary"
+            >
+              Ordbok
             </button>
           </div>
         </section>
@@ -107,6 +116,15 @@
             </p>
           </div>
         </section>
+        <div id="dict-overlay" class="dict-overlay hidden">
+          <div class="dict-content">
+            <div class="dict-header">
+              <span class="dict-title" data-i18n="dictionary">Ordbok</span>
+              <button id="dict-close-btn" class="subset-close-btn" title="Lukk">✕</button>
+            </div>
+            <div id="dict-list" class="dict-list"></div>
+          </div>
+        </div>
       </main>
     </div>
 

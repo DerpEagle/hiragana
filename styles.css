@@ -326,9 +326,16 @@ section {
 /* ── Mode selector ── */
 .mode-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   padding: 16px 25px;
+}
+
+.mode-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .mode-label {
@@ -847,7 +854,6 @@ button:active {
 .script-toggle {
   display: flex;
   gap: 6px;
-  margin-left: auto;
 }
 
 .script-btn {
@@ -874,6 +880,78 @@ button:active {
   background: rgba(0, 212, 255, 0.12);
   border-color: #00d4ff;
   color: #00d4ff;
+}
+
+/* Dictionary overlay (ord.html) */
+.dict-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+.dict-overlay.hidden { display: none; }
+.dict-content {
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 520px;
+  width: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+.dict-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+.dict-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.dict-list {
+  overflow-y: auto;
+  flex: 1;
+}
+.dict-group-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #a78bfa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.6rem 0 0.3rem;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.15);
+  margin-bottom: 0.3rem;
+}
+.dict-word {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+  font-size: 0.92rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.dict-word-jp {
+  font-family: "Oshidashi M Gothic", sans-serif;
+  color: #fff;
+}
+.dict-word-rom {
+  color: rgba(255, 255, 255, 0.5);
+}
+.dict-word-tr {
+  color: rgba(255, 255, 255, 0.35);
+  text-align: right;
 }
 
 .menu-grid {
@@ -1410,52 +1488,85 @@ button.menu-card {
 /* ── Responsive ── */
 @media (max-width: 768px) {
   h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   header {
-    margin-bottom: 20px;
-    padding-top: 10px;
-  }
-  .container {
-    padding: 12px;
-  }
-  section {
-    padding: 18px 16px;
-  }
-}
-
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.5rem;
+    margin-bottom: 10px;
+    padding-top: 50px;
   }
   .container {
     padding: 10px;
   }
   section {
-    padding: 14px 12px;
+    padding: 12px 14px;
+  }
+  .character-display {
+    margin: 10px 0 8px;
+  }
+  .hiragana {
+    font-size: clamp(3rem, 14vw, 6rem);
+  }
+  button {
+    padding: 9px 18px;
+    font-size: 0.95rem;
+  }
+  .controls {
+    margin-top: 10px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.35rem;
+  }
+  header {
+    margin-bottom: 6px;
+    padding-top: 50px;
+  }
+  .container {
+    padding: 8px;
+  }
+  section {
+    padding: 10px 10px;
   }
   .subset-menu {
     width: 100%;
   }
   .controls {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
   .controls button {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
   }
   .link-btn-row {
     flex-direction: column;
   }
   .mode-section {
-    flex-wrap: wrap;
+    padding: 8px 10px;
+    gap: 6px;
   }
   #answer-input,
   #game-input {
-    font-size: 1.1rem;
-    padding: 12px 14px;
+    font-size: 1rem;
+    padding: 10px 12px;
   }
   .character-display {
-    margin: 15px 0 10px;
+    margin: 6px 0 4px;
+    gap: 4px;
+  }
+  .hiragana {
+    font-size: clamp(2.5rem, 12vw, 5rem);
+  }
+  button {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+  .controls {
+    margin-top: 8px;
+    gap: 8px;
   }
   #mastered-characters span {
     font-size: 1.4rem;
@@ -1474,6 +1585,13 @@ button.menu-card {
   .howto-section__icon {
     font-size: 2rem;
     margin-bottom: 8px;
+  }
+  .progress-section {
+    margin-top: 4px;
+  }
+  .progress-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
   }
 }
 

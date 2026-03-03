@@ -46,7 +46,7 @@
       </header>
 
       <main>
-        <section class="range-section">
+        <section class="mode-section">
           <div class="range-inputs">
             <label class="range-label-group">
               <span data-i18n="from-label">Fra</span>
@@ -70,7 +70,18 @@
               />
             </label>
           </div>
-          <div class="range-count" id="range-count"></div>
+          <span class="range-count" id="range-count"></span>
+          <div class="script-toggle">
+            <button class="script-btn script-btn--active" data-dir="jp-to-num">
+              日→123
+            </button>
+            <button class="script-btn" data-dir="num-to-jp">
+              123→日
+            </button>
+            <button class="script-btn" data-dir="mixed">
+              ↔
+            </button>
+          </div>
         </section>
 
         <section class="training-area">
@@ -98,21 +109,6 @@
             <button id="show-answer-btn" data-i18n="show-answer">
               Vis svar
             </button>
-          </div>
-        </section>
-
-        <section class="progress-section">
-          <h2 data-i18n="progress-heading">Fremgang</h2>
-          <div class="progress-summary">
-            <p>
-              <span data-i18n="round-label">Denne runden:</span>
-              <span id="round-progress">0</span> /
-              <span id="round-total">0</span>
-            </p>
-            <p class="lifetime-stat">
-              <span data-i18n="lifetime-label">Totalt riktig:</span>
-              <span id="lifetime-correct">0</span>
-            </p>
           </div>
         </section>
       </main>

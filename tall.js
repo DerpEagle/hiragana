@@ -161,7 +161,6 @@ function markCharacterResult(charObj, correct) {
 
 // State
 const QUEUE_LIMIT = 10000;
-const LIFETIME_KEY = "tall-trainer-lifetime";
 let minNum = 0,
   maxNum = 9;
 let queue = [];
@@ -169,8 +168,8 @@ let queueIndex = 0;
 let currentEntry = null;
 let incorrectAttempts = 0;
 let recentNums = [];
-let sessionCount = 0;
-let lifetimeCorrect = 0;
+let direction = "jp-to-num"; // 'jp-to-num' | 'num-to-jp' | 'mixed'
+let activeDir = "jp-to-num"; // resolved direction for current number
 
 // DOM elements
 const fromInput = document.getElementById("from-input");
@@ -182,20 +181,14 @@ const answerInput = document.getElementById("answer-input");
 const hintDisplay = document.getElementById("hint-display");
 const nextBtn = document.getElementById("next-btn");
 const showAnswerBtn = document.getElementById("show-answer-btn");
-const roundProgress = document.getElementById("round-progress");
-const roundTotal = document.getElementById("round-total");
-const lifetimeDisplay = document.getElementById("lifetime-correct");
 
-function loadLifetime() {
-  try {
-    lifetimeCorrect = parseInt(localStorage.getItem(LIFETIME_KEY) || "0", 10);
-  } catch {}
-}
-
-function saveLifetime() {
-  try {
-    localStorage.setItem(LIFETIME_KEY, lifetimeCorrect);
-  } catch {}
+// returns only the answers valid for the current direction
+function acceptedAnswers() {
+  if (!currentEntry) return [];
+  const all = currentEntry.romanji.map(r => r.toLowerCase());
+  if (activeDir === "jp-to-num") return all.filter(r => /^\d+$/.test(r));
+  if (activeDir === "num-to-jp") return all.filter(r => !/^\d+$/.test(r));
+  return all;
 }
 
 function adjustFontSize(text) {
@@ -242,9 +235,6 @@ function updateRange() {
   }
   queueIndex = 0;
   recentNums = [];
-  sessionCount = 0;
-
-  updateProgress();
   nextNumber();
 }
 
@@ -276,8 +266,20 @@ function nextNumber() {
   const entry = convertToJapanese(n);
   currentEntry = { ...entry, numValue: n };
 
-  charDisplay.textContent = currentEntry.character;
-  adjustFontSize(currentEntry.character);
+  // resolve direction
+  activeDir = direction === "mixed"
+    ? (Math.random() < 0.5 ? "jp-to-num" : "num-to-jp")
+    : direction;
+
+  if (activeDir === "num-to-jp") {
+    charDisplay.textContent = String(n);
+    adjustFontSize(String(n));
+    answerInput.placeholder = t("tall-placeholder-jp");
+  } else {
+    charDisplay.textContent = currentEntry.character;
+    adjustFontSize(currentEntry.character);
+    answerInput.placeholder = t("tall-placeholder-num");
+  }
   transDisplay.textContent = "";
 
   answerInput.value = "";
@@ -287,24 +289,19 @@ function nextNumber() {
   }
   hintDisplay.classList.add("hidden");
   incorrectAttempts = 0;
-
-  updateProgress();
 }
 
 function handleAnswer(input) {
   if (!input.trim() || !currentEntry) return;
 
-  const isCorrect = currentEntry.romanji.some(
-    (r) => r.toLowerCase() === input.trim().toLowerCase(),
+  const isCorrect = acceptedAnswers().some(
+    (r) => r === input.trim().toLowerCase(),
   );
 
   markCharacterResult(currentEntry, isCorrect);
 
   if (isCorrect) {
     if (typeof StreakManager !== "undefined") StreakManager.recordActivity();
-    sessionCount++;
-    lifetimeCorrect++;
-    saveLifetime();
     answerInput.classList.add("flash-correct");
     setTimeout(() => {
       answerInput.classList.remove("flash-correct");
@@ -323,30 +320,39 @@ function handleAnswer(input) {
 
 function showHint() {
   if (!currentEntry) return;
+  if (activeDir === "jp-to-num") return;
   hintDisplay.textContent = `${t("hint-prefix")} "${currentEntry.romanji[0][0]}"`;
   hintDisplay.classList.remove("hidden");
 }
 
 function showAnswer() {
   if (!currentEntry) return;
-  hintDisplay.textContent = `${t("answer-prefix")} ${currentEntry.romanji[0]}`;
+  if (activeDir === "jp-to-num") {
+    hintDisplay.textContent = `${t("answer-prefix")} ${currentEntry.numValue}`;
+  } else {
+    hintDisplay.textContent = `${t("answer-prefix")} ${currentEntry.romanji[0]}`;
+  }
   hintDisplay.classList.remove("hidden");
 }
 
-function updateProgress() {
-  if (queue !== null) {
-    roundProgress.textContent = queueIndex;
-    roundTotal.textContent = queue.length;
-  } else {
-    roundProgress.textContent = sessionCount;
-    roundTotal.textContent = "∞";
-  }
-  if (lifetimeDisplay) lifetimeDisplay.textContent = lifetimeCorrect;
-}
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadLifetime();
+  // restore direction
+  const savedDir = localStorage.getItem("tall-trainer-dir");
+  if (savedDir) direction = savedDir;
+  document.querySelectorAll(".script-btn[data-dir]").forEach((btn) => {
+    btn.classList.toggle("script-btn--active", btn.dataset.dir === direction);
+    btn.addEventListener("click", () => {
+      direction = btn.dataset.dir;
+      localStorage.setItem("tall-trainer-dir", direction);
+      document.querySelectorAll(".script-btn[data-dir]").forEach((b) =>
+        b.classList.toggle("script-btn--active", b.dataset.dir === direction),
+      );
+      nextNumber();
+    });
+  });
 
+  // restore saved range
   const savedFrom = localStorage.getItem("tall-trainer-from");
   const savedTo = localStorage.getItem("tall-trainer-to");
   if (savedFrom !== null) fromInput.value = savedFrom;
@@ -376,13 +382,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!currentEntry) return;
     const val = answerInput.value.trim().toLowerCase();
     if (!val) return;
-    const answers = currentEntry.romanji.map(r => r.toLowerCase());
-    const romanji = answers.filter(r => !/^\d+$/.test(r));
-    const minLen = Math.min(...romanji.map(r => r.length));
+    const answers = acceptedAnswers();
+    if (answers.length === 0) return;
+    const minLen = Math.min(...answers.map(r => r.length));
     if (answers.some(r => r === val)) {
       handleAnswer(answerInput.value);
     } else if (val.length >= minLen && !answers.some(r => r.startsWith(val))) {
-      // typed something that can't lead to a correct answer — count as wrong
       incorrectAttempts++;
       answerInput.classList.add("flash-incorrect");
       setTimeout(() => answerInput.classList.remove("flash-incorrect"), 400);

@@ -555,6 +555,52 @@ function updateProgress() {
   roundTotal.textContent = wordQueue.length;
 }
 
+// dictionary overlay
+const dictOverlay = document.getElementById("dict-overlay");
+const dictList = document.getElementById("dict-list");
+
+function renderDictionary() {
+  let dict;
+  if (scriptMode === "katakana") dict = KatakanaWordDictionary;
+  else if (scriptMode === "both") dict = Object.assign({}, WordDictionary, KatakanaWordDictionary);
+  else dict = WordDictionary;
+
+  // group by character count
+  const groups = {};
+  Object.entries(dict).forEach(([word, data]) => {
+    const len = [...word].length;
+    if (!groups[len]) groups[len] = [];
+    groups[len].push({ word, romanji: data.romanji, translation: data.translation });
+  });
+
+  dictList.innerHTML = "";
+  Object.keys(groups).sort((a, b) => a - b).forEach((len) => {
+    const heading = document.createElement("div");
+    heading.className = "dict-group-title";
+    heading.textContent = len + " " + t("dict-chars");
+    dictList.appendChild(heading);
+
+    groups[len].forEach((entry) => {
+      const row = document.createElement("div");
+      row.className = "dict-word";
+      row.innerHTML =
+        '<span class="dict-word-jp">' + entry.word + "</span>" +
+        '<span class="dict-word-rom">' + entry.romanji + "</span>" +
+        '<span class="dict-word-tr">' + getWordTranslation(entry.translation) + "</span>";
+      dictList.appendChild(row);
+    });
+  });
+}
+
+function openDictionary() {
+  renderDictionary();
+  dictOverlay.classList.remove("hidden");
+}
+
+function closeDictionary() {
+  dictOverlay.classList.add("hidden");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const unit = t("chars-unit");
   for (let i = 1; i <= 10; i++) {
@@ -571,11 +617,11 @@ document.addEventListener("DOMContentLoaded", () => {
     nextWord();
   });
 
-  document.querySelectorAll(".script-btn").forEach((btn) => {
+  document.querySelectorAll(".script-btn[data-script]").forEach((btn) => {
     btn.addEventListener("click", () => {
       scriptMode = btn.dataset.script;
       document
-        .querySelectorAll(".script-btn")
+        .querySelectorAll(".script-btn[data-script]")
         .forEach((b) => b.classList.toggle("script-btn--active", b === btn));
       buildQueue();
       nextWord();
@@ -618,11 +664,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // dictionary button
+  document.getElementById("dict-btn").addEventListener("click", openDictionary);
+  document.getElementById("dict-close-btn").addEventListener("click", closeDictionary);
+  dictOverlay.addEventListener("click", (e) => {
+    if (e.target === dictOverlay) closeDictionary();
+  });
+
   buildQueue();
   nextWord();
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
+      if (!dictOverlay.classList.contains("hidden")) {
+        closeDictionary();
+        return;
+      }
       const backLink = document.querySelector(".back-link");
       if (backLink) backLink.click();
     }

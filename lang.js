@@ -54,12 +54,16 @@ const LANG = {
     "ord-title": "Ord",
     "char-count-label": "Antall tegn:",
     "hide-chars": "Skjul tegn",
+    "dictionary": "Ordbok",
+    "dict-chars": "tegn",
 
     // Tall page
     "tall-title": "Tall",
     "from-label": "Fra",
     "to-label": "til",
     "tall-placeholder": "Skriv romanji eller tall...",
+    "tall-placeholder-num": "Skriv tallet...",
+    "tall-placeholder-jp": "Skriv romanji...",
     "lifetime-label": "Totalt riktig:",
 
     // Common training
@@ -231,12 +235,16 @@ const LANG = {
     "ord-title": "Words",
     "char-count-label": "Number of characters:",
     "hide-chars": "Hide characters",
+    "dictionary": "Dictionary",
+    "dict-chars": "chars",
 
     // Tall page
     "tall-title": "Numbers",
     "from-label": "From",
     "to-label": "to",
     "tall-placeholder": "Type romaji or number...",
+    "tall-placeholder-num": "Type the number...",
+    "tall-placeholder-jp": "Type romaji...",
     "lifetime-label": "Total correct:",
 
     // Common training
