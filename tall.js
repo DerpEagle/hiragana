@@ -194,15 +194,15 @@ function acceptedAnswers() {
 function adjustFontSize(text) {
   const len = text.length;
   let size;
-  if (len <= 2) size = "10rem";
-  else if (len <= 4) size = "8rem";
-  else if (len <= 6) size = "6rem";
-  else if (len <= 10) size = "4rem";
-  else if (len <= 15) size = "2.8rem";
-  else if (len <= 22) size = "2rem";
-  else if (len <= 30) size = "1.5rem";
-  else if (len <= 45) size = "1rem";
-  else size = "0.75rem";
+  if (len <= 2) size = "clamp(3rem, 14vw, 10rem)";
+  else if (len <= 4) size = "clamp(2.5rem, 11vw, 8rem)";
+  else if (len <= 6) size = "clamp(2rem, 9vw, 6rem)";
+  else if (len <= 10) size = "clamp(1.8rem, 7vw, 4rem)";
+  else if (len <= 15) size = "clamp(1.5rem, 5.5vw, 2.8rem)";
+  else if (len <= 22) size = "clamp(1.3rem, 4.5vw, 2rem)";
+  else if (len <= 30) size = "clamp(1.1rem, 3.5vw, 1.5rem)";
+  else if (len <= 45) size = "clamp(1rem, 2.5vw, 1.2rem)";
+  else size = "1rem";
   charDisplay.style.fontSize = size;
 }
 
