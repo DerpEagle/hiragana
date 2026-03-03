@@ -39,6 +39,7 @@ const LANG = {
     "ra-row": "R-lyd",
     "wa-row": "W-lyd",
     "n-row": "N",
+    "lookalikes": "Forvekslende",
     "small-kana-row": "Små kana",
 
     // Hiragana page
@@ -214,6 +215,7 @@ const LANG = {
     "ya-row": "Y-sound",
     "ra-row": "R-sound",
     "wa-row": "W-sound",
+    "lookalikes": "Look-alikes",
     "n-row": "N",
     "small-kana-row": "Small kana",
 

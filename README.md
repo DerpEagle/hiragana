@@ -12,8 +12,8 @@ Supports **Norwegian 🇳🇴** and **English 🇬🇧** — switch language in 
 
 | Module | Description |
 |---|---|
-| **Hiragana** あ | Practise all 46 base characters + dakuten (が…) and handakuten (ぱ…) |
-| **Katakana** ア | Same structure as hiragana, used for foreign loanwords |
+| **Hiragana** あ | Practise all 46 base characters + dakuten (が…), handakuten (ぱ…), and a look-alikes subset for commonly confused characters |
+| **Katakana** ア | Same structure as hiragana, with its own look-alikes subset (シ/ツ, ソ/ン, etc.) |
 | **Words** 語 | Recognise Japanese words in hiragana, katakana, or both (1–10 characters) |
 | **Numbers** 数 | Type Japanese numbers (romaji or digits) in any range up to 999 billion |
 | **Daily Challenge** 🏆 | 10 date-seeded random characters per day — build a challenge streak |
