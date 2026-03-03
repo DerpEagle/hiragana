@@ -21,6 +21,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="theme.js"></script>
     <script data-goatcounter="https://derpeagle.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
     <link rel="manifest" href="manifest.json">
@@ -266,7 +267,10 @@
         const list = document.createElement("div");
         list.className = "prog-needs-practice__list";
         top5.forEach(({ ch, accuracy }) => {
-          const color = accuracy < 50 ? "#ff5555" : accuracy < 75 ? "#ffaa33" : "#4caf50";
+          var cs = getComputedStyle(document.documentElement);
+          const color = accuracy < 50 ? cs.getPropertyValue("--color-error").trim()
+            : accuracy < 75 ? cs.getPropertyValue("--color-warning").trim()
+            : cs.getPropertyValue("--color-success").trim();
           const item = document.createElement("div");
           item.className = "prog-needs-practice__item";
           item.innerHTML = `

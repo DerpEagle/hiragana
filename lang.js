@@ -169,6 +169,7 @@ const LANG = {
     "challenge-change-subsets": "Bytt tegnsett",
 
     // Settings overlay
+    "settings-challenge": "Utfordringsinnstillinger",
     "settings-training": "Treningsinnstillinger",
     "settings-data": "Data",
     "setting-dakuten": "Dakuten (゛) standard",
@@ -192,6 +193,13 @@ const LANG = {
     "setting-import-invalid": "Ugyldig fil. Forventet en JSON-eksport fra denne appen.",
     "setting-import-error": "Kunne ikke lese filen.",
     "setting-deleted-reloading": "Slettet. Laster på nytt...",
+
+    // Theme
+    "settings-theme": "Utseende",
+    "setting-theme-label": "Tema",
+    "setting-theme-system": "System",
+    "setting-theme-light": "Lys",
+    "setting-theme-dark": "Mørk",
   },
   en: {
     // Navigation
@@ -350,6 +358,7 @@ const LANG = {
     "challenge-change-subsets": "Change subsets",
 
     // Settings overlay
+    "settings-challenge": "Challenge settings",
     "settings-training": "Training settings",
     "settings-data": "Data",
     "setting-dakuten": "Dakuten (゛) default",
@@ -373,6 +382,13 @@ const LANG = {
     "setting-import-invalid": "Invalid file. Expected a JSON export from this app.",
     "setting-import-error": "Could not read file.",
     "setting-deleted-reloading": "Deleted. Reloading...",
+
+    // Theme
+    "settings-theme": "Appearance",
+    "setting-theme-label": "Theme",
+    "setting-theme-system": "System",
+    "setting-theme-light": "Light",
+    "setting-theme-dark": "Dark",
   },
 };
 

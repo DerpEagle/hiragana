@@ -11,7 +11,7 @@
  *  Glenn's Japanese Trainer
  */
 
-const CACHE = "japansk-v12";
+const CACHE = "japansk-v14";
 const ASSETS = [
   "/hiragana/",
   "/hiragana/index.html",
@@ -31,6 +31,7 @@ const ASSETS = [
   "/hiragana/katakana.js",
   "/hiragana/ord.js",
   "/hiragana/tall.js",
+  "/hiragana/theme.js",
   "/hiragana/icons/icon-192.png",
   "/hiragana/icons/icon-512.png",
   "/hiragana/fonts/Oshidashi-M-Gothic.otf",

@@ -71,6 +71,7 @@ Accessible from the gear icon on the home screen:
 
 | Setting | Description |
 |---|---|
+| **Theme** | Switch between System, Light, and Dark mode |
 | **Auto-answer** | Automatically submit when your input matches exactly |
 | **Dakuten default** | Include dakuten characters (゛) by default in trainers |
 | **Handakuten default** | Include handakuten characters (゜) by default in trainers |
@@ -126,6 +127,7 @@ tall.js           — Number trainer logic
 trainer-core.js   — Shared trainer logic (CharacterProgress + UIController)
 streak.js         — Daily streak tracking (StreakManager)
 lang.js           — Translations (no/en)
+theme.js          — Light/dark theme switcher
 styles.css        — All styles
 sw.js             — Service worker (offline cache)
 manifest.json     — PWA manifest

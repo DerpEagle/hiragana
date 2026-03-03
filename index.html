@@ -21,6 +21,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="theme.js"></script>
     <script data-goatcounter="https://derpeagle.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
     <link rel="manifest" href="manifest.json">
@@ -45,6 +46,21 @@
         <div id="index-settings-overlay" class="challenge-help-overlay hidden">
           <div class="challenge-help-content settings-overlay-content">
             <button class="challenge-help-close" id="btn-settings-close">&times;</button>
+
+            <!-- Group 0: Theme -->
+            <div class="settings-group">
+              <p class="settings-group-title" data-i18n="settings-theme">Utseende</p>
+              <div class="challenge-help-mode">
+                <div class="settings-select-row">
+                  <span class="challenge-setting-label" data-i18n="setting-theme-label">Tema</span>
+                  <select id="setting-theme" class="settings-select">
+                    <option value="system" data-i18n="setting-theme-system">System</option>
+                    <option value="light" data-i18n="setting-theme-light">Lys</option>
+                    <option value="dark" data-i18n="setting-theme-dark">Mørk</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
             <!-- Group 1: Training settings -->
             <div class="settings-group">
@@ -265,6 +281,13 @@
         var v = handakutenCb.checked ? "1" : "0";
         localStorage.setItem("include-handakuten", v);
         localStorage.setItem("katakana-include-handakuten", v);
+      });
+
+      // theme selector
+      var themeSelect = document.getElementById("setting-theme");
+      themeSelect.value = localStorage.getItem("app-theme") || "system";
+      themeSelect.addEventListener("change", function () {
+        setTheme(themeSelect.value);
       });
 
       // hint threshold dropdown

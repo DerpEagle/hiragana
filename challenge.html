@@ -21,6 +21,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="theme.js"></script>
     <script data-goatcounter="https://derpeagle.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
     <link rel="manifest" href="manifest.json">
@@ -116,6 +117,7 @@
         <div id="challenge-settings-overlay" class="challenge-help-overlay hidden">
           <div class="challenge-help-content">
             <button class="challenge-help-close" id="btn-settings-close">&times;</button>
+            <p class="settings-group-title" data-i18n="settings-challenge">Utfordringsinnstillinger</p>
             <div class="challenge-help-mode">
               <label class="challenge-setting-row">
                 <input type="checkbox" id="include-daku">
@@ -744,7 +746,7 @@
             '<div class="challenge-timer' + urgent + '">' +
               '<div class="challenge-timer__bar" style="width:' + pct + '%"></div>' +
             '</div>' +
-            '<span class="challenge-timer__text' + (urgent ? '" style="color:#ff5555' : '') + '">⏳ ' + s + 's</span>';
+            '<span class="challenge-timer__text' + (urgent ? '" style="color:var(--color-error)' : '') + '">⏳ ' + s + 's</span>';
         }
 
         if (mode === "lives") {
