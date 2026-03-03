@@ -301,13 +301,19 @@
         }
       });
 
-      // auto-answer — only submit on exact match
+      // auto-answer — submit on exact match or penalise impossible input
       answerInput.addEventListener('input', () => {
         if (localStorage.getItem('auto-answer') !== 'true') return;
         if (!currentChar) return;
         const val = answerInput.value.trim().toLowerCase();
         if (!val) return;
-        if (currentChar.r.some(r => r === val)) checkAnswer();
+        const answers = currentChar.r;
+        const minLen = Math.min(...answers.map(r => r.length));
+        if (answers.some(r => r === val)) {
+          checkAnswer();
+        } else if (val.length >= minLen && !answers.some(r => r.startsWith(val))) {
+          checkAnswer();
+        }
       });
 
       document.getElementById('show-answer-btn').addEventListener('click', () => {
