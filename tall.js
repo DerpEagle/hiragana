@@ -376,7 +376,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!currentEntry) return;
     const val = answerInput.value.trim().toLowerCase();
     if (!val) return;
-    if (currentEntry.romanji.some(r => r.toLowerCase() === val)) handleAnswer(answerInput.value);
+    const answers = currentEntry.romanji.map(r => r.toLowerCase());
+    const romanji = answers.filter(r => !/^\d+$/.test(r));
+    const minLen = Math.min(...romanji.map(r => r.length));
+    if (answers.some(r => r === val)) {
+      handleAnswer(answerInput.value);
+    } else if (val.length >= minLen && !answers.some(r => r.startsWith(val))) {
+      // typed something that can't lead to a correct answer — count as wrong
+      incorrectAttempts++;
+      answerInput.classList.add("flash-incorrect");
+      setTimeout(() => answerInput.classList.remove("flash-incorrect"), 400);
+      var _ht = localStorage.getItem("hint-threshold") || "3";
+      if (_ht !== "never" && incorrectAttempts >= parseInt(_ht, 10)) showHint();
+      answerInput.value = "";
+      answerInput.focus();
+    }
   });
 
   updateRange();

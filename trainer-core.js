@@ -274,7 +274,13 @@ class UIController {
           return combos;
         }, [])
         .map((r) => r.toLowerCase());
-      if (answers.some((r) => r === val)) this.handleAnswer(this.answerInput.value);
+      const minLen = Math.min(...answers.map((r) => r.length));
+      if (answers.some((r) => r === val)) {
+        this.handleAnswer(this.answerInput.value);
+      } else if (val.length >= minLen && !answers.some((r) => r.startsWith(val))) {
+        // typed something that can't lead to a correct answer — count as wrong
+        this.handleIncorrectAnswer();
+      }
     });
     this.nextBtn.addEventListener("click", () => this.nextCharacter());
     this.showAnswerBtn.addEventListener("click", () => this.showAnswer());

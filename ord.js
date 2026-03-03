@@ -82,7 +82,6 @@ const WordDictionary = {
   おんがく: { romanji: "ongaku", translation: "music (musikk)" },
   えいが: { romanji: "eiga", translation: "film / movie (film)" },
   ほん: { romanji: "hon", translation: "book (bok)" },
-  テレビ: { romanji: "terebi", translation: "television (tv)" },
   くるま: { romanji: "kuruma", translation: "car (bil)" },
   れんしゅう: { romanji: "renshuu", translation: "practice (øvelse)" },
   しごと: { romanji: "shigoto", translation: "work (jobb)" },
@@ -342,6 +341,7 @@ const KatakanaWordDictionary = {
   スキー: { romanji: "sukii", translation: "skiing (ski)" },
   ラジオ: { romanji: "rajio", translation: "radio" },
   コーラ: { romanji: "koora", translation: "cola" },
+  テレビ: { romanji: "terebi", translation: "television (tv)" },
   ロシア: { romanji: "roshia", translation: "Russia (Russland)" },
   カナダ: { romanji: "kanada", translation: "Canada" },
   ドイツ: { romanji: "doitsu", translation: "Germany (Tyskland)" },
@@ -600,7 +600,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("auto-answer") !== "true") return;
     if (!currentWord) return;
     const val = answerInput.value.trim().toLowerCase();
-    if (val === currentWord.romanji.toLowerCase()) handleAnswer(answerInput.value);
+    if (!val) return;
+    const answer = currentWord.romanji.toLowerCase();
+    if (val.length >= answer.length) {
+      if (val === answer) {
+        handleAnswer(answerInput.value);
+      } else {
+        // wrong answer at full length — count as wrong
+        incorrectAttempts++;
+        answerInput.classList.add("flash-incorrect");
+        setTimeout(() => answerInput.classList.remove("flash-incorrect"), 400);
+        var _ht = localStorage.getItem("hint-threshold") || "3";
+        if (_ht !== "never" && incorrectAttempts >= parseInt(_ht, 10)) showHint();
+        answerInput.value = "";
+        answerInput.focus();
+      }
+    }
   });
 
   buildQueue();

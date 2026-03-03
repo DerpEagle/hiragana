@@ -875,14 +875,20 @@
         }
       });
 
-      // auto-answer — only submit on exact match
+      // auto-answer — submit on exact match or penalise impossible input
       inputEl.addEventListener("input", function () {
         if (localStorage.getItem("auto-answer-challenge") !== "true") return;
         if (!gameActive || !currentChar) return;
         var val = inputEl.value.trim().toLowerCase();
         if (!val) return;
         ensureTimerStarted();
-        if (currentChar.r.some(function (r) { return r === val; })) checkAnswer();
+        var answers = currentChar.r;
+        var minLen = Math.min.apply(null, answers.map(function (r) { return r.length; }));
+        if (answers.some(function (r) { return r === val; })) {
+          checkAnswer();
+        } else if (val.length >= minLen && !answers.some(function (r) { return r.indexOf(val) === 0; })) {
+          checkAnswer();
+        }
       });
 
       // quit button
