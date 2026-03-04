@@ -11,7 +11,7 @@
  *  Glenn's Japanese Trainer
  */
 
-const CACHE = "japansk-v14";
+const CACHE = "japansk-v16";
 const ASSETS = [
   "/hiragana/",
   "/hiragana/index.html",
@@ -26,6 +26,7 @@ const ASSETS = [
   "/hiragana/styles.css",
   "/hiragana/lang.js",
   "/hiragana/streak.js",
+  "/hiragana/speak.js",
   "/hiragana/trainer-core.js",
   "/hiragana/app.js",
   "/hiragana/katakana.js",
@@ -70,9 +71,16 @@ self.addEventListener("fetch", (e) => {
         .catch(() => caches.match(e.request))
     );
   } else {
-    // cache-first for bilder/fonter
+    // cache-first for bilder/fonter/lyd — cache on first fetch
     e.respondWith(
-      caches.match(e.request).then((cached) => cached || fetch(e.request))
+      caches.match(e.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(e.request).then((res) => {
+          const clone = res.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, clone));
+          return res;
+        });
+      })
     );
   }
 });

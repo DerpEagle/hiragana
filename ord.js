@@ -584,6 +584,7 @@ function renderDictionary() {
       const row = document.createElement("div");
       row.className = "dict-word";
       row.innerHTML =
+        '<button class="dict-speak-btn" data-speak="' + entry.word + '" title="Hør uttale"><svg class="speak-icon" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M19 5a9 9 0 010 14"/></svg></button>' +
         '<span class="dict-word-jp">' + entry.word + "</span>" +
         '<span class="dict-word-rom">' + entry.romanji + "</span>" +
         '<span class="dict-word-tr">' + getWordTranslation(entry.translation) + "</span>";
@@ -630,6 +631,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nextBtn.addEventListener("click", nextWord);
   showAnswerBtn.addEventListener("click", showAnswer);
+  document.getElementById("speak-btn").addEventListener("click", () => {
+    if (currentWord) speakJapanese(currentWord.word);
+  });
   hideCharsBtn.addEventListener("click", () => {
     charsHidden = !charsHidden;
     updateHideButton();
@@ -669,6 +673,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("dict-close-btn").addEventListener("click", closeDictionary);
   dictOverlay.addEventListener("click", (e) => {
     if (e.target === dictOverlay) closeDictionary();
+    const speakBtn = e.target.closest(".dict-speak-btn");
+    if (speakBtn && speakBtn.dataset.speak) speakJapanese(speakBtn.dataset.speak);
   });
 
   buildQueue();

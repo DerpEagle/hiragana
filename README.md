@@ -14,7 +14,7 @@ Supports **Norwegian 🇳🇴** and **English 🇬🇧** — switch language in 
 |---|---|
 | **Hiragana** あ | Practise all 46 base characters + dakuten (が…), handakuten (ぱ…), and a look-alikes subset for commonly confused characters |
 | **Katakana** ア | Same structure as hiragana, with its own look-alikes subset (シ/ツ, ソ/ン, etc.) |
-| **Words** 語 | Recognise Japanese words in hiragana, katakana, or both (1–10 characters) — with a dictionary of all in-app words |
+| **Words** 語 | Recognise Japanese words in hiragana, katakana, or both (1–10 characters) — with a dictionary of all in-app words and audio pronunciation |
 | **Numbers** 数 | Practise Japanese numbers in any range up to 999 billion — three directions: Japanese→number, number→Japanese, or mixed |
 | **Daily Challenge** 🏆 | 10 date-seeded random characters per day — build a challenge streak |
 | **Challenge** ⚡ | Three timed/scored game modes with highscore tracking |
@@ -88,6 +88,7 @@ Accessible from the gear icon on the home screen:
 - [Bootstrap 5](https://getbootstrap.com/) for layout utilities
 - `localStorage` for saving progress, streaks, and settings
 - Built-in i18n supporting Norwegian and English
+- Pre-recorded audio pronunciation (Edge TTS, ja-JP-NanamiNeural)
 - PWA-ready — installs to home screen, works offline via service worker
 
 ---
@@ -126,11 +127,13 @@ ord.js            — Word trainer logic
 tall.js           — Number trainer logic
 trainer-core.js   — Shared trainer logic (CharacterProgress + UIController)
 streak.js         — Daily streak tracking (StreakManager)
+speak.js          — Audio pronunciation (pre-recorded files + kana fallback)
 lang.js           — Translations (no/en)
 theme.js          — Light/dark theme switcher
 styles.css        — All styles
 sw.js             — Service worker (offline cache)
 manifest.json     — PWA manifest
+audio/            — Pre-recorded pronunciation files (MP3)
 ```
 
 ---

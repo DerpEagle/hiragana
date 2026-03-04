@@ -508,6 +508,37 @@ section {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  position: relative;
+}
+
+.speak-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.speak-btn {
+  position: absolute;
+  right: 4px;
+  top: 8px;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  opacity: 0.45;
+  transition: opacity 0.15s;
+  padding: 4px 8px;
+  line-height: 1;
+}
+.speak-btn:hover,
+.speak-btn:active {
+  opacity: 1;
 }
 
 .hiragana {
@@ -1051,12 +1082,24 @@ button:active {
 }
 .dict-word {
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: auto auto 1fr 1fr;
   gap: 0.6rem;
+  align-items: center;
   padding: 0.35rem 0;
   font-size: 0.92rem;
   border-bottom: 1px solid var(--border-subtle-soft);
 }
+.dict-speak-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  padding: 0;
+  opacity: 0.4;
+  transition: opacity 0.15s;
+}
+.dict-speak-btn:hover { opacity: 1; }
 .dict-word-jp {
   font-family: "Oshidashi M Gothic", sans-serif;
   color: var(--color-text);

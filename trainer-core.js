@@ -247,6 +247,8 @@ class UIController {
     this.subsetMenu = document.getElementById("subset-menu");
     this.menuBackdrop = document.getElementById("menu-backdrop");
 
+    this.speakBtn = document.getElementById("speak-btn");
+
     this.initializeEventListeners();
     this.loadSettings();
   }
@@ -286,6 +288,13 @@ class UIController {
     this.showAnswerBtn.addEventListener("click", () => this.showAnswer());
     this.randomBtn.addEventListener("click", () => this.selectAllSubsets());
     this.clearBtn.addEventListener("click", () => this.clearAllSubsets());
+    if (this.speakBtn) {
+      this.speakBtn.addEventListener("click", () => {
+        if (this.currentCharacters.length > 0) {
+          speakJapanese(this.currentCharacters.map(c => c.character).join(""));
+        }
+      });
+    }
     this.toggleSubsetBtn.addEventListener("click", () => {
       this.subsetMenu.classList.contains("hidden")
         ? this.openMenu()
