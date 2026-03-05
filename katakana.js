@@ -127,16 +127,15 @@ const KatakanaData = {
   ],
 };
 
-// set storage keys before DOMContentLoaded fires
 StorageManager.STORAGE_KEY = "katakana-trainer-progress";
 StorageManager.SETTINGS_KEY = "katakana-trainer-settings";
 
 function getAllCharacters(selectedSubsets) {
-  const characters = [];
-  selectedSubsets.forEach((subset) => {
-    if (KatakanaData[subset]) characters.push(...KatakanaData[subset]);
-  });
-  return characters;
+  let chars = [];
+  for (const sub of selectedSubsets) {
+    if (KatakanaData[sub]) chars = chars.concat(KatakanaData[sub]);
+  }
+  return chars;
 }
 
 const BASE_KATAKANA_DATA = JSON.parse(JSON.stringify(KatakanaData));
@@ -172,7 +171,7 @@ const EXTRA_HANDAKUTEN = [
   { character: "ポ", romanji: ["po"], subset: "ha" },
 ];
 
-// yōon combos added to small subset when toggles are on
+// dakuten yōon combos
 const EXTRA_DAKUTEN_SMALL = [
   { character: "ギャ", romanji: ["gya"] },
   { character: "ギュ", romanji: ["gyu"] },
@@ -191,12 +190,12 @@ const EXTRA_HANDAKUTEN_SMALL = [
   { character: "ピョ", romanji: ["pyo"] },
 ];
 
-function applyToggles(dakutenEnabled, handakutenEnabled) {
-  Object.keys(BASE_KATAKANA_DATA).forEach((key) => {
+function applyToggles(dakutenOn, handakutenOn) {
+  for (const key of Object.keys(BASE_KATAKANA_DATA)) {
     KatakanaData[key] = JSON.parse(JSON.stringify(BASE_KATAKANA_DATA[key]));
-  });
+  }
 
-  if (dakutenEnabled) {
+  if (dakutenOn) {
     EXTRA_DAKUTEN.forEach((item) => {
       if (KatakanaData[item.subset]) {
         KatakanaData[item.subset].push({
@@ -210,7 +209,7 @@ function applyToggles(dakutenEnabled, handakutenEnabled) {
     });
   }
 
-  if (handakutenEnabled) {
+  if (handakutenOn) {
     EXTRA_HANDAKUTEN.forEach((item) => {
       if (KatakanaData[item.subset]) {
         KatakanaData[item.subset].push({
@@ -224,10 +223,8 @@ function applyToggles(dakutenEnabled, handakutenEnabled) {
     });
   }
 
-  try {
-    localStorage.setItem("katakana-include-dakuten", dakutenEnabled ? "1" : "0");
-    localStorage.setItem("katakana-include-handakuten", handakutenEnabled ? "1" : "0");
-  } catch (e) {}
+  localStorage.setItem("katakana-include-dakuten", dakutenOn ? "1" : "0");
+  localStorage.setItem("katakana-include-handakuten", handakutenOn ? "1" : "0");
 }
 
 document.addEventListener("DOMContentLoaded", () => {

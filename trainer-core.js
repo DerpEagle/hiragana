@@ -46,15 +46,14 @@ class CharacterProgress {
   }
 
   getWeight() {
-    const baseWeight = 1.0;
-    const errorMultiplier = 1.0 + this.incorrectCount / (this.correctCount + 1);
+    const errorMultiplier = 1 + this.incorrectCount / (this.correctCount + 1);
     const reviewInterval = 5 * 60 * 1000;
     const timeSinceLastSeen = this.lastSeen
       ? Date.now() - this.lastSeen
       : reviewInterval;
-    const timeMultiplier = Math.min(2.0, timeSinceLastSeen / reviewInterval);
-    const masteredMultiplier = this.isMastered ? 0.1 : 1.0;
-    return baseWeight * errorMultiplier * timeMultiplier * masteredMultiplier;
+    const timeMultiplier = Math.min(2, timeSinceLastSeen / reviewInterval);
+    const masteredMultiplier = this.isMastered ? 0.1 : 1;
+    return errorMultiplier * timeMultiplier * masteredMultiplier;
   }
 }
 
@@ -219,10 +218,8 @@ const StorageManager = {
   },
 
   clearAll() {
-    try {
-      localStorage.removeItem(this.STORAGE_KEY);
-      localStorage.removeItem(this.SETTINGS_KEY);
-    } catch {}
+    localStorage.removeItem(this.STORAGE_KEY);
+    localStorage.removeItem(this.SETTINGS_KEY);
   },
 };
 
