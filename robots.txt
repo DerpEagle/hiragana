@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://derpeagle.github.io/hiragana/sitemap.xml

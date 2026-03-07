@@ -241,7 +241,7 @@ const LANG = {
 
     // Ord page
     "ord-title": "Words",
-    "char-count-label": "Number of characters:",
+    "char-count-label": "Characters:",
     "hide-chars": "Hide characters",
     "dictionary": "Dictionary",
     "dict-chars": "chars",
@@ -299,7 +299,7 @@ const LANG = {
     "numbers-in-range": "numbers",
     "number-singular": "number",
     "no-words-in-count": "No words with this count",
-    "chars-unit": "characters",
+    "chars-unit": "chars",
     "words-label": "words",
     "show-chars": "Show characters",
     "storage-full": "Storage is full. Progress cannot be saved.",
