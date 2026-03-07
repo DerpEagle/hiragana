@@ -1865,12 +1865,8 @@ button.menu-card {
     gap: 3px;
     font-size: 0.8rem;
   }
-  .howto-section {
-    flex-direction: column;
-  }
   .howto-section__icon {
     font-size: 2rem;
-    margin-bottom: 8px;
   }
   .progress-section {
     margin-top: 4px;
@@ -1899,8 +1895,8 @@ html[lang="en"] .lang-no {
 
 .howto-section {
   display: flex;
-  gap: 22px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
   background: var(--bg-card);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border-subtle-strong);
@@ -1924,10 +1920,6 @@ html[lang="en"] .lang-no {
 .howto-section__icon {
   font-size: 2.4rem;
   line-height: 1;
-  min-width: 52px;
-  text-align: center;
-  padding-top: 2px;
-  flex-shrink: 0;
   color: var(--accent);
 }
 
@@ -2385,9 +2377,13 @@ html[lang="en"] .lang-no {
   position: relative;
   padding-bottom: 5rem;
 }
+.challenge-corner-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+}
 .challenge-corner-btn {
-  position: absolute;
-  bottom: 1rem;
   background: none;
   border: none;
   padding: 0;
@@ -2402,8 +2398,6 @@ html[lang="en"] .lang-no {
 .challenge-corner-btn:hover {
   filter: drop-shadow(0 0 10px rgba(var(--accent-rgb), 0.8));
 }
-.challenge-corner-btn--left { left: 1rem; }
-.challenge-corner-btn--right { right: 1rem; }
 .challenge-help-overlay {
   position: fixed;
   inset: 0;

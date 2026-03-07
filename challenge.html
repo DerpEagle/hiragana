@@ -43,15 +43,49 @@
       </header>
 
       <main>
-        <!-- Script toggle (hidden during active game) -->
-        <div id="script-toggle" class="daily-script-toggle">
-          <button id="btn-hiragana" class="daily-script-btn daily-script-btn--active">Hiragana (あ)</button>
-          <button id="btn-katakana" class="daily-script-btn">Katakana (ア)</button>
-          <button id="btn-kanji" class="daily-script-btn">Kanji (漢)</button>
-        </div>
+        <!-- SCREEN: Script select (first step) -->
+        <section id="screen-script">
+          <div class="menu-grid">
+            <button class="menu-card menu-card--hiragana" id="btn-hiragana">
+              <span class="menu-card__icon">あ</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title">Hiragana</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+
+            <button class="menu-card menu-card--katakana" id="btn-katakana">
+              <span class="menu-card__icon">ア</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title">Katakana</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+
+            <button class="menu-card menu-card--kanji" id="btn-kanji">
+              <span class="menu-card__icon">漢</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title">Kanji</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+
+            <button class="menu-card menu-card--highscore" id="btn-highscore">
+              <span class="menu-card__icon">🏆</span>
+              <span class="menu-card__info">
+                <span class="menu-card__title" data-i18n="challenge-highscore">Highscore</span>
+              </span>
+              <span class="menu-card__arrow">→</span>
+            </button>
+          </div>
+          <div class="challenge-corner-row">
+            <button class="challenge-corner-btn" id="btn-settings"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 00-.48-.41h-3.84a.48.48 0 00-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 00-.59.22L2.74 8.87a.48.48 0 00.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
+            <button class="challenge-corner-btn" id="btn-help">?</button>
+          </div>
+        </section>
 
         <!-- SCREEN: Mode select -->
-        <section id="screen-select">
+        <section id="screen-select" style="display:none">
           <div class="menu-grid">
             <button class="menu-card menu-card--challenge" data-mode="hourglass">
               <span class="menu-card__icon">⏳</span>
@@ -76,17 +110,10 @@
               </span>
               <span class="menu-card__arrow">→</span>
             </button>
-
-            <button class="menu-card menu-card--highscore" id="btn-highscore">
-              <span class="menu-card__icon">🏆</span>
-              <span class="menu-card__info">
-                <span class="menu-card__title" data-i18n="challenge-highscore">Highscore</span>
-              </span>
-              <span class="menu-card__arrow">→</span>
-            </button>
           </div>
-          <button class="challenge-corner-btn challenge-corner-btn--left" id="btn-settings"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 00-.48-.41h-3.84a.48.48 0 00-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 00-.59.22L2.74 8.87a.48.48 0 00.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
-          <button class="challenge-corner-btn challenge-corner-btn--right" id="btn-help">?</button>
+          <div class="controls" style="margin-top:8px">
+            <button id="btn-back-select" class="challenge-quit-btn">◀ Tilbake</button>
+          </div>
         </section>
 
 
@@ -153,7 +180,7 @@
           </div>
         </div>
 
-        <!-- SCREEN: Speedrun setup -->
+        <!-- SCREEN: Subset/category setup -->
         <section id="screen-setup" style="display:none">
           <h2 data-i18n="select-charset">Velg tegnsett</h2>
           <div class="sr-setup-controls">
@@ -223,9 +250,14 @@
         <!-- SCREEN: Highscore -->
         <section id="screen-highscore" style="display:none">
           <h2 data-i18n="challenge-highscore">Highscore</h2>
+          <div class="daily-script-toggle">
+            <button id="hs-btn-h" class="daily-script-btn daily-script-btn--active">Hiragana</button>
+            <button id="hs-btn-k" class="daily-script-btn">Katakana</button>
+            <button id="hs-btn-kanji" class="daily-script-btn">Kanji</button>
+          </div>
           <div id="highscore-content"></div>
           <div class="controls" style="margin-top:1rem">
-            <button id="btn-back-highscore" class="challenge-quit-btn" data-i18n="challenge-back-mode">◀ Tilbake</button>
+            <button id="btn-back-highscore" class="challenge-quit-btn">◀ Tilbake</button>
           </div>
         </section>
       </main>
@@ -462,11 +494,9 @@
 
       // screen management
       function showScreen(name) {
-        ["screen-select", "screen-setup", "screen-game", "screen-results", "screen-highscore"].forEach(function (id) {
+        ["screen-script", "screen-select", "screen-setup", "screen-game", "screen-results", "screen-highscore"].forEach(function (id) {
           document.getElementById(id).style.display = id === "screen-" + name ? "" : "none";
         });
-        var hide = name === "game";
-        document.getElementById("script-toggle").style.display = hide ? "none" : "";
       }
 
 
@@ -480,11 +510,11 @@
         ];
         var html = "";
         modes.forEach(function (m) {
-          var rec = getRecord(m.key, script);
+          var rec = getRecord(m.key, hsScript);
           html += '<div class="hs-section">';
           html += '<div class="hs-section__header">' + m.icon + ' ' + t("mode-" + m.key) + '</div>';
           if (m.key === "speedrun") {
-            var combos = getComboRecords(script);
+            var combos = getComboRecords(hsScript);
             var ckeys = Object.keys(combos);
             if (rec && rec.bestAvg) {
               html += '<div class="hs-row">' + t("challenge-avg-time") + ': <strong>' + rec.bestAvg.toFixed(1) + 's/' + t("challenge-per-char") + '</strong></div>';
@@ -551,64 +581,75 @@
         localStorage.setItem("auto-answer-challenge", autoAnswerCb.checked);
       });
 
+      var hsScript = "h"; // current highscore view script
+
       document.getElementById("btn-highscore").addEventListener("click", function () {
+        hsScript = "h";
+        updateHsButtons();
         renderHighscore();
         showScreen("highscore");
       });
 
-      document.getElementById("btn-back-highscore").addEventListener("click", function () {
-        showScreen("select");
+      function updateHsButtons() {
+        document.getElementById("hs-btn-h").className = "daily-script-btn" + (hsScript === "h" ? " daily-script-btn--active" : "");
+        document.getElementById("hs-btn-k").className = "daily-script-btn" + (hsScript === "k" ? " daily-script-btn--active" : "");
+        document.getElementById("hs-btn-kanji").className = "daily-script-btn" + (hsScript === "kanji" ? " daily-script-btn--active" : "");
+      }
 
+      document.getElementById("hs-btn-h").addEventListener("click", function () { hsScript = "h"; updateHsButtons(); renderHighscore(); });
+      document.getElementById("hs-btn-k").addEventListener("click", function () { hsScript = "k"; updateHsButtons(); renderHighscore(); });
+      document.getElementById("hs-btn-kanji").addEventListener("click", function () { hsScript = "kanji"; updateHsButtons(); renderHighscore(); });
+
+      document.getElementById("btn-back-highscore").addEventListener("click", function () {
+        showScreen("script");
       });
 
-      // script toggle
-      function setScript(s) {
+      // script select — first step, then go to mode select (or setup for kanji)
+      function selectScript(s) {
         script = s;
-        document.getElementById("btn-hiragana").className = "daily-script-btn" + (s === "h" ? " daily-script-btn--active" : "");
-        document.getElementById("btn-katakana").className = "daily-script-btn" + (s === "k" ? " daily-script-btn--active" : "");
-        document.getElementById("btn-kanji").className = "daily-script-btn" + (s === "kanji" ? " daily-script-btn--active" : "");
-
-        // update placeholder
+        setupNextAction = null; // fresh start
         if (s === "kanji") {
           inputEl.setAttribute("placeholder", t("kanji-placeholder-meaning"));
           inputEl.setAttribute("data-i18n", "kanji-placeholder-meaning");
+          renderSetup();
+          showScreen("setup");
         } else {
           inputEl.setAttribute("placeholder", t("romanji-placeholder"));
           inputEl.setAttribute("data-i18n", "romanji-placeholder");
+          showScreen("select");
         }
-
-        // re-render speedrun setup if visible
-        if (document.getElementById("screen-setup").style.display !== "none") renderSetup();
       }
 
-      document.getElementById("btn-hiragana").addEventListener("click", function () { setScript("h"); });
-      document.getElementById("btn-katakana").addEventListener("click", function () { setScript("k"); });
-      document.getElementById("btn-kanji").addEventListener("click", function () { setScript("kanji"); });
+      document.getElementById("btn-hiragana").addEventListener("click", function () { selectScript("h"); });
+      document.getElementById("btn-katakana").addEventListener("click", function () { selectScript("k"); });
+      document.getElementById("btn-kanji").addEventListener("click", function () { selectScript("kanji"); });
 
-      // mode select
+      // mode select — for kanji pool is already set, for kana build it here
       document.querySelectorAll("[data-mode]").forEach(function (btn) {
         btn.addEventListener("click", function () {
           mode = btn.dataset.mode;
-          if (mode === "speedrun") {
+          if (script === "kanji") {
+            // pool already built during setup
+            startGame();
+          } else if (mode === "speedrun") {
             renderSetup();
             showScreen("setup");
           } else {
-            if (script === "kanji") {
-              pool = buildAllKanji();
-            } else {
-              pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
-            }
+            pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
             startGame();
           }
         });
       });
 
-      // speedrun setup
+      // subset/category setup
       function renderSetup() {
         var container = document.getElementById("setup-subsets");
         container.innerHTML = "";
+        var startBtn = document.getElementById("btn-start-speedrun");
 
-        if (script === "kanji") {
+        if (script === "kanji" && setupNextAction !== "start") {
+          // kanji first time: pick categories, then choose mode
+          startBtn.textContent = t("challenge-choose-mode") || "Velg modus →";
           var kkeys = Object.keys(KANJI_SUBSETS);
           kkeys.forEach(function (key) {
             var sub = KANJI_SUBSETS[key];
@@ -626,6 +667,8 @@
             container.appendChild(lbl);
           });
         } else {
+          // kana speedrun: pick subsets, then start
+          startBtn.textContent = t("challenge-start");
           var keys = Object.keys(SUBSETS);
           keys.forEach(function (key) {
             var sub = SUBSETS[key];
@@ -645,7 +688,10 @@
         }
 
         updateSetupCount();
-        container.addEventListener("change", updateSetupCount);
+        container.addEventListener("change", function () {
+          updateSetupCount();
+          inputEl.blur();
+        });
       }
 
       // select all / deselect all
@@ -675,35 +721,61 @@
         document.getElementById("btn-start-speedrun").disabled = total === 0;
       }
 
+      var setupNextAction = null; // "mode" = go to mode select, "start" = start game
+
       document.getElementById("btn-start-speedrun").addEventListener("click", function () {
         var checked = document.querySelectorAll("#setup-subsets input:checked");
         lastSelectedSubsets = [];
         checked.forEach(function (cb) { lastSelectedSubsets.push(cb.value); });
-        var chars = [];
 
-        if (script === "kanji") {
-          chars = buildKanjiPool(lastSelectedSubsets);
+        pool = buildPoolFromSelection();
+        if (pool.length === 0) return;
+
+        if (setupNextAction === "start") {
+          // returning from results to change subsets — keep mode, start game
+          startGame();
+        } else if (script === "kanji") {
+          // first time kanji setup — go to mode select
+          showScreen("select");
         } else {
-          var allData = script === "k" ? ALL_K : ALL_H;
-          checked.forEach(function (cb) {
-            var sub = SUBSETS[cb.value];
-            if (!sub) return;
-            var charList = sub[script === "k" ? "k" : "h"];
-            charList.forEach(function (c) {
-              var found = allData.find(function (x) { return x.c === c; });
-              if (found) chars.push(found);
-            });
-          });
-          chars = filterPool(chars);
+          // kana speedrun — start game directly
+          startGame();
         }
-
-        if (chars.length === 0) return;
-        pool = chars;
-        startGame();
       });
 
+      function buildPoolFromSelection() {
+        if (script === "kanji") {
+          return buildKanjiPool(lastSelectedSubsets);
+        }
+        var chars = [];
+        var allData = script === "k" ? ALL_K : ALL_H;
+        lastSelectedSubsets.forEach(function (key) {
+          var sub = SUBSETS[key];
+          if (!sub) return;
+          var charList = sub[script === "k" ? "k" : "h"];
+          charList.forEach(function (c) {
+            var found = allData.find(function (x) { return x.c === c; });
+            if (found) chars.push(found);
+          });
+        });
+        return filterPool(chars);
+      }
+
       document.getElementById("btn-back-setup").addEventListener("click", function () {
-        showScreen("select");
+        if (script === "kanji") {
+          showScreen("script");
+        } else {
+          showScreen("select");
+        }
+      });
+
+      document.getElementById("btn-back-select").addEventListener("click", function () {
+        if (script === "kanji") {
+          renderSetup();
+          showScreen("setup");
+        } else {
+          showScreen("script");
+        }
       });
 
       // game
@@ -956,7 +1028,7 @@
         }
 
         document.getElementById("result-new-best").style.display = isNewBest ? "" : "none";
-        document.getElementById("btn-change-subsets").style.display = mode === "speedrun" ? "" : "none";
+        document.getElementById("btn-change-subsets").style.display = (mode === "speedrun" || script === "kanji") ? "" : "none";
       }
 
       // Enter/Space fallback when auto-answer is off
@@ -983,66 +1055,66 @@
         }
       });
 
-      // quit button
+      // quit button — back to mode select
       document.getElementById("btn-quit").addEventListener("click", function () {
         gameActive = false;
         if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         showScreen("select");
-
       });
 
       // result buttons
       document.getElementById("btn-play-again").addEventListener("click", function () {
-        if (mode === "speedrun") {
-          if (script === "kanji") {
-            pool = buildKanjiPool(lastSelectedSubsets);
-          } else {
-            var chars = [];
-            var allData = script === "k" ? ALL_K : ALL_H;
-            lastSelectedSubsets.forEach(function (key) {
-              var sub = SUBSETS[key];
-              if (!sub) return;
-              var charList = sub[script === "k" ? "k" : "h"];
-              charList.forEach(function (c) {
-                var found = allData.find(function (x) { return x.c === c; });
-                if (found) chars.push(found);
-              });
-            });
-            pool = filterPool(chars);
-          }
+        if (mode === "speedrun" || script === "kanji") {
+          pool = buildPoolFromSelection();
           if (pool.length === 0) return;
-          startGame();
         } else {
-          if (script === "kanji") {
-            pool = buildAllKanji();
-          } else {
-            pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
-          }
-          startGame();
+          pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
         }
+        startGame();
       });
 
       document.getElementById("btn-change-subsets").addEventListener("click", function () {
+        setupNextAction = "start"; // keep current mode, just change subsets
         renderSetup();
         showScreen("setup");
       });
 
       document.getElementById("btn-change-mode").addEventListener("click", function () {
         showScreen("select");
-
       });
 
       // go back one step (shared by escape + back button)
       function goBack() {
-        // on mode select — go to index
-        if (document.getElementById("screen-select").style.display !== "none") return false;
+        // on script select — go to index
+        if (document.getElementById("screen-script").style.display !== "none") return false;
         // stop game if active
         if (gameActive) {
           gameActive = false;
           if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         }
+        // from mode select — back to setup (kanji) or script
+        if (document.getElementById("screen-select").style.display !== "none") {
+          if (script === "kanji") {
+            setupNextAction = null;
+            renderSetup();
+            showScreen("setup");
+          } else {
+            showScreen("script");
+          }
+          return true;
+        }
+        // from setup — kanji: back to script, kana speedrun: back to mode select
+        if (document.getElementById("screen-setup").style.display !== "none") {
+          showScreen(script === "kanji" ? "script" : "select");
+          return true;
+        }
+        // from highscore — back to script select
+        if (document.getElementById("screen-highscore").style.display !== "none") {
+          showScreen("script");
+          return true;
+        }
+        // from game/results — back to mode select
         showScreen("select");
-
         return true;
       }
 
