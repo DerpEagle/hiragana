@@ -393,7 +393,10 @@
 
       document.getElementById('btn-hiragana').addEventListener('click', () => loadScript('h'));
       document.getElementById('btn-katakana').addEventListener('click', () => loadScript('k'));
-      document.getElementById('btn-kanji').addEventListener('click', () => loadScript('kanji'));
+      document.getElementById('btn-kanji').addEventListener('click', () => {
+        loadScript('kanji');
+        answerInput.blur();
+      });
 
       // kanji category dropdown toggle
       const kanjiCatBtn = document.getElementById('kanji-cat-btn');
@@ -410,9 +413,12 @@
         }
       });
 
-      // reload kanji challenge when categories change
+      // reload kanji challenge when categories change (don't steal focus)
       document.getElementById('kanji-categories').addEventListener('change', () => {
-        if (script === 'kanji') loadScript('kanji');
+        if (script !== 'kanji') return;
+        var hadFocus = document.activeElement === answerInput;
+        loadScript('kanji');
+        if (!hadFocus) answerInput.blur();
       });
 
       // Enter/Space fallback when auto-answer is off
