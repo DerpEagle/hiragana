@@ -50,8 +50,10 @@
   --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
   --glow-accent: 0 0 10px rgba(0, 212, 255, 0.25);
   --glow-success: 0 0 6px rgba(76, 175, 80, 0.15);
+  --card-kana: #00d4ff;
   --card-hiragana: #00d4ff;
   --card-katakana: #7dd3fc;
+  --card-kanji: #f472b6;
   --card-ord: #a78bfa;
   --card-tall: #818cf8;
   --card-progresjon: #4caf50;
@@ -104,8 +106,10 @@
   --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
   --glow-accent: none;
   --glow-success: none;
+  --card-kana: #0891b2;
   --card-hiragana: #0891b2;
   --card-katakana: #0284c7;
+  --card-kanji: #db2777;
   --card-ord: #7c3aed;
   --card-tall: #6366f1;
   --card-progresjon: #16a34a;
@@ -1175,6 +1179,26 @@ button:active {
 }
 
 /* Card colour variants */
+.menu-card--kana {
+  border-color: rgba(0, 212, 255, 0.35);
+  color: var(--card-kana);
+}
+.menu-card--kana:hover {
+  border-color: var(--card-kana);
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.15);
+  color: var(--card-kana);
+}
+
+.menu-card--kanji {
+  border-color: rgba(244, 114, 182, 0.35);
+  color: var(--card-kanji);
+}
+.menu-card--kanji:hover {
+  border-color: var(--card-kanji);
+  box-shadow: 0 0 18px rgba(244, 114, 182, 0.15);
+  color: var(--card-kanji);
+}
+
 .menu-card--hiragana {
   border-color: rgba(0, 212, 255, 0.35);
   color: var(--card-hiragana);
@@ -1267,19 +1291,70 @@ button:active {
   opacity: 0.45;
 }
 
+/* ── Kanji trainer ── */
+.kanji-mode-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.kanji-mode-btn {
+  flex: 1;
+  max-width: 160px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: 2px solid var(--border-accent);
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(var(--accent-rgb), 0.6);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.kanji-mode-btn--active {
+  background: rgba(var(--accent-rgb), 0.15);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.kanji-mode-btn:hover:not(.kanji-mode-btn--active) {
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.kanji-info {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.4rem;
+}
+
+.dict-open-btn {
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid var(--border-accent);
+  color: var(--accent);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dict-open-btn:hover {
+  background: rgba(var(--accent-rgb), 0.2);
+}
+
 /* ── Daily challenge page ── */
 .daily-script-toggle {
   display: flex;
-  gap: 12px;
-  margin-bottom: 1.5rem;
+  gap: 8px;
+  margin-bottom: 1rem;
 }
 
 .daily-script-btn {
   flex: 1;
-  padding: 12px;
-  font-size: 1.1rem;
+  padding: 8px 6px;
+  font-size: 0.9rem;
   border: 2px solid var(--border-accent);
-  border-radius: 10px;
+  border-radius: 8px;
   background: rgba(15, 52, 96, 0.4);
   color: rgba(var(--accent-rgb), 0.6);
   cursor: pointer;
@@ -1290,6 +1365,52 @@ button:active {
   border-color: var(--accent);
   color: var(--accent);
   background: rgba(var(--accent-rgb), 0.1);
+}
+
+.daily-kanji-dropdown {
+  position: relative;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.daily-kanji-dropdown-btn {
+  background: rgba(15, 52, 96, 0.4);
+  border: 1px solid var(--border-accent);
+  border-radius: 8px;
+  color: var(--accent);
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.daily-kanji-dropdown-btn::after {
+  content: " ▾";
+}
+.daily-kanji-dropdown-btn--open::after {
+  content: " ▴";
+}
+.daily-kanji-dropdown-panel {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(100% + 6px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-accent);
+  border-radius: 10px;
+  padding: 6px 8px;
+  z-index: 20;
+  min-width: 220px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.daily-kanji-dropdown-panel--open {
+  display: block;
+}
+.daily-kanji-dropdown-panel .subset-row {
+  padding: 7px 10px;
+  margin: 0;
+}
+.daily-kanji-dropdown-panel .subset-row__name {
+  flex: 1;
 }
 
 .daily-chips {

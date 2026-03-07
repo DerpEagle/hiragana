@@ -15,7 +15,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Utfordring</title>
+    <title>Japanese Challenge Mode — Hiragana, Katakana & Kanji Quiz</title>
+    <meta name="description" content="Test your hiragana, katakana and kanji skills with timed challenges, speedruns and survival modes. Track your highscores!">
+    <meta name="keywords" content="japanese quiz, hiragana challenge, katakana challenge, kanji challenge, japanese speedrun, hiragana test, katakana test, kanji test">
+    <meta property="og:title" content="Japanese Challenge Mode — Hiragana, Katakana & Kanji Quiz">
+    <meta property="og:description" content="Test your hiragana, katakana and kanji skills with timed challenges and survival modes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://derpeagle.github.io/hiragana/challenge.html">
+    <meta property="og:image" content="https://derpeagle.github.io/hiragana/icons/icon-512.png">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -40,6 +47,7 @@
         <div id="script-toggle" class="daily-script-toggle">
           <button id="btn-hiragana" class="daily-script-btn daily-script-btn--active">Hiragana (あ)</button>
           <button id="btn-katakana" class="daily-script-btn">Katakana (ア)</button>
+          <button id="btn-kanji" class="daily-script-btn">Kanji (漢)</button>
         </div>
 
         <!-- SCREEN: Mode select -->
@@ -225,6 +233,7 @@
 
     <script src="lang.js"></script>
     <script src="streak.js"></script>
+    <script src="kanji-data.js"></script>
     <script>
       // three challenge modes: hourglass, 3 lives, speedrun
 
@@ -280,6 +289,35 @@
         n:      { h: ["ん"], k: ["ン"], label: "n-row" },
       };
 
+      // kanji subsets for speedrun (mirrors kanji-data.js categories)
+      var KANJI_SUBSETS = {
+        numbers:    { label: "kanji-numbers" },
+        time:       { label: "kanji-time" },
+        people:     { label: "kanji-people" },
+        nature:     { label: "kanji-nature" },
+        verbs:      { label: "kanji-verbs" },
+        adjectives: { label: "kanji-adjectives" },
+      };
+
+      // build flat kanji pool from KanjiData
+      function buildKanjiPool(categories) {
+        var lang = getLang();
+        var pool = [];
+        categories.forEach(function (cat) {
+          if (!KanjiData[cat]) return;
+          KanjiData[cat].forEach(function (entry) {
+            var meanings = entry.meaning.map(function (m) { return m.toLowerCase(); });
+            if (entry.meaningNo) entry.meaningNo.forEach(function (m) { meanings.push(m.toLowerCase()); });
+            pool.push({ c: entry.kanji, r: meanings, _entry: entry });
+          });
+        });
+        return pool;
+      }
+
+      function buildAllKanji() {
+        return buildKanjiPool(Object.keys(KanjiData));
+      }
+
       // dakuten / handakuten characters
       var DAKUTEN = new Set([
         "が","ぎ","ぐ","げ","ご","ざ","じ","ず","ぜ","ぞ","だ","ぢ","づ","で","ど","ば","び","ぶ","べ","ぼ",
@@ -305,8 +343,10 @@
       // speedrun combo tracking — one record per unique subset combination
       function getComboKey(subsets) {
         var key = subsets.slice().sort().join(",");
-        if (document.getElementById("include-daku").checked) key += "_d";
-        if (document.getElementById("include-handaku").checked) key += "_h";
+        if (script !== "kanji") {
+          if (document.getElementById("include-daku").checked) key += "_d";
+          if (document.getElementById("include-handaku").checked) key += "_h";
+        }
         return key;
       }
 
@@ -453,7 +493,10 @@
               ckeys.sort(function(a, b) { return combos[a].avg - combos[b].avg; });
               ckeys.forEach(function(ck) {
                 var c = combos[ck];
-                var clabel = c.subsets.map(function(s) { return t(SUBSETS[s] ? SUBSETS[s].label : s); }).join(", ");
+                var clabel = c.subsets.map(function(s) {
+                  if (KANJI_SUBSETS[s]) return t(KANJI_SUBSETS[s].label);
+                  return t(SUBSETS[s] ? SUBSETS[s].label : s);
+                }).join(", ");
                 if (c.daku) clabel += " +゛";
                 if (c.handaku) clabel += " +゜";
                 html += '<div class="hs-row">' + clabel + ' (' + c.count + ') — <strong>' + formatTime(c.best) + '</strong> (' + c.avg.toFixed(1) + 's/' + t("challenge-per-char") + ')</div>';
@@ -523,6 +566,16 @@
         script = s;
         document.getElementById("btn-hiragana").className = "daily-script-btn" + (s === "h" ? " daily-script-btn--active" : "");
         document.getElementById("btn-katakana").className = "daily-script-btn" + (s === "k" ? " daily-script-btn--active" : "");
+        document.getElementById("btn-kanji").className = "daily-script-btn" + (s === "kanji" ? " daily-script-btn--active" : "");
+
+        // update placeholder
+        if (s === "kanji") {
+          inputEl.setAttribute("placeholder", t("kanji-placeholder-meaning"));
+          inputEl.setAttribute("data-i18n", "kanji-placeholder-meaning");
+        } else {
+          inputEl.setAttribute("placeholder", t("romanji-placeholder"));
+          inputEl.setAttribute("data-i18n", "romanji-placeholder");
+        }
 
         // re-render speedrun setup if visible
         if (document.getElementById("screen-setup").style.display !== "none") renderSetup();
@@ -530,6 +583,7 @@
 
       document.getElementById("btn-hiragana").addEventListener("click", function () { setScript("h"); });
       document.getElementById("btn-katakana").addEventListener("click", function () { setScript("k"); });
+      document.getElementById("btn-kanji").addEventListener("click", function () { setScript("kanji"); });
 
       // mode select
       document.querySelectorAll("[data-mode]").forEach(function (btn) {
@@ -539,7 +593,11 @@
             renderSetup();
             showScreen("setup");
           } else {
-            pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
+            if (script === "kanji") {
+              pool = buildAllKanji();
+            } else {
+              pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
+            }
             startGame();
           }
         });
@@ -549,22 +607,43 @@
       function renderSetup() {
         var container = document.getElementById("setup-subsets");
         container.innerHTML = "";
-        var keys = Object.keys(SUBSETS);
-        keys.forEach(function (key) {
-          var sub = SUBSETS[key];
-          var chars = sub[script === "k" ? "k" : "h"];
-          var preview = chars.join("");
-          var lbl = document.createElement("label");
-          lbl.className = "subset-row sr-subset-row";
-          lbl.innerHTML =
-            '<input type="checkbox" value="' + key + '"' + (lastSelectedSubsets.indexOf(key) !== -1 ? ' checked' : '') + '>' +
-            '<span class="subset-row__info">' +
-              '<span class="subset-row__name">' + t(sub.label) + '</span>' +
-              '<span class="subset-row__chars">' + preview + '</span>' +
-            '</span>' +
-            '<span class="subset-row__toggle"></span>';
-          container.appendChild(lbl);
-        });
+
+        if (script === "kanji") {
+          var kkeys = Object.keys(KANJI_SUBSETS);
+          kkeys.forEach(function (key) {
+            var sub = KANJI_SUBSETS[key];
+            var entries = KanjiData[key] || [];
+            var preview = entries.map(function (e) { return e.kanji; }).join("");
+            var lbl = document.createElement("label");
+            lbl.className = "subset-row sr-subset-row";
+            lbl.innerHTML =
+              '<input type="checkbox" value="' + key + '"' + (lastSelectedSubsets.indexOf(key) !== -1 ? ' checked' : '') + '>' +
+              '<span class="subset-row__info">' +
+                '<span class="subset-row__name">' + t(sub.label) + '</span>' +
+                '<span class="subset-row__chars">' + preview + '</span>' +
+              '</span>' +
+              '<span class="subset-row__toggle"></span>';
+            container.appendChild(lbl);
+          });
+        } else {
+          var keys = Object.keys(SUBSETS);
+          keys.forEach(function (key) {
+            var sub = SUBSETS[key];
+            var chars = sub[script === "k" ? "k" : "h"];
+            var preview = chars.join("");
+            var lbl = document.createElement("label");
+            lbl.className = "subset-row sr-subset-row";
+            lbl.innerHTML =
+              '<input type="checkbox" value="' + key + '"' + (lastSelectedSubsets.indexOf(key) !== -1 ? ' checked' : '') + '>' +
+              '<span class="subset-row__info">' +
+                '<span class="subset-row__name">' + t(sub.label) + '</span>' +
+                '<span class="subset-row__chars">' + preview + '</span>' +
+              '</span>' +
+              '<span class="subset-row__toggle"></span>';
+            container.appendChild(lbl);
+          });
+        }
+
         updateSetupCount();
         container.addEventListener("change", updateSetupCount);
       }
@@ -583,8 +662,13 @@
         var checked = document.querySelectorAll("#setup-subsets input:checked");
         var total = 0;
         checked.forEach(function (cb) {
-          var sub = SUBSETS[cb.value];
-          if (sub) total += sub[script === "k" ? "k" : "h"].length;
+          if (script === "kanji") {
+            var entries = KanjiData[cb.value];
+            if (entries) total += entries.length;
+          } else {
+            var sub = SUBSETS[cb.value];
+            if (sub) total += sub[script === "k" ? "k" : "h"].length;
+          }
         });
         document.getElementById("setup-count").textContent =
           total > 0 ? total + " " + t("challenge-chars-selected") : t("challenge-no-chars");
@@ -596,17 +680,23 @@
         lastSelectedSubsets = [];
         checked.forEach(function (cb) { lastSelectedSubsets.push(cb.value); });
         var chars = [];
-        var allData = script === "k" ? ALL_K : ALL_H;
-        checked.forEach(function (cb) {
-          var sub = SUBSETS[cb.value];
-          if (!sub) return;
-          var charList = sub[script === "k" ? "k" : "h"];
-          charList.forEach(function (c) {
-            var found = allData.find(function (x) { return x.c === c; });
-            if (found) chars.push(found);
+
+        if (script === "kanji") {
+          chars = buildKanjiPool(lastSelectedSubsets);
+        } else {
+          var allData = script === "k" ? ALL_K : ALL_H;
+          checked.forEach(function (cb) {
+            var sub = SUBSETS[cb.value];
+            if (!sub) return;
+            var charList = sub[script === "k" ? "k" : "h"];
+            charList.forEach(function (c) {
+              var found = allData.find(function (x) { return x.c === c; });
+              if (found) chars.push(found);
+            });
           });
-        });
-        chars = filterPool(chars);
+          chars = filterPool(chars);
+        }
+
         if (chars.length === 0) return;
         pool = chars;
         startGame();
@@ -871,7 +961,7 @@
 
       // Enter/Space fallback when auto-answer is off
       inputEl.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === "Enter" || (e.key === " " && script !== "kanji")) {
           e.preventDefault();
           checkAnswer();
         }
@@ -904,24 +994,30 @@
       // result buttons
       document.getElementById("btn-play-again").addEventListener("click", function () {
         if (mode === "speedrun") {
-          // restart same subsets
-          var chars = [];
-          var allData = script === "k" ? ALL_K : ALL_H;
-          lastSelectedSubsets.forEach(function (key) {
-            var sub = SUBSETS[key];
-            if (!sub) return;
-            var charList = sub[script === "k" ? "k" : "h"];
-            charList.forEach(function (c) {
-              var found = allData.find(function (x) { return x.c === c; });
-              if (found) chars.push(found);
+          if (script === "kanji") {
+            pool = buildKanjiPool(lastSelectedSubsets);
+          } else {
+            var chars = [];
+            var allData = script === "k" ? ALL_K : ALL_H;
+            lastSelectedSubsets.forEach(function (key) {
+              var sub = SUBSETS[key];
+              if (!sub) return;
+              var charList = sub[script === "k" ? "k" : "h"];
+              charList.forEach(function (c) {
+                var found = allData.find(function (x) { return x.c === c; });
+                if (found) chars.push(found);
+              });
             });
-          });
-          chars = filterPool(chars);
-          if (chars.length === 0) return;
-          pool = chars;
+            pool = filterPool(chars);
+          }
+          if (pool.length === 0) return;
           startGame();
         } else {
-          pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
+          if (script === "kanji") {
+            pool = buildAllKanji();
+          } else {
+            pool = filterPool((script === "k" ? ALL_K : ALL_H).slice());
+          }
           startGame();
         }
       });

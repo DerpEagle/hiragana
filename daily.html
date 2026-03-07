@@ -15,11 +15,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Japanese Challenge — Hiragana & Katakana</title>
-    <meta name="description" content="Take a daily challenge with 10 random hiragana or katakana characters. New challenge every day. Track your streak!">
-    <meta name="keywords" content="daily japanese challenge, hiragana daily, katakana daily, japanese quiz, learn japanese daily">
-    <meta property="og:title" content="Daily Japanese Challenge — Hiragana & Katakana">
-    <meta property="og:description" content="Take a daily challenge with 10 random hiragana or katakana characters. New challenge every day!">
+    <title>Daily Japanese Challenge — Hiragana, Katakana & Kanji</title>
+    <meta name="description" content="Take a daily challenge with 10 random hiragana, katakana or kanji characters. New challenge every day. Track your streak!">
+    <meta name="keywords" content="daily japanese challenge, hiragana daily, katakana daily, kanji daily, japanese quiz, learn japanese daily">
+    <meta property="og:title" content="Daily Japanese Challenge — Hiragana, Katakana & Kanji">
+    <meta property="og:description" content="Take a daily challenge with 10 random hiragana, katakana or kanji characters. New challenge every day!">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://derpeagle.github.io/hiragana/daily.html">
     <meta property="og:image" content="https://derpeagle.github.io/hiragana/icons/icon-512.png">
@@ -47,6 +47,44 @@
         <div class="daily-script-toggle">
           <button id="btn-hiragana" class="daily-script-btn daily-script-btn--active">Hiragana (あ)</button>
           <button id="btn-katakana" class="daily-script-btn">Katakana (ア)</button>
+          <button id="btn-kanji" class="daily-script-btn">Kanji (漢)</button>
+        </div>
+
+        <!-- Kanji category dropdown -->
+        <div id="kanji-categories" class="daily-kanji-dropdown" style="display:none">
+          <button type="button" id="kanji-cat-btn" class="daily-kanji-dropdown-btn" data-i18n="select-charset">Velg tegnsett</button>
+          <div id="kanji-cat-panel" class="daily-kanji-dropdown-panel">
+            <label class="subset-row">
+              <input type="checkbox" value="numbers" checked>
+              <span class="subset-row__name" data-i18n="kanji-numbers">Tall</span>
+              <span class="subset-row__toggle"></span>
+            </label>
+            <label class="subset-row">
+              <input type="checkbox" value="time" checked>
+              <span class="subset-row__name" data-i18n="kanji-time">Tid</span>
+              <span class="subset-row__toggle"></span>
+            </label>
+            <label class="subset-row">
+              <input type="checkbox" value="people" checked>
+              <span class="subset-row__name" data-i18n="kanji-people">Mennesker & ting</span>
+              <span class="subset-row__toggle"></span>
+            </label>
+            <label class="subset-row">
+              <input type="checkbox" value="nature" checked>
+              <span class="subset-row__name" data-i18n="kanji-nature">Natur & retning</span>
+              <span class="subset-row__toggle"></span>
+            </label>
+            <label class="subset-row">
+              <input type="checkbox" value="verbs" checked>
+              <span class="subset-row__name" data-i18n="kanji-verbs">Verb</span>
+              <span class="subset-row__toggle"></span>
+            </label>
+            <label class="subset-row">
+              <input type="checkbox" value="adjectives" checked>
+              <span class="subset-row__name" data-i18n="kanji-adjectives">Adjektiv</span>
+              <span class="subset-row__toggle"></span>
+            </label>
+          </div>
         </div>
 
         <p class="daily-subtitle" data-i18n="daily-subtitle">10 tilfeldige tegn — nye hvert døgn</p>
@@ -93,6 +131,7 @@
 
     <script src="lang.js"></script>
     <script src="streak.js"></script>
+    <script src="kanji-data.js"></script>
     <script>
       // date-seeded daily challenge, 10 chars per script
 
@@ -144,16 +183,52 @@
         };
       }
 
+      // build kanji pool from selected categories
+      function getKanjiPool() {
+        const cats = document.getElementById('kanji-categories');
+        const checked = [...cats.querySelectorAll('input:checked')].map(cb => cb.value);
+        if (checked.length === 0) return [];
+        const lang = getLang();
+        const pool = [];
+        checked.forEach(cat => {
+          if (!KanjiData[cat]) return;
+          KanjiData[cat].forEach(entry => {
+            const meanings = entry.meaning.map(m => m.toLowerCase());
+            if (entry.meaningNo) entry.meaningNo.forEach(m => meanings.push(m.toLowerCase()));
+            pool.push({ c: entry.kanji, r: meanings, _entry: entry });
+          });
+        });
+        return pool;
+      }
+
+      function getSelectedKanjiKey() {
+        const cats = document.getElementById('kanji-categories');
+        const checked = [...cats.querySelectorAll('input:checked')].map(cb => cb.value).sort();
+        return checked.join(',');
+      }
+
       function getDailyChars(script) {
         const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-        const seed = parseInt(today) + (script === 'k' ? 100000 : 0);
-        const rng = seededRandom(seed);
-        const pool = (script === 'k' ? ALL_K : ALL_H).slice();
-        for (let i = pool.length - 1; i > 0; i--) {
-          const j = Math.floor(rng() * (i + 1));
-          [pool[i], pool[j]] = [pool[j], pool[i]];
+        let pool;
+        let seed;
+        if (script === 'kanji') {
+          pool = getKanjiPool();
+          if (pool.length === 0) return [];
+          // seed includes category selection for stable daily chars
+          let catHash = 0;
+          getSelectedKanjiKey().split('').forEach(ch => catHash = ((catHash << 5) - catHash + ch.charCodeAt(0)) >>> 0);
+          seed = parseInt(today) + 200000 + catHash;
+        } else {
+          seed = parseInt(today) + (script === 'k' ? 100000 : 0);
+          pool = (script === 'k' ? ALL_K : ALL_H).slice();
         }
-        return pool.slice(0, 10);
+        const rng = seededRandom(seed);
+        const shuffled = pool.slice();
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(rng() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled.slice(0, 10);
       }
 
       // storage
@@ -276,13 +351,32 @@
 
       function loadScript(s) {
         script = s;
+        const kanjiCats = document.getElementById('kanji-categories');
+        kanjiCats.style.display = s === 'kanji' ? '' : 'none';
+
+        // update placeholder
+        if (s === 'kanji') {
+          answerInput.placeholder = t('kanji-placeholder-meaning');
+        } else {
+          answerInput.placeholder = t('romanji-placeholder');
+        }
+
         dailyChars = getDailyChars(s);
-        challengeData = loadChallenge(s);
+        challengeData = loadChallenge(s === 'kanji' ? 'kanji' : s);
 
         document.getElementById('btn-hiragana').className =
           'daily-script-btn' + (s === 'h' ? ' daily-script-btn--active' : '');
         document.getElementById('btn-katakana').className =
           'daily-script-btn' + (s === 'k' ? ' daily-script-btn--active' : '');
+        document.getElementById('btn-kanji').className =
+          'daily-script-btn' + (s === 'kanji' ? ' daily-script-btn--active' : '');
+
+        if (dailyChars.length === 0) {
+          chipRow.innerHTML = '';
+          trainingArea.style.display = 'none';
+          completeArea.style.display = 'none';
+          return;
+        }
 
         if (challengeData.done.length >= 10) {
           renderChips();
@@ -299,6 +393,27 @@
 
       document.getElementById('btn-hiragana').addEventListener('click', () => loadScript('h'));
       document.getElementById('btn-katakana').addEventListener('click', () => loadScript('k'));
+      document.getElementById('btn-kanji').addEventListener('click', () => loadScript('kanji'));
+
+      // kanji category dropdown toggle
+      const kanjiCatBtn = document.getElementById('kanji-cat-btn');
+      const kanjiCatPanel = document.getElementById('kanji-cat-panel');
+      kanjiCatBtn.addEventListener('click', () => {
+        kanjiCatPanel.classList.toggle('daily-kanji-dropdown-panel--open');
+        kanjiCatBtn.classList.toggle('daily-kanji-dropdown-btn--open');
+      });
+      // close dropdown on outside click
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.daily-kanji-dropdown')) {
+          kanjiCatPanel.classList.remove('daily-kanji-dropdown-panel--open');
+          kanjiCatBtn.classList.remove('daily-kanji-dropdown-btn--open');
+        }
+      });
+
+      // reload kanji challenge when categories change
+      document.getElementById('kanji-categories').addEventListener('change', () => {
+        if (script === 'kanji') loadScript('kanji');
+      });
 
       // Enter/Space fallback when auto-answer is off
       answerInput.addEventListener('keydown', (e) => {
@@ -324,7 +439,15 @@
       });
 
       document.getElementById('show-answer-btn').addEventListener('click', () => {
-        hintDisplay.textContent = `${t('answer-prefix')} ${currentChar.r[0]}`;
+        let answer = currentChar.r[0];
+        // for kanji, show language-appropriate meaning
+        if (script === 'kanji' && currentChar._entry) {
+          const lang = getLang();
+          const meanings = lang === 'no' && currentChar._entry.meaningNo
+            ? currentChar._entry.meaningNo : currentChar._entry.meaning;
+          answer = meanings.join(', ');
+        }
+        hintDisplay.textContent = `${t('answer-prefix')} ${answer}`;
         hintDisplay.className = 'hint';
         answerInput.value = '';
         answerInput.focus();

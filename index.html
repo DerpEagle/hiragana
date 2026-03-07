@@ -167,19 +167,15 @@
       </header>
 
       <main class="menu-grid">
-        <a href="hiragana.html" class="menu-card menu-card--hiragana">
-          <span class="menu-card__icon">あ</span>
-          <span class="menu-card__title" data-i18n="learn-hiragana"
-            >Lær Hiragana</span
-          >
+        <a href="kana.html" class="menu-card menu-card--kana">
+          <span class="menu-card__icon">あア</span>
+          <span class="menu-card__title" data-i18n="learn-kana">Lær Kana</span>
           <span class="menu-card__arrow">→</span>
         </a>
 
-        <a href="katakana.html" class="menu-card menu-card--katakana">
-          <span class="menu-card__icon">ア</span>
-          <span class="menu-card__title" data-i18n="learn-katakana"
-            >Lær Katakana</span
-          >
+        <a href="kanji.html" class="menu-card menu-card--kanji">
+          <span class="menu-card__icon">漢</span>
+          <span class="menu-card__title" data-i18n="learn-kanji">Lær Kanji</span>
           <span class="menu-card__arrow">→</span>
         </a>
 
@@ -449,8 +445,10 @@
         const today = new Date().toISOString().slice(0, 10);
         const dh = JSON.parse(localStorage.getItem("daily-challenge-h") || "null");
         const dk = JSON.parse(localStorage.getItem("daily-challenge-k") || "null");
+        const dkanji = JSON.parse(localStorage.getItem("daily-challenge-kanji") || "null");
         const done = (dh && dh.date === today && dh.done.length >= 10) ||
-                     (dk && dk.date === today && dk.done.length >= 10);
+                     (dk && dk.date === today && dk.done.length >= 10) ||
+                     (dkanji && dkanji.date === today && dkanji.done.length >= 10);
         if (done) document.getElementById("daily-check").style.display = "";
       });
     </script>

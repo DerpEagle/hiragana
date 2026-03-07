@@ -5,11 +5,19 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://derpeagle.github.io/hiragana/kana.html</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://derpeagle.github.io/hiragana/hiragana.html</loc>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://derpeagle.github.io/hiragana/katakana.html</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://derpeagle.github.io/hiragana/kanji.html</loc>
     <priority>0.9</priority>
   </url>
   <url>
@@ -27,6 +35,10 @@
   <url>
     <loc>https://derpeagle.github.io/hiragana/progresjon.html</loc>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://derpeagle.github.io/hiragana/challenge.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://derpeagle.github.io/hiragana/howto.html</loc>

@@ -1,7 +1,7 @@
 {
   "name": "Japansk Læring",
   "short_name": "日本語",
-  "description": "Lær hiragana, katakana, ord og tall på japansk",
+  "description": "Lær hiragana, katakana, kanji, ord og tall på japansk",
   "start_url": "/hiragana/",
   "scope": "/hiragana/",
   "display": "standalone",

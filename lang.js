@@ -50,6 +50,19 @@ const LANG = {
     "katakana-title": "Katakana",
     "mastered-katakana": "Mestrede katakanas",
 
+    // Kanji page
+    "kanji-title": "Kanji",
+    "kanji-numbers": "Tall",
+    "kanji-time": "Tid",
+    "kanji-people": "Mennesker & ting",
+    "kanji-nature": "Natur & retning",
+    "kanji-verbs": "Verb",
+    "kanji-adjectives": "Adjektiv",
+    "kanji-mode-meaning": "Betydning",
+    "kanji-mode-reading": "Lesing",
+    "kanji-placeholder-meaning": "Skriv oversettelsen...",
+    "kanji-placeholder-reading": "Skriv uttale (romaji)...",
+
     // Ord page
     "ord-title": "Ord",
     "char-count-label": "Antall tegn:",
@@ -96,8 +109,11 @@ const LANG = {
     "menu-subtitle": "Lær japansk",
     "footer-sub": "Laget for å gjøre det gøy og enkelt å lære japansk - for alle!",
     "footer-rights": "Alle rettigheter forbeholdt.",
+    "learn-kana": "Lær Kana",
     "learn-hiragana": "Lær Hiragana",
     "learn-katakana": "Lær Katakana",
+    "learn-kanji": "Lær Kanji",
+    "kana-title": "Kana",
     "learn-words": "Lær Ord",
     "learn-numbers": "Lær Tall",
     "my-progress": "Min Progresjon",
@@ -239,6 +255,19 @@ const LANG = {
     "katakana-title": "Katakana",
     "mastered-katakana": "Mastered katakana",
 
+    // Kanji page
+    "kanji-title": "Kanji",
+    "kanji-numbers": "Numbers",
+    "kanji-time": "Time",
+    "kanji-people": "People & things",
+    "kanji-nature": "Nature & directions",
+    "kanji-verbs": "Verbs",
+    "kanji-adjectives": "Adjectives",
+    "kanji-mode-meaning": "Meaning",
+    "kanji-mode-reading": "Reading",
+    "kanji-placeholder-meaning": "Type the meaning...",
+    "kanji-placeholder-reading": "Type the reading (romaji)...",
+
     // Ord page
     "ord-title": "Words",
     "char-count-label": "Characters:",
@@ -285,8 +314,11 @@ const LANG = {
     "menu-subtitle": "Learn Japanese",
     "footer-sub": "Created to make learning Japanese fun and easy for everyone!",
     "footer-rights": "All rights reserved.",
+    "learn-kana": "Learn Kana",
     "learn-hiragana": "Learn Hiragana",
     "learn-katakana": "Learn Katakana",
+    "learn-kanji": "Learn Kanji",
+    "kana-title": "Kana",
     "learn-words": "Learn Words",
     "learn-numbers": "Learn Numbers",
     "my-progress": "My Progress",

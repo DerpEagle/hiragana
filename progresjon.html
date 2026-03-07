@@ -52,6 +52,7 @@
     <script>
       const HIRAGANA_KEY = "hiragana-trainer-progress";
       const KATAKANA_KEY = "katakana-trainer-progress";
+      const KANJI_KEY = "kanji-trainer-progress";
 
       // using i18n keys for labels
       const HIRAGANA_SUBSETS = [
@@ -140,6 +141,15 @@
         { key: "small-kana-row", chars: ["キャ", "キュ", "キョ", "シャ", "シュ", "ショ", "チャ", "チュ", "チョ", "ニャ", "ニュ", "ニョ", "ヒャ", "ヒュ", "ヒョ", "ミャ", "ミュ", "ミョ", "リャ", "リュ", "リョ"] },
       ];
 
+      const KANJI_SUBSETS = [
+        { key: "kanji-numbers", chars: ["一","二","三","四","五","六","七","八","九","十","百","千","万","億"] },
+        { key: "kanji-time", chars: ["日","週","月","年","時","間","分","午","前","後","今","先","来","毎"] },
+        { key: "kanji-people", chars: ["人","男","女","子","母","父","友","本","気","生","車","語","耳","手","足","目","口","店","駅","道","国","学","校","名","円","半","全","何"] },
+        { key: "kanji-nature", chars: ["火","水","木","金","土","海","川","山","花","天","空","晴","雨","雪","雲","風","電","外","内","上","下","右","左","中","北","西","東","南"] },
+        { key: "kanji-verbs", chars: ["見","聞","書","言","話","読","行","買","出","入","食","飲","休","会"] },
+        { key: "kanji-adjectives", chars: ["多","少","古","新","大","小","長","短","遠","近","白","黒","高","安"] },
+      ];
+
       // character → romanji lookup
       const ROMANJI_MAP = {
         // hiragana vowels
@@ -212,6 +222,23 @@
         "ヒャ":"hya","ヒュ":"hyu","ヒョ":"hyo",
         "ミャ":"mya","ミュ":"myu","ミョ":"myo",
         "リャ":"rya","リュ":"ryu","リョ":"ryo",
+        // kanji
+        "一":"ichi","二":"ni","三":"san","四":"shi","五":"go","六":"roku","七":"shichi",
+        "八":"hachi","九":"kyuu","十":"juu","百":"hyaku","千":"sen","万":"man","億":"oku",
+        "日":"nichi","週":"shuu","月":"getsu","年":"nen","時":"ji","間":"kan","分":"bun",
+        "午":"go","前":"zen","後":"go","今":"kon","先":"sen","来":"rai","毎":"mai",
+        "人":"jin","男":"dan","女":"jo","子":"shi","母":"bo","父":"fu","友":"yuu",
+        "本":"hon","気":"ki","生":"sei","車":"sha","語":"go","耳":"ji","手":"shu",
+        "足":"soku","目":"moku","口":"kou","店":"ten","駅":"eki","道":"dou","国":"koku",
+        "学":"gaku","校":"kou","名":"mei","円":"en","半":"han","全":"zen","何":"ka",
+        "火":"ka","水":"sui","木":"moku","金":"kin","土":"do","海":"kai","川":"sen",
+        "山":"san","花":"ka","天":"ten","空":"kuu","晴":"sei","雨":"u","雪":"setsu",
+        "雲":"un","風":"fuu","電":"den","外":"gai","内":"nai","上":"jou","下":"ka",
+        "右":"yuu","左":"sa","中":"chuu","北":"hoku","西":"sei","東":"tou","南":"nan",
+        "見":"ken","聞":"mon","書":"sho","言":"gen","話":"wa","読":"doku","行":"kou",
+        "買":"bai","出":"shutsu","入":"nyuu","食":"shoku","飲":"in","休":"kyuu","会":"kai",
+        "多":"ta","少":"shou","古":"ko","新":"shin","大":"dai","小":"shou","長":"chou",
+        "短":"tan","遠":"en","近":"kin","白":"haku","黒":"koku","高":"kou","安":"an",
       };
 
       function renderSubsets(subsets, data, container) {
@@ -321,9 +348,9 @@
         return summary;
       }
 
-      function makeNeedsPracticeSection(hData, kData) {
+      function makeNeedsPracticeSection(hData, kData, kanjiData) {
         const candidates = [];
-        [...Object.entries(hData), ...Object.entries(kData)].forEach(([ch, d]) => {
+        [...Object.entries(hData), ...Object.entries(kData), ...Object.entries(kanjiData)].forEach(([ch, d]) => {
           if (!d || d.incorrectCount === 0) return;
           const correct = d.correctCount || 0;
           const incorrect = d.incorrectCount || 0;
@@ -380,6 +407,7 @@
       function renderProgress() {
         const hData = JSON.parse(localStorage.getItem(HIRAGANA_KEY) || "{}");
         const kData = JSON.parse(localStorage.getItem(KATAKANA_KEY) || "{}");
+        const kanjiData = JSON.parse(localStorage.getItem(KANJI_KEY) || "{}");
 
         const container = document.getElementById("progress-content");
         container.innerHTML = "";
@@ -401,7 +429,7 @@
         container.appendChild(streakSection);
 
         // ── Needs practice section ──
-        container.appendChild(makeNeedsPracticeSection(hData, kData));
+        container.appendChild(makeNeedsPracticeSection(hData, kData, kanjiData));
 
         // ── Hiragana section ──
         const hGroup = document.createElement("div");
@@ -455,6 +483,33 @@
         `;
         kGroup.appendChild(kLegend);
         container.appendChild(kGroup);
+
+        // Kanji section
+        const kanjiGroup = document.createElement("div");
+        kanjiGroup.style.marginTop = "2rem";
+
+        const kanjiTitle = document.createElement("h2");
+        kanjiTitle.className = "prog-group-title";
+        kanjiTitle.textContent = "Kanji";
+        kanjiGroup.appendChild(kanjiTitle);
+
+        const { totalMastered: kanjiMastered, totalChars: kanjiTotal } = renderSubsets(
+          KANJI_SUBSETS,
+          kanjiData,
+          kanjiGroup,
+        );
+
+        kanjiGroup.insertBefore(makeSummary(kanjiMastered, kanjiTotal), kanjiTitle.nextSibling);
+
+        const kanjiLegend = document.createElement("div");
+        kanjiLegend.className = "prog-legend";
+        kanjiLegend.innerHTML = `
+          <span class="prog-legend__item"><span class="prog-chip prog-chip--mastered">漢</span>${t("legend-mastered")}</span>
+          <span class="prog-legend__item"><span class="prog-chip">漢</span>${t("legend-seen")}</span>
+          <span class="prog-legend__item"><span class="prog-chip prog-chip--unseen">漢</span>${t("legend-unseen")}</span>
+        `;
+        kanjiGroup.appendChild(kanjiLegend);
+        container.appendChild(kanjiGroup);
       }
 
       // dismiss tooltip on tap outside a chip (mobile)
