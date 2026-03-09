@@ -1124,6 +1124,7 @@ button:active {
 }
 .dict-list {
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
   scrollbar-width: none;
 }
@@ -1146,6 +1147,14 @@ button:active {
   padding: 0.35rem 0;
   font-size: 0.92rem;
   border-bottom: 1px solid var(--border-subtle-soft);
+  overflow: hidden;
+}
+.dict-word-jp,
+.dict-word-rom,
+.dict-word-tr {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .dict-speak-btn {
   background: none;
@@ -1892,6 +1901,13 @@ button.menu-card {
   }
   .hiragana {
     font-size: clamp(3.5rem, 16vw, 6rem);
+  }
+  .dict-word {
+    grid-template-columns: auto auto 1fr;
+  }
+  .dict-word-tr {
+    grid-column: 2 / -1;
+    text-align: left;
   }
   button {
     padding: 8px 14px;
