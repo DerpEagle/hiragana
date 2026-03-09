@@ -76,6 +76,8 @@ Accessible from the gear icon on the home screen:
 | **Auto-answer** | Automatically submit when your input matches exactly |
 | **Dakuten default** | Include dakuten characters (゛) by default in trainers |
 | **Handakuten default** | Include handakuten characters (゜) by default in trainers |
+| **Font** | Choose between Oshidashi, Gothic, Mincho, Rounded, or Textbook (Klee One) |
+| **Hide progress** | Hide mastery colours and streak dots during training |
 | **Hint threshold** | Show a hint after 1, 2, 3, or 5 wrong attempts — or never |
 | **Export / Import** | Back up all progress as JSON, or restore from a previous backup |
 | **Reset highscores** | Clear challenge records (requires typed confirmation) |
