@@ -1122,6 +1122,25 @@ button:active {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+.dict-search {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border-accent-soft);
+  border-radius: 0.5rem;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 0.95rem;
+  outline: none;
+  box-sizing: border-box;
+}
+.dict-search:focus {
+  border-color: var(--accent);
+}
+.dict-search::placeholder {
+  color: var(--fg);
+  opacity: 0.4;
+}
 .dict-list {
   overflow-y: auto;
   overflow-x: hidden;

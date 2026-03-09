@@ -69,6 +69,8 @@ const LANG = {
     "hide-chars": "Skjul tegn",
     "dictionary": "Ordbok",
     "dict-chars": "tegn",
+    "dict-search-placeholder": "Søk etter ord...",
+    "dict-no-results": "Ingen treff",
 
     // Tall page
     "tall-title": "Tall",
@@ -286,6 +288,8 @@ const LANG = {
     "hide-chars": "Hide characters",
     "dictionary": "Dictionary",
     "dict-chars": "chars",
+    "dict-search-placeholder": "Search for a word...",
+    "dict-no-results": "No results",
 
     // Tall page
     "tall-title": "Numbers",
