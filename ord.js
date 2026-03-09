@@ -508,7 +508,7 @@ function nextWord() {
   charDisplay.textContent = word;
   transDisplay.textContent = getWordTranslation(entry.translation);
   answerInput.value = "";
-  answerInput.focus();
+  if (!("ontouchstart" in window)) answerInput.focus();
   hintDisplay.classList.add("hidden");
   incorrectAttempts = 0;
   updateProgress();
