@@ -217,6 +217,17 @@ const LANG = {
     "setting-theme-system": "System",
     "setting-theme-light": "Lys",
     "setting-theme-dark": "Mørk",
+
+    // Hide progress
+    "setting-hide-progress": "Skjul progresjon under trening",
+
+    // Font
+    "setting-font-label": "Skrifttype",
+    "setting-font-default": "Oshidashi",
+    "setting-font-gothic": "Gotisk",
+    "setting-font-serif": "Mincho",
+    "setting-font-rounded": "Avrundet",
+    "setting-font-textbook": "Lærebok",
   },
   en: {
     // Navigation
@@ -423,6 +434,17 @@ const LANG = {
     "setting-theme-system": "System",
     "setting-theme-light": "Light",
     "setting-theme-dark": "Dark",
+
+    // Hide progress
+    "setting-hide-progress": "Hide progress during training",
+
+    // Font
+    "setting-font-label": "Font",
+    "setting-font-default": "Oshidashi",
+    "setting-font-gothic": "Gothic",
+    "setting-font-serif": "Mincho",
+    "setting-font-rounded": "Rounded",
+    "setting-font-textbook": "Textbook",
   },
 };
 
@@ -456,6 +478,12 @@ function applyLang() {
       el.textContent = val;
     }
   });
+  // sort select options alphabetically by translated text
+  document.querySelectorAll("select.settings-select").forEach((sel) => {
+    var opts = Array.from(sel.options);
+    opts.sort((a, b) => a.textContent.localeCompare(b.textContent, getLang()));
+    opts.forEach((o) => sel.appendChild(o));
+  });
   document.querySelectorAll("[data-i18n-title]").forEach((el) => {
     const key = el.dataset.i18nTitle;
     const val = t(key);
@@ -464,7 +492,21 @@ function applyLang() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", applyLang);
+// apply user preferences (font + hide-progress) to body classes
+function applyPrefs() {
+  var b = document.body;
+  // font
+  b.classList.remove("kana-font-gothic", "kana-font-serif", "kana-font-rounded", "kana-font-textbook");
+  var font = localStorage.getItem("kana-font") || "default";
+  if (font !== "default") b.classList.add("kana-font-" + font);
+  // hide progress
+  b.classList.toggle("hide-progress", localStorage.getItem("hide-progress") === "true");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  applyLang();
+  applyPrefs();
+});
 
 // Escape — capture phase on window so nothing can block it
 window.addEventListener("keydown", function (e) {

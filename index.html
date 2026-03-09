@@ -55,7 +55,7 @@
           <div class="challenge-help-content settings-overlay-content">
             <button class="challenge-help-close" id="btn-settings-close">&times;</button>
 
-            <!-- Group 0: Theme -->
+            <!-- Group 0: Theme + appearance -->
             <div class="settings-group">
               <p class="settings-group-title" data-i18n="settings-theme">Utseende</p>
               <div class="challenge-help-mode">
@@ -68,6 +68,18 @@
                   </select>
                 </div>
               </div>
+              <div class="challenge-help-mode">
+                <div class="settings-select-row">
+                  <span class="challenge-setting-label" data-i18n="setting-font-label">Skrifttype</span>
+                  <select id="setting-font" class="settings-select">
+                    <option value="rounded" data-i18n="setting-font-rounded">Avrundet</option>
+                    <option value="gothic" data-i18n="setting-font-gothic">Gotisk</option>
+                    <option value="textbook" data-i18n="setting-font-textbook">Lærebok</option>
+                    <option value="serif" data-i18n="setting-font-serif">Mincho</option>
+                    <option value="default" data-i18n="setting-font-default">Oshidashi</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
             <!-- Group 1: Training settings -->
@@ -77,6 +89,14 @@
                 <label class="challenge-setting-row">
                   <input type="checkbox" id="setting-auto-answer">
                   <span class="challenge-setting-label" data-i18n="auto-answer">Auto-svar</span>
+                  <span class="challenge-setting-preview"></span>
+                  <span class="subset-row__toggle"></span>
+                </label>
+              </div>
+              <div class="challenge-help-mode">
+                <label class="challenge-setting-row">
+                  <input type="checkbox" id="setting-hide-progress">
+                  <span class="challenge-setting-label" data-i18n="setting-hide-progress">Skjul progresjon under trening</span>
                   <span class="challenge-setting-preview"></span>
                   <span class="subset-row__toggle"></span>
                 </label>
@@ -294,6 +314,22 @@
         setTheme(themeSelect.value);
       });
 
+      // hide progress toggle
+      var hideProgressCb = document.getElementById("setting-hide-progress");
+      hideProgressCb.checked = localStorage.getItem("hide-progress") === "true";
+      hideProgressCb.addEventListener("change", function () {
+        localStorage.setItem("hide-progress", hideProgressCb.checked);
+        applyPrefs();
+      });
+
+      // font selector
+      var fontSelect = document.getElementById("setting-font");
+      fontSelect.value = localStorage.getItem("kana-font") || "default";
+      fontSelect.addEventListener("change", function () {
+        localStorage.setItem("kana-font", fontSelect.value);
+        applyPrefs();
+      });
+
       // hint threshold dropdown
       var hintSelect = document.getElementById("setting-hint-threshold");
       var savedHint = localStorage.getItem("hint-threshold") || "3";
@@ -434,6 +470,12 @@
       });
       settingsOverlay.addEventListener("click", function (e) {
         if (e.target === settingsOverlay) settingsOverlay.classList.add("hidden");
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !settingsOverlay.classList.contains("hidden")) {
+          settingsOverlay.classList.add("hidden");
+          e.stopImmediatePropagation();
+        }
       });
 
       document.addEventListener("DOMContentLoaded", () => {

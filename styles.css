@@ -11,6 +11,8 @@
  *  Glenn's Japanese Trainer
  */
 
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap");
+
 .hidden { display: none !important; }
 
 /* theme variables */
@@ -132,6 +134,18 @@
     url("fonts/Oshidashi-M-Gothic.otf") format("opentype"),
     url("fonts/TrueType/Oshidashi-M-Gothic-TT.ttf") format("truetype");
   font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Klee One";
+  src: url("fonts/KleeOne-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Klee One";
+  src: url("fonts/KleeOne-SemiBold.ttf") format("truetype");
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -587,6 +601,50 @@ section {
 
 .streak-display--mastered {
   color: var(--color-success);
+}
+
+/* font variants — applied via body class */
+body.kana-font-gothic .hiragana,
+body.kana-font-gothic .dict-word-jp,
+body.kana-font-gothic .prog-chip,
+body.kana-font-gothic .daily-chips,
+body.kana-font-gothic .subset-row__chars {
+  font-family: "Noto Sans JP", sans-serif;
+}
+body.kana-font-serif .hiragana,
+body.kana-font-serif .dict-word-jp,
+body.kana-font-serif .prog-chip,
+body.kana-font-serif .daily-chips,
+body.kana-font-serif .subset-row__chars {
+  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho Pro", serif;
+}
+body.kana-font-rounded .hiragana,
+body.kana-font-rounded .dict-word-jp,
+body.kana-font-rounded .prog-chip,
+body.kana-font-rounded .daily-chips,
+body.kana-font-rounded .subset-row__chars {
+  font-family: "Zen Maru Gothic", "Rounded Mplus 1c", sans-serif;
+}
+body.kana-font-textbook .hiragana,
+body.kana-font-textbook .dict-word-jp,
+body.kana-font-textbook .prog-chip,
+body.kana-font-textbook .daily-chips,
+body.kana-font-textbook .subset-row__chars {
+  font-family: "Klee One", serif;
+}
+
+
+/* hide progress mode — hides mastery colors + streak dots */
+body.hide-progress .hiragana.char-correct {
+  color: var(--accent);
+  animation: glow 2s ease-in-out infinite alternate;
+  text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.13);
+}
+body.hide-progress .streak-display {
+  visibility: hidden;
+}
+body.hide-progress .subset-row__chars .char-mastered {
+  color: inherit;
 }
 
 .translation-always {

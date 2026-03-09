@@ -11,7 +11,7 @@
  *  Glenn's Japanese Trainer
  */
 
-const CACHE = "japansk-v23";
+const CACHE = "japansk-v25";
 const ASSETS = [
   "/hiragana/",
   "/hiragana/index.html",
@@ -41,6 +41,8 @@ const ASSETS = [
   "/hiragana/icons/icon-512.png",
   "/hiragana/fonts/Oshidashi-M-Gothic.otf",
   "/hiragana/fonts/TrueType/Oshidashi-M-Gothic-TT.ttf",
+  "/hiragana/fonts/KleeOne-Regular.ttf",
+  "/hiragana/fonts/KleeOne-SemiBold.ttf",
 ];
 
 self.addEventListener("install", (e) => {
