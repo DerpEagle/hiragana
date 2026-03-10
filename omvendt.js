@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const val = answerInput.value.trim();
     if (!val) return;
 
-    const isCorrect = val === current.kana;
+    const isCorrect = val.normalize("NFC") === current.kana.normalize("NFC");
     DifficultyTracker.record(current.kana, isCorrect);
     if (isCorrect) {
       correct++;
@@ -177,26 +177,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // track IME composition so auto-answer doesn't fire mid-compose
-  let composing = false;
-  answerInput.addEventListener("compositionstart", () => { composing = true; });
-  answerInput.addEventListener("compositionend", () => {
-    composing = false;
-    // delay check — some browsers update value after compositionend
-    setTimeout(() => {
-      if (!current) return;
-      const val = answerInput.value.trim();
-      if (val && val === current.kana) handleAnswer();
-    }, 0);
-  });
-
-  // auto-answer for kana input (desktop / non-IME)
-  answerInput.addEventListener("input", () => {
-    if (composing) return;
+  // auto-answer — check on input + compositionend for mobile IME
+  function checkAutoAnswer() {
     if (!current) return;
     const val = answerInput.value.trim();
     if (!val) return;
-    if (val === current.kana) handleAnswer();
+    if (val.normalize("NFC") === current.kana.normalize("NFC")) handleAnswer();
+  }
+  answerInput.addEventListener("input", checkAutoAnswer);
+  answerInput.addEventListener("compositionend", () => {
+    setTimeout(checkAutoAnswer, 0);
   });
 
   // escape to go back
