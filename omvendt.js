@@ -115,21 +115,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const val = answerInput.value.trim();
     if (!val) return;
 
-    const isCorrect = val.normalize("NFC") === current.kana.normalize("NFC");
+    const isCorrect = val === current.kana;
     DifficultyTracker.record(current.kana, isCorrect);
     if (isCorrect) {
       correct++;
       roundProgress.textContent = correct;
-      answerInput.classList.add("flash-correct");
       if (typeof StreakManager !== "undefined") StreakManager.recordActivity();
       MilestoneTracker.recordStart();
       MilestoneTracker.checkStreak();
       MilestoneTracker.checkAnswerCount();
       speakJapanese(current.kana);
-      setTimeout(() => {
-        answerInput.classList.remove("flash-correct");
-        nextItem();
-      }, 500);
+      nextItem();
     } else {
       answerInput.classList.add("flash-incorrect");
       setTimeout(() => answerInput.classList.remove("flash-incorrect"), 400);
@@ -176,17 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
       handleAnswer();
     }
   });
-
-  // auto-answer — check on input + compositionend for mobile IME
-  function checkAutoAnswer() {
-    if (!current) return;
-    const val = answerInput.value.trim();
-    if (!val) return;
-    if (val.normalize("NFC") === current.kana.normalize("NFC")) handleAnswer();
-  }
-  answerInput.addEventListener("input", checkAutoAnswer);
+  // mobile IME: first Enter ends composition, second fires keypress
+  // check answer after composition ends so one Enter is enough
   answerInput.addEventListener("compositionend", () => {
-    setTimeout(checkAutoAnswer, 0);
+    setTimeout(handleAnswer, 0);
   });
 
   // escape to go back
