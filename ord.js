@@ -1932,6 +1932,9 @@ const KatakanaWordDictionary = {
   セメント: { romanji: "semento", translation: "cement" },
 };
 
+// only run word trainer logic on ord.html
+if (document.getElementById("char-count")) {
+
 // state
 let characterCount = 2;
 let scriptMode = "hiragana"; // 'hiragana' | 'katakana' | 'both'
@@ -1994,11 +1997,11 @@ function nextWord() {
   }
 
   if (wordQueueIndex >= wordQueue.length) {
-    wordQueue.sort(() => Math.random() - 0.5);
     wordQueueIndex = 0;
   }
 
-  const word = wordQueue[wordQueueIndex++];
+  // weighted pick: harder words appear more often
+  const word = DifficultyTracker.weightedPick(wordQueue, (w) => w);
   const entry = currentDict[word];
   currentWord = {
     word,
@@ -2021,8 +2024,12 @@ function handleAnswer(input) {
   const isCorrect =
     input.trim().toLowerCase() === currentWord.romanji.toLowerCase();
 
+  DifficultyTracker.record(currentWord.word, isCorrect);
   if (isCorrect) {
     if (typeof StreakManager !== "undefined") StreakManager.recordActivity();
+    MilestoneTracker.recordStart();
+    MilestoneTracker.checkStreak();
+    MilestoneTracker.checkAnswerCount();
     answerInput.classList.add("flash-correct");
     setTimeout(() => {
       answerInput.classList.remove("flash-correct");
@@ -2072,7 +2079,6 @@ function renderDictionary(filter, exact) {
     if (q) {
       const rom = data.romanji.toLowerCase();
       const trWords = data.translation.toLowerCase().split(/[\s\/(),]+/).filter(Boolean);
-      // also check if query starts with a translation word (e.g. "solen" matches "sol")
       const stemMatch = trWords.some((w) => w.length >= 3 && q.startsWith(w));
       let match;
       if (exact) {
@@ -2224,3 +2230,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+} // end ord.html guard

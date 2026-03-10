@@ -7,7 +7,7 @@
     | |__| | |___| |___| |\  | |\  |
      \_____|_____|_____|_| \_|_| \_|
 
-    ord.html — Word trainer
+    setninger.html — Sentence/grammar trainer
     Glenn's Japanese Trainer
 -->
 <!doctype html>
@@ -15,13 +15,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Japanese Word Trainer — Learn Common Words</title>
-    <meta name="description" content="Practice common Japanese words with romaji input. Build vocabulary alongside hiragana and katakana skills.">
-    <meta name="keywords" content="japanese words, learn japanese vocabulary, japanese word practice, japanske ord, lær japansk">
-    <meta property="og:title" content="Japanese Word Trainer — Learn Common Words">
-    <meta property="og:description" content="Practice common Japanese words with romaji input. Build vocabulary alongside hiragana and katakana.">
+    <title>Japanese Sentence Trainer — Learn Grammar</title>
+    <meta name="description" content="Practice Japanese sentences and grammar patterns. Learn particles, verb forms and sentence structure.">
+    <meta name="keywords" content="japanese sentences, japanese grammar, learn japanese grammar, japanske setninger, lær japansk grammatikk">
+    <meta property="og:title" content="Japanese Sentence Trainer — Learn Grammar">
+    <meta property="og:description" content="Practice Japanese sentences and grammar with romaji input.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://derpeagle.github.io/hiragana/ord.html">
+    <meta property="og:url" content="https://derpeagle.github.io/hiragana/setninger.html">
     <meta property="og:image" content="https://derpeagle.github.io/hiragana/icons/icon-512.png">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -39,55 +39,25 @@
     <div class="container">
       <header>
         <a href="index.html" class="back-link" data-i18n="back">←</a>
-        <h1 data-i18n="ord-title">Øv på ord</h1>
+        <h1 data-i18n="setninger-title">Setninger</h1>
       </header>
 
       <main>
         <section class="mode-section">
           <div class="mode-row">
-            <span class="mode-label" data-i18n="char-count-label"
-              >Antall tegn:</span
-            >
-            <select id="char-count"></select>
-            <span class="range-count" id="word-count"></span>
-          </div>
-          <div class="script-toggle">
-            <button
-              class="script-btn script-btn--active"
-              data-script="hiragana"
-              data-i18n-title="tooltip-hiragana"
-            >
-              あ
-            </button>
-            <button
-              class="script-btn"
-              data-script="katakana"
-              data-i18n-title="tooltip-katakana"
-            >
-              ア
-            </button>
-            <button
-              class="script-btn"
-              data-script="both"
-              data-i18n-title="tooltip-both"
-            >
-              あア
-            </button>
-            <button
-              id="dict-btn"
-              class="script-btn"
-              data-i18n="dictionary"
-            >
-              Ordbok
-            </button>
+            <span class="mode-label" data-i18n="level-label">Nivå:</span>
+            <select id="level-select"></select>
+            <span class="range-count" id="sentence-count"></span>
           </div>
         </section>
 
         <section class="training-area">
           <div class="character-display">
-            <div id="hiragana-character" class="hiragana">—</div>
-            <button id="speak-btn" class="speak-btn" title="Hør uttale"><svg class="speak-icon" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M19 5a9 9 0 010 14"/></svg></button>
-            <div id="translation-display" class="translation-always"></div>
+            <div id="hiragana-character" class="hiragana sentence-display">—</div>
+            <div class="translation-row">
+              <div id="translation-display" class="translation-always"></div>
+              <button id="speak-btn" class="speak-btn speak-btn--inline" title="Hør uttale"><svg class="speak-icon" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M19 5a9 9 0 010 14"/></svg></button>
+            </div>
           </div>
 
           <div class="input-area">
@@ -125,24 +95,13 @@
             </p>
           </div>
         </section>
-        <div id="dict-overlay" class="dict-overlay hidden">
-          <div class="dict-content">
-            <div class="dict-header">
-              <span class="dict-title" data-i18n="dictionary">Ordbok</span>
-              <button id="dict-close-btn" class="subset-close-btn" title="Lukk">✕</button>
-            </div>
-            <input type="text" id="dict-search" class="dict-search" data-i18n="dict-search-placeholder" placeholder="Søk etter ord..." autocomplete="off" />
-            <div id="dict-list" class="dict-list"></div>
-          </div>
-        </div>
       </main>
     </div>
 
     <script src="lang.js"></script>
     <script src="streak.js"></script>
     <script src="speak.js"></script>
-    <script src="trainer-core.js"></script>
-    <script src="ord.js"></script>
+    <script src="setninger.js"></script>
     <script>
       if ('serviceWorker' in navigator)
         navigator.serviceWorker.register('./sw.js');

@@ -49,6 +49,7 @@
 
     <script src="lang.js"></script>
     <script src="streak.js"></script>
+    <script src="trainer-core.js"></script>
     <script>
       const HIRAGANA_KEY = "hiragana-trainer-progress";
       const KATAKANA_KEY = "katakana-trainer-progress";
@@ -510,6 +511,79 @@
         `;
         kanjiGroup.appendChild(kanjiLegend);
         container.appendChild(kanjiGroup);
+
+        // achievements section
+        container.appendChild(makeAchievementsSection());
+      }
+
+      function makeAchievementsSection() {
+        const section = document.createElement("div");
+        section.style.marginTop = "2rem";
+
+        const title = document.createElement("h2");
+        title.className = "prog-group-title";
+        title.textContent = t("achievements-title") || "Milepæler";
+        section.appendChild(title);
+
+        const milestones = MilestoneTracker.getAllMilestones();
+        const achieved = milestones.filter((m) => m.achieved);
+        const locked = milestones.filter((m) => !m.achieved);
+
+        const countInfo = document.createElement("div");
+        countInfo.className = "prog-summary";
+        const pct = milestones.length > 0 ? Math.round((achieved.length / milestones.length) * 100) : 0;
+        countInfo.innerHTML =
+          '<span class="prog-summary-text">' + (t("achievements-unlocked") || "Oppnådd") + '</span>' +
+          '<span class="prog-summary-count">' + achieved.length + ' / ' + milestones.length + '</span>' +
+          '<div class="prog-bar-bg"><div class="prog-bar-fill" style="width:' + pct + '%"></div></div>' +
+          '<span class="prog-summary-pct">' + pct + '%</span>';
+        section.appendChild(countInfo);
+
+        const grid = document.createElement("div");
+        grid.className = "achievement-grid";
+
+        // achieved first, then locked
+        achieved.sort((a, b) => (b.achieved.time || 0) - (a.achieved.time || 0));
+        achieved.forEach((m) => grid.appendChild(makeAchievementCard(m, true)));
+        locked.forEach((m) => grid.appendChild(makeAchievementCard(m, false)));
+
+        section.appendChild(grid);
+        return section;
+      }
+
+      function makeAchievementCard(milestone, unlocked) {
+        const card = document.createElement("div");
+        card.className = "achievement-card" + (unlocked ? " achievement-card--unlocked" : "") +
+          " achievement-tier-" + milestone.tier;
+
+        const icon = document.createElement("div");
+        icon.className = "achievement-icon";
+        icon.textContent = unlocked ? milestone.icon : "🔒";
+
+        const info = document.createElement("div");
+        info.className = "achievement-info";
+
+        const name = document.createElement("div");
+        name.className = "achievement-name";
+        name.textContent = milestone.title;
+
+        info.appendChild(name);
+
+        if (unlocked && milestone.achieved) {
+          const time = milestone.achieved.time || milestone.achieved;
+          if (typeof time === "number" && time > 0) {
+            const date = new Date(time);
+            const dateStr = date.toLocaleDateString(getLang() === "en" ? "en-GB" : "nb-NO", { day: "numeric", month: "short", year: "numeric" });
+            const meta = document.createElement("div");
+            meta.className = "achievement-date";
+            meta.textContent = dateStr;
+            info.appendChild(meta);
+          }
+        }
+
+        card.appendChild(icon);
+        card.appendChild(info);
+        return card;
       }
 
       // dismiss tooltip on tap outside a chip (mobile)
@@ -520,7 +594,10 @@
         }
       });
 
-      document.addEventListener("DOMContentLoaded", renderProgress);
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProgress();
+        MilestoneTracker.showPending();
+      });
     </script>
     <script>
       if ('serviceWorker' in navigator)

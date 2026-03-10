@@ -9,6 +9,431 @@
  *  Glenn's Japanese Trainer
  */
 
+// lightweight difficulty tracker for word/listening/reverse trainers
+const DifficultyTracker = {
+  KEY: "difficulty-data",
+
+  _load() {
+    try {
+      return JSON.parse(localStorage.getItem(this.KEY)) || {};
+    } catch { return {}; }
+  },
+
+  _save(data) {
+    try { localStorage.setItem(this.KEY, JSON.stringify(data)); } catch {}
+  },
+
+  record(key, correct) {
+    const data = this._load();
+    if (!data[key]) data[key] = { c: 0, w: 0 };
+    if (correct) data[key].c++;
+    else data[key].w++;
+    this._save(data);
+  },
+
+  // returns weight: higher = show more often
+  getWeight(key) {
+    const data = this._load();
+    const d = data[key];
+    if (!d) return 1.5; // unseen items get slight priority
+    const errorRate = d.w / (d.c + d.w + 1);
+    return 0.5 + errorRate * 3; // range: 0.5 (easy) to 3.5 (hard)
+  },
+
+  // weighted random pick from an array of items, using keyFn to get the key
+  weightedPick(items, keyFn) {
+    if (items.length === 0) return null;
+    const weights = items.map((item) => this.getWeight(keyFn(item)));
+    const totalWeight = weights.reduce((s, w) => s + w, 0);
+    let r = Math.random() * totalWeight;
+    for (let i = 0; i < items.length; i++) {
+      r -= weights[i];
+      if (r <= 0) return items[i];
+    }
+    return items[items.length - 1];
+  },
+};
+
+// milestone celebration system
+const MilestoneTracker = {
+  KEY: "milestones-achieved",
+  QUEUE_KEY: "milestones-pending",
+  START_KEY: "training-start-date",
+
+  _getAchieved() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(this.KEY));
+      if (!raw) return {};
+      // migrate old array format to object with timestamps
+      if (Array.isArray(raw)) {
+        const obj = {};
+        raw.forEach((id) => { obj[id] = { time: Date.now() }; });
+        try { localStorage.setItem(this.KEY, JSON.stringify(obj)); } catch {}
+        return obj;
+      }
+      // migrate plain timestamp format to object format
+      let needsMigrate = false;
+      for (const id in raw) {
+        if (typeof raw[id] === "number") {
+          raw[id] = { time: raw[id] };
+          needsMigrate = true;
+        }
+      }
+      if (needsMigrate) {
+        try { localStorage.setItem(this.KEY, JSON.stringify(raw)); } catch {}
+      }
+      return raw;
+    }
+    catch { return {}; }
+  },
+
+  _markAchieved(id, title, subtitle, tier) {
+    const data = this._getAchieved();
+    if (!data[id]) {
+      data[id] = { time: Date.now(), title: title, subtitle: subtitle, tier: tier || 1 };
+      try { localStorage.setItem(this.KEY, JSON.stringify(data)); } catch {}
+    }
+  },
+
+  _isAchieved(id) {
+    return !!this._getAchieved()[id];
+  },
+
+  // queue a celebration for later (shown when user leaves the trainer)
+  _queue(title, subtitle, tier) {
+    try {
+      const pending = JSON.parse(localStorage.getItem(this.QUEUE_KEY) || "[]");
+      pending.push({ title: title, subtitle: subtitle, tier: tier || 1 });
+      localStorage.setItem(this.QUEUE_KEY, JSON.stringify(pending));
+    } catch {}
+  },
+
+  // show all queued celebrations (called on index/progresjon pages)
+  showPending() {
+    try {
+      const pending = JSON.parse(localStorage.getItem(this.QUEUE_KEY) || "[]");
+      localStorage.removeItem(this.QUEUE_KEY);
+      if (pending.length === 0) return;
+      // show one at a time with delay
+      let delay = 300;
+      pending.forEach((item) => {
+        if (item.type === "mastery") {
+          // rebuild a mock progress tracker from stored stats
+          const s = item.stats;
+          const mock = new ProgressTracker();
+          s.chars.forEach((c) => {
+            mock.initializeCharacter(c.c, [c.r]);
+            const p = mock.getProgress(c.c);
+            p.correctCount = c.ok;
+            p.incorrectCount = c.err;
+            p.isMastered = true;
+          });
+          setTimeout(() => this._showMasteryCelebration(s.label, mock), delay);
+          delay += 15500;
+        } else {
+          setTimeout(() => this._showCelebration(item.title, item.subtitle, item.tier), delay);
+          delay += (item.tier === 3 ? 9500 : item.tier === 2 ? 6500 : 4500);
+        }
+      });
+    } catch {}
+  },
+
+  // record first-ever activity timestamp
+  recordStart() {
+    if (!localStorage.getItem(this.START_KEY)) {
+      try { localStorage.setItem(this.START_KEY, Date.now().toString()); } catch {}
+    }
+  },
+
+  // format a duration in ms to a human-readable string
+  _formatDuration(ms) {
+    const minutes = Math.floor(ms / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    if (days > 0) return days + " " + (days === 1 ? (t("ms-day") || "dag") : (t("ms-days") || "dager"));
+    if (hours > 0) return hours + " " + (hours === 1 ? (t("ms-hour") || "time") : (t("ms-hours") || "timer"));
+    return minutes + " " + (t("ms-minutes") || "min");
+  },
+
+  // get formatted duration since first activity
+  _getTimeSinceStart() {
+    const start = parseInt(localStorage.getItem(this.START_KEY));
+    if (!start) return null;
+    return this._formatDuration(Date.now() - start);
+  },
+
+  // get all milestone definitions for the achievements display
+  getAllMilestones() {
+    const achieved = this._getAchieved();
+    const start = parseInt(localStorage.getItem(this.START_KEY)) || 0;
+    const milestones = [];
+
+    // streak milestones
+    [3, 7, 14, 30, 50, 100, 365].forEach((n) => {
+      const id = "streak-" + n;
+      const tier = n >= 100 ? 3 : n >= 30 ? 2 : 1;
+      const icons = { 1: "🔥", 2: "🔥", 3: "🔥" };
+      milestones.push({
+        id: id,
+        icon: icons[tier],
+        title: n + " " + (n === 1 ? (t("ms-day") || "dag") : (t("ms-days") || "dager")) + " " + (t("ms-streak-label") || "på rad"),
+        tier: tier,
+        achieved: achieved[id] || null,
+      });
+    });
+
+    // mastery milestones
+    ["hiragana", "katakana"].forEach((type) => {
+      const id = "master-" + type;
+      const label = type === "katakana" ? "Katakana" : "Hiragana";
+      milestones.push({
+        id: id,
+        icon: "👑",
+        title: label + " 100%",
+        tier: 3,
+        achieved: achieved[id] || null,
+      });
+    });
+
+    // answer count milestones
+    [50, 100, 250, 500, 1000, 2500, 5000].forEach((n) => {
+      const id = "answers-" + n;
+      const tier = n >= 1000 ? 3 : n >= 250 ? 2 : 1;
+      const icons = { 1: "⭐", 2: "🏆", 3: "👑" };
+      milestones.push({
+        id: id,
+        icon: icons[tier],
+        title: n + " " + (t("milestone-answers") || "riktige svar"),
+        tier: tier,
+        achieved: achieved[id] || null,
+      });
+    });
+
+    return milestones;
+  },
+
+  // check and queue milestone if new
+  check(id, title, subtitle, tier) {
+    if (this._isAchieved(id)) return;
+    this._markAchieved(id, title, subtitle, tier);
+    this._queue(title, subtitle, tier);
+  },
+
+  // check streak milestones
+  checkStreak() {
+    const sd = StreakManager.getDisplay();
+    const thresholds = [3, 7, 14, 30, 50, 100, 365];
+    thresholds.forEach((n) => {
+      if (sd.current >= n) {
+        const title = n + " " + (n === 1 ? t("streak-day") : t("streak-days"));
+        const tier = n >= 100 ? 3 : n >= 30 ? 2 : 1;
+        this.check("streak-" + n, title, t("milestone-streak"), tier);
+      }
+    });
+  },
+
+  // check mastery milestones (call after correct answer in kana trainers)
+  checkMastery(progressTracker, type) {
+    const mastered = progressTracker.getMasteredCharacters().length;
+    const total = progressTracker.getAllProgress().size;
+    if (total > 0 && mastered === total) {
+      const id = "master-" + type;
+      if (this._isAchieved(id)) return;
+      const label = type === "katakana" ? "Katakana" : "Hiragana";
+      this._markAchieved(id, label + " 100%!", t("milestone-mastery"), 3);
+      // queue mastery with stats data snapshot
+      try {
+        const allP = progressTracker.getAllProgress();
+        const stats = { label: label, chars: [] };
+        for (const [ch, p] of allP.entries()) {
+          stats.chars.push({ c: ch, r: p.romanji[0], ok: p.correctCount, err: p.incorrectCount });
+        }
+        const pending = JSON.parse(localStorage.getItem(this.QUEUE_KEY) || "[]");
+        pending.push({ type: "mastery", stats: stats });
+        localStorage.setItem(this.QUEUE_KEY, JSON.stringify(pending));
+      } catch {}
+    }
+  },
+
+  // check answer count milestones
+  checkAnswerCount() {
+    const data = DifficultyTracker._load();
+    let totalCorrect = 0;
+    Object.values(data).forEach((d) => { totalCorrect += d.c; });
+    const thresholds = [50, 100, 250, 500, 1000, 2500, 5000];
+    const achieved = this._getAchieved();
+    thresholds.forEach((n, idx) => {
+      if (totalCorrect >= n) {
+        const tier = n >= 1000 ? 3 : n >= 250 ? 2 : 1;
+        const id = "answers-" + n;
+        if (achieved[id]) return;
+
+        const totalElapsed = this._getTimeSinceStart();
+        let sub = t("milestone-practice");
+        if (totalElapsed) {
+          sub += " — " + (t("ms-elapsed") || "på") + " " + totalElapsed;
+        }
+
+        this._markAchieved(id, n + " " + t("milestone-answers"), sub, tier);
+        this._queue(n + " " + t("milestone-answers"), sub, tier);
+      }
+    });
+  },
+
+  // tier: 1 = small, 2 = medium, 3 = epic
+  _showCelebration(title, subtitle, tier) {
+    tier = tier || 1;
+    const tierClass = "milestone-tier-" + tier;
+
+    // tier-specific config
+    const icons = { 1: "🎉", 2: "🏆", 3: "👑" };
+    const particleCounts = { 1: 12, 2: 25, 3: 45 };
+    const durations = { 1: 4000, 2: 6000, 3: 9000 };
+    const emojiSets = {
+      1: ["✨", "⭐", "🌸"],
+      2: ["✨", "⭐", "🌸", "🎊", "💪", "🔥"],
+      3: ["✨", "⭐", "🌸", "🎊", "💪", "🔥", "💫", "🏆", "👑", "🎆", "💎", "🌟"],
+    };
+
+    const overlay = document.createElement("div");
+    overlay.className = "milestone-overlay " + tierClass;
+    overlay.innerHTML =
+      '<div class="milestone-content">' +
+        '<div class="milestone-particles"></div>' +
+        '<div class="milestone-icon">' + icons[tier] + '</div>' +
+        '<div class="milestone-title">' + title + '</div>' +
+        '<div class="milestone-subtitle">' + subtitle + '</div>' +
+        '<button class="milestone-close">' + (t("milestone-close") || "OK") + '</button>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+
+    // spawn particles
+    const particleContainer = overlay.querySelector(".milestone-particles");
+    const emojis = emojiSets[tier];
+    const count = particleCounts[tier];
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement("span");
+      p.className = "milestone-particle";
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = Math.random() * 100 + "%";
+      p.style.animationDelay = Math.random() * (tier === 3 ? 1.5 : 0.5) + "s";
+      p.style.animationDuration = (1.5 + Math.random() * tier) + "s";
+      if (tier === 3) p.style.fontSize = (1.2 + Math.random() * 0.8) + "rem";
+      particleContainer.appendChild(p);
+    }
+
+    // close
+    const closeBtn = overlay.querySelector(".milestone-close");
+    closeBtn.addEventListener("click", () => overlay.remove());
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
+    setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, durations[tier]);
+  },
+
+  // special celebration for 100% mastery with stats
+  _showMasteryCelebration(label, progressTracker) {
+    const allProgress = progressTracker.getAllProgress();
+    let totalCorrect = 0;
+    let totalIncorrect = 0;
+    const chars = [];
+    for (const [char, p] of allProgress.entries()) {
+      totalCorrect += p.correctCount;
+      totalIncorrect += p.incorrectCount;
+      chars.push({ char: char, correct: p.correctCount, incorrect: p.incorrectCount, romanji: p.romanji[0] });
+    }
+    const totalAnswers = totalCorrect + totalIncorrect;
+    const accuracy = totalAnswers > 0 ? Math.round((totalCorrect / totalAnswers) * 100) : 0;
+
+    // sort by error rate to find hardest/easiest
+    chars.sort((a, b) => {
+      const rateA = a.incorrect / (a.correct + a.incorrect + 1);
+      const rateB = b.incorrect / (b.correct + b.incorrect + 1);
+      return rateB - rateA;
+    });
+    const hardest = chars.slice(0, 3).filter((c) => c.incorrect > 0);
+    const easiest = chars.slice(-3).reverse();
+
+    // build stats HTML
+    const elapsed = this._getTimeSinceStart();
+    let statsHtml =
+      '<div class="mastery-stats">' +
+        (elapsed ? '<div class="mastery-stat-row">' +
+          '<span class="mastery-stat-label">⏱ ' + (t("ms-time") || "Tid brukt") + '</span>' +
+          '<span class="mastery-stat-value">' + elapsed + '</span>' +
+        '</div>' : '') +
+        '<div class="mastery-stat-row">' +
+          '<span class="mastery-stat-label">' + (t("ms-total") || "Totalt") + '</span>' +
+          '<span class="mastery-stat-value">' + totalAnswers + ' ' + (t("ms-answers") || "svar") + '</span>' +
+        '</div>' +
+        '<div class="mastery-stat-row">' +
+          '<span class="mastery-stat-label">' + (t("ms-accuracy") || "Treffsikkerhet") + '</span>' +
+          '<span class="mastery-stat-value">' + accuracy + '%</span>' +
+        '</div>' +
+        '<div class="mastery-stat-row">' +
+          '<span class="mastery-stat-label">✅ ' + (t("ms-correct") || "Riktige") + '</span>' +
+          '<span class="mastery-stat-value mastery-good">' + totalCorrect + '</span>' +
+        '</div>' +
+        '<div class="mastery-stat-row">' +
+          '<span class="mastery-stat-label">❌ ' + (t("ms-wrong") || "Feil") + '</span>' +
+          '<span class="mastery-stat-value mastery-bad">' + totalIncorrect + '</span>' +
+        '</div>';
+
+    if (hardest.length > 0) {
+      statsHtml +=
+        '<div class="mastery-char-section">' +
+          '<span class="mastery-char-label">😅 ' + (t("ms-hardest") || "Vanskeligst") + '</span>' +
+          '<span class="mastery-char-list">' +
+            hardest.map((c) => '<span class="mastery-char-chip mastery-char-hard">' + c.char + ' <small>' + c.romanji + '</small></span>').join("") +
+          '</span>' +
+        '</div>';
+    }
+    if (easiest.length > 0) {
+      statsHtml +=
+        '<div class="mastery-char-section">' +
+          '<span class="mastery-char-label">💪 ' + (t("ms-easiest") || "Letteste") + '</span>' +
+          '<span class="mastery-char-list">' +
+            easiest.map((c) => '<span class="mastery-char-chip mastery-char-easy">' + c.char + ' <small>' + c.romanji + '</small></span>').join("") +
+          '</span>' +
+        '</div>';
+    }
+    statsHtml += '</div>';
+
+    // build full overlay (tier 3 epic)
+    const overlay = document.createElement("div");
+    overlay.className = "milestone-overlay milestone-tier-3";
+    overlay.innerHTML =
+      '<div class="milestone-content milestone-content--mastery">' +
+        '<div class="milestone-particles"></div>' +
+        '<div class="milestone-icon">👑</div>' +
+        '<div class="milestone-title">' + label + ' 100%!</div>' +
+        '<div class="milestone-subtitle">' + (t("milestone-mastery") || "Alt mestret!") + '</div>' +
+        statsHtml +
+        '<button class="milestone-close">' + (t("milestone-close") || "OK") + '</button>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+
+    // particles (epic tier)
+    const particleContainer = overlay.querySelector(".milestone-particles");
+    const emojis = ["✨", "⭐", "🌸", "🎊", "💪", "🔥", "💫", "🏆", "👑", "🎆", "💎", "🌟"];
+    for (let i = 0; i < 45; i++) {
+      const p = document.createElement("span");
+      p.className = "milestone-particle";
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = Math.random() * 100 + "%";
+      p.style.animationDelay = Math.random() * 1.5 + "s";
+      p.style.animationDuration = (1.5 + Math.random() * 3) + "s";
+      p.style.fontSize = (1.2 + Math.random() * 0.8) + "rem";
+      particleContainer.appendChild(p);
+    }
+
+    const closeBtn = overlay.querySelector(".milestone-close");
+    closeBtn.addEventListener("click", () => overlay.remove());
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
+    setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, 15000);
+  },
+};
+
 class CharacterProgress {
   constructor(character, romanjiArray) {
     this.character = character;
@@ -406,6 +831,12 @@ class UIController {
     StorageManager.saveProgress(this.progressTracker);
     this.updateProgressDisplay();
     if (typeof StreakManager !== "undefined") StreakManager.recordActivity();
+    MilestoneTracker.recordStart();
+
+    // milestone checks
+    const scriptType = typeof KatakanaData !== "undefined" && document.title.includes("Katakana") ? "katakana" : "hiragana";
+    MilestoneTracker.checkMastery(this.progressTracker, scriptType);
+    MilestoneTracker.checkStreak();
 
     this.answerInput.classList.add("flash-correct");
     setTimeout(() => {

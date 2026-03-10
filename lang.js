@@ -72,6 +72,54 @@ const LANG = {
     "dict-search-placeholder": "Søk etter ord...",
     "dict-no-results": "Ingen treff",
 
+    // Setninger page
+    "setninger-title": "Setninger",
+    "level-label": "Nivå:",
+    "level-all": "Alle nivåer",
+    "level-1": "1 — X は Y です",
+    "level-2": "2 — Partikler (を, に, で)",
+    "level-3": "3 — Hele setninger",
+    "level-4": "4 — Adjektiv & nektelse",
+    "level-5": "5 — Fortid & sammensatt",
+    "sentences-label": "setninger",
+    "no-sentences-in-level": "Ingen setninger på dette nivået",
+    "learn-sentences": "Lær Setninger",
+
+    // Lytte page
+    "lytte-title": "Lyttemodus",
+    "learn-listening": "Lyttemodus",
+    "lytte-replay": "Spill igjen",
+    "words-label": "Ord",
+
+    // Omvendt page
+    "omvendt-title": "Omvendt modus",
+    "learn-reverse": "Omvendt modus",
+    "omvendt-placeholder": "Skriv kana her...",
+
+    // Milestones
+    "milestone-streak": "Aktivitetsrekord!",
+    "milestone-mastery": "Alt mestret!",
+    "milestone-answers": "riktige svar",
+    "milestone-practice": "Godt øvd!",
+    "milestone-close": "Supert!",
+    "ms-total": "Totalt",
+    "ms-answers": "svar",
+    "ms-accuracy": "Treffsikkerhet",
+    "ms-correct": "Riktige",
+    "ms-wrong": "Feil",
+    "ms-hardest": "Vanskeligst",
+    "ms-easiest": "Letteste",
+    "ms-time": "Tid brukt",
+    "ms-elapsed": "på",
+    "ms-day": "dag",
+    "ms-days": "dager",
+    "ms-hour": "time",
+    "ms-hours": "timer",
+    "ms-minutes": "min",
+    "ms-streak-label": "på rad",
+    "achievements-title": "Milepæler",
+    "achievements-unlocked": "Oppnådd",
+
     // Tall page
     "tall-title": "Tall",
     "from-label": "Fra",
@@ -109,6 +157,9 @@ const LANG = {
 
     // Main menu
     "menu-subtitle": "Lær japansk",
+    "menu-section-learn": "Lær",
+    "menu-section-practice": "Øv",
+    "menu-section-other": "Annet",
     "footer-sub": "Laget for å gjøre det gøy og enkelt å lære japansk - for alle!",
     "footer-rights": "Alle rettigheter forbeholdt.",
     "learn-kana": "Lær Kana",
@@ -291,6 +342,54 @@ const LANG = {
     "dict-search-placeholder": "Search for a word...",
     "dict-no-results": "No results",
 
+    // Setninger page
+    "setninger-title": "Sentences",
+    "level-label": "Level:",
+    "level-all": "All levels",
+    "level-1": "1 — X は Y です",
+    "level-2": "2 — Particles (を, に, で)",
+    "level-3": "3 — Full sentences",
+    "level-4": "4 — Adjectives & negation",
+    "level-5": "5 — Past tense & compound",
+    "sentences-label": "sentences",
+    "no-sentences-in-level": "No sentences at this level",
+    "learn-sentences": "Learn Sentences",
+
+    // Lytte page
+    "lytte-title": "Listening Mode",
+    "learn-listening": "Listening Mode",
+    "lytte-replay": "Replay",
+    "words-label": "Words",
+
+    // Omvendt page
+    "omvendt-title": "Reverse Mode",
+    "learn-reverse": "Reverse Mode",
+    "omvendt-placeholder": "Type kana here...",
+
+    // Milestones
+    "milestone-streak": "Activity streak!",
+    "milestone-mastery": "All mastered!",
+    "milestone-answers": "correct answers",
+    "milestone-practice": "Great practice!",
+    "milestone-close": "Awesome!",
+    "ms-total": "Total",
+    "ms-answers": "answers",
+    "ms-accuracy": "Accuracy",
+    "ms-correct": "Correct",
+    "ms-wrong": "Wrong",
+    "ms-hardest": "Hardest",
+    "ms-easiest": "Easiest",
+    "ms-time": "Time spent",
+    "ms-elapsed": "in",
+    "ms-day": "day",
+    "ms-days": "days",
+    "ms-hour": "hour",
+    "ms-hours": "hours",
+    "ms-minutes": "min",
+    "ms-streak-label": "in a row",
+    "achievements-title": "Achievements",
+    "achievements-unlocked": "Unlocked",
+
     // Tall page
     "tall-title": "Numbers",
     "from-label": "From",
@@ -328,6 +427,9 @@ const LANG = {
 
     // Main menu
     "menu-subtitle": "Learn Japanese",
+    "menu-section-learn": "Learn",
+    "menu-section-practice": "Practice",
+    "menu-section-other": "Other",
     "footer-sub": "Created to make learning Japanese fun and easy for everyone!",
     "footer-rights": "All rights reserved.",
     "learn-kana": "Learn Kana",

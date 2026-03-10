@@ -187,6 +187,8 @@
       </header>
 
       <main class="menu-grid">
+        <p class="menu-section-label" data-i18n="menu-section-learn">Lær</p>
+
         <a href="kana.html" class="menu-card menu-card--kana">
           <span class="menu-card__icon">あア</span>
           <span class="menu-card__title" data-i18n="learn-kana">Lær Kana</span>
@@ -205,19 +207,29 @@
           <span class="menu-card__arrow">→</span>
         </a>
 
-        <a href="tall.html" class="menu-card menu-card--tall">
-          <span class="menu-card__icon">数</span>
-          <span class="menu-card__title" data-i18n="learn-numbers"
-            >Lær Tall</span
-          >
+        <a href="setninger.html" class="menu-card menu-card--setninger">
+          <span class="menu-card__icon">文</span>
+          <span class="menu-card__title" data-i18n="learn-sentences">Lær Setninger</span>
           <span class="menu-card__arrow">→</span>
         </a>
 
-        <a href="progresjon.html" class="menu-card menu-card--progresjon">
-          <span class="menu-card__icon">★</span>
-          <span class="menu-card__title" data-i18n="my-progress"
-            >Min Progresjon</span
-          >
+        <a href="tall.html" class="menu-card menu-card--tall">
+          <span class="menu-card__icon">数</span>
+          <span class="menu-card__title" data-i18n="learn-numbers">Lær Tall</span>
+          <span class="menu-card__arrow">→</span>
+        </a>
+
+        <p class="menu-section-label" data-i18n="menu-section-practice">Øv</p>
+
+        <a href="lytte.html" class="menu-card menu-card--lytte">
+          <span class="menu-card__icon">🎧</span>
+          <span class="menu-card__title" data-i18n="learn-listening">Lyttemodus</span>
+          <span class="menu-card__arrow">→</span>
+        </a>
+
+        <a href="omvendt.html" class="menu-card menu-card--omvendt">
+          <span class="menu-card__icon">🔄</span>
+          <span class="menu-card__title" data-i18n="learn-reverse">Omvendt modus</span>
           <span class="menu-card__arrow">→</span>
         </a>
 
@@ -231,6 +243,14 @@
         <a href="challenge.html" class="menu-card menu-card--challenge">
           <span class="menu-card__icon">⚡</span>
           <span class="menu-card__title" data-i18n="challenge-title">Utfordring</span>
+          <span class="menu-card__arrow">→</span>
+        </a>
+
+        <p class="menu-section-label" data-i18n="menu-section-other">Annet</p>
+
+        <a href="progresjon.html" class="menu-card menu-card--progresjon">
+          <span class="menu-card__icon">★</span>
+          <span class="menu-card__title" data-i18n="my-progress">Min Progresjon</span>
           <span class="menu-card__arrow">→</span>
         </a>
 
@@ -252,6 +272,7 @@
 
     <script src="lang.js"></script>
     <script src="streak.js"></script>
+    <script src="trainer-core.js"></script>
     <script>
       document.querySelectorAll(".lang-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -483,6 +504,7 @@
         document.getElementById("footer-year").textContent =
           new Date().getFullYear();
         updateStreakBadge();
+        MilestoneTracker.showPending();
 
         const today = new Date().toISOString().slice(0, 10);
         const dh = JSON.parse(localStorage.getItem("daily-challenge-h") || "null");

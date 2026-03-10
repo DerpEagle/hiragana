@@ -16,10 +16,13 @@ Supports **Norwegian 🇳🇴** and **English 🇬🇧** — switch language in 
 | **Katakana** ア | Same structure as hiragana, with its own look-alikes subset (シ/ツ, ソ/ン, etc.) |
 | **Kanji** 漢 | 112 JLPT N5 kanji across 6 categories — meaning mode (type the translation) and reading mode (type onyomi/kunyomi in romaji), with dictionary and audio |
 | **Words** 語 | Recognise Japanese words in hiragana, katakana, or both (1–10 characters) — with a searchable dictionary (filter by Japanese, romaji, or translation) and audio pronunciation |
+| **Sentences** 文 | Read and translate full Japanese sentences built from learned vocabulary |
+| **Listening** 🎧 | Hear a character spoken aloud and type the romaji — pure listening practice |
+| **Reverse** 🔄 | See the romaji and type the correct Japanese character — reverses the normal flow |
 | **Numbers** 数 | Practise Japanese numbers in any range up to 999 billion — three directions: Japanese→number, number→Japanese, or mixed |
 | **Daily Challenge** 🏆 | 10 date-seeded random characters per day (hiragana, katakana, or kanji) — build a challenge streak |
 | **Challenge** ⚡ | Three timed/scored game modes (hourglass, lives, speedrun) for hiragana, katakana, and kanji — with highscore tracking |
-| **Progress** ★ | Colour-coded overview of all characters + accuracy stats and weak spots |
+| **Progress** ★ | Colour-coded overview of all characters + accuracy stats, weak spots, and milestone achievements |
 | **How-to** ? | In-app guide covering all features and tips for beginners |
 
 ---
@@ -120,6 +123,9 @@ hiragana.html     — Hiragana trainer
 katakana.html     — Katakana trainer
 kanji.html        — Kanji trainer (meaning + reading modes)
 ord.html          — Word trainer
+setninger.html    — Sentence trainer
+lytte.html        — Listening mode trainer
+omvendt.html      — Reverse mode trainer
 tall.html         — Number trainer
 daily.html        — Daily challenge
 challenge.html    — Challenge modes (hourglass, lives, speedrun)
@@ -130,6 +136,9 @@ katakana.js       — Katakana data
 kanji-data.js     — JLPT N5 kanji data (112 characters)
 kanji.js          — Kanji trainer logic
 ord.js            — Word trainer logic
+setninger.js      — Sentence trainer logic
+lytte.js          — Listening mode logic
+omvendt.js        — Reverse mode logic
 tall.js           — Number trainer logic
 trainer-core.js   — Shared trainer logic (CharacterProgress + UIController)
 streak.js         — Daily streak tracking (StreakManager)
