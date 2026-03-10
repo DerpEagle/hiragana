@@ -177,8 +177,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // track IME composition so auto-answer doesn't fire mid-compose
+  let composing = false;
+  answerInput.addEventListener("compositionstart", () => { composing = true; });
+  answerInput.addEventListener("compositionend", () => {
+    composing = false;
+    // re-check after composition finishes
+    if (!current) return;
+    const val = answerInput.value.trim();
+    if (val && val === current.kana) handleAnswer();
+  });
+
   // auto-answer for kana input
   answerInput.addEventListener("input", () => {
+    if (composing) return;
     if (!current) return;
     const val = answerInput.value.trim();
     if (!val) return;
