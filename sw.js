@@ -11,7 +11,7 @@
  *  Glenn's Japanese Trainer
  */
 
-const CACHE = "japansk-v36";
+const CACHE = "japansk-v37";
 const ASSETS = [
   "/hiragana/",
   "/hiragana/index.html",
