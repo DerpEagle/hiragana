@@ -525,6 +525,26 @@
         title.textContent = t("achievements-title") || "Milepæler";
         section.appendChild(title);
 
+        // catch up milestones for existing data
+        MilestoneTracker.checkStreak();
+        MilestoneTracker.checkAnswerCount();
+        // catch up mastery milestones from localStorage
+        [["hiragana", HIRAGANA_KEY, HIRAGANA_SUBSETS],
+         ["katakana", KATAKANA_KEY, KATAKANA_SUBSETS]].forEach(function(entry) {
+          var type = entry[0], key = entry[1], subsets = entry[2];
+          try {
+            var data = JSON.parse(localStorage.getItem(key) || "{}");
+            var allChars = subsets.reduce(function(a, s) { return a.concat(s.chars); }, []);
+            var total = allChars.length;
+            var mastered = allChars.filter(function(ch) { return data[ch] && data[ch].isMastered; }).length;
+            if (total > 0 && mastered === total) {
+              var id = "master-" + type;
+              var label = type === "katakana" ? "Katakana" : "Hiragana";
+              MilestoneTracker.check(id, label + " 100%!", t("milestone-mastery"), 3);
+            }
+          } catch(e) {}
+        });
+
         const milestones = MilestoneTracker.getAllMilestones();
         const achieved = milestones.filter((m) => m.achieved);
         const locked = milestones.filter((m) => !m.achieved);
