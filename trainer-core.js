@@ -224,7 +224,7 @@ const MilestoneTracker = {
     const sd = StreakManager.getDisplay();
     const thresholds = [3, 7, 14, 30, 50, 100, 365];
     thresholds.forEach((n) => {
-      if (sd.current >= n) {
+      if (sd.current >= n || sd.longest >= n) {
         const title = n + " " + (n === 1 ? t("streak-day") : t("streak-days"));
         const tier = n >= 100 ? 3 : n >= 30 ? 2 : 1;
         this.check("streak-" + n, title, t("milestone-streak"), tier);
@@ -260,6 +260,13 @@ const MilestoneTracker = {
     const data = DifficultyTracker._load();
     let totalCorrect = 0;
     Object.values(data).forEach((d) => { totalCorrect += d.c; });
+    // also count kana trainer progress (stored separately)
+    ["hiragana-trainer-progress", "katakana-trainer-progress"].forEach((key) => {
+      try {
+        const kana = JSON.parse(localStorage.getItem(key) || "{}");
+        Object.values(kana).forEach((p) => { totalCorrect += p.correctCount || 0; });
+      } catch {}
+    });
     const thresholds = [50, 100, 250, 500, 1000, 2500, 5000];
     const achieved = this._getAchieved();
     thresholds.forEach((n, idx) => {
