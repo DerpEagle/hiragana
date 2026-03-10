@@ -182,13 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
   answerInput.addEventListener("compositionstart", () => { composing = true; });
   answerInput.addEventListener("compositionend", () => {
     composing = false;
-    // re-check after composition finishes
-    if (!current) return;
-    const val = answerInput.value.trim();
-    if (val && val === current.kana) handleAnswer();
+    // delay check — some browsers update value after compositionend
+    setTimeout(() => {
+      if (!current) return;
+      const val = answerInput.value.trim();
+      if (val && val === current.kana) handleAnswer();
+    }, 0);
   });
 
-  // auto-answer for kana input
+  // auto-answer for kana input (desktop / non-IME)
   answerInput.addEventListener("input", () => {
     if (composing) return;
     if (!current) return;
