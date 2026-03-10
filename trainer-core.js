@@ -269,18 +269,13 @@ const MilestoneTracker = {
     });
     const thresholds = [50, 100, 250, 500, 1000, 2500, 5000];
     const achieved = this._getAchieved();
-    thresholds.forEach((n, idx) => {
+    thresholds.forEach((n) => {
       if (totalCorrect >= n) {
         const tier = n >= 1000 ? 3 : n >= 250 ? 2 : 1;
         const id = "answers-" + n;
         if (achieved[id]) return;
 
-        const totalElapsed = this._getTimeSinceStart();
-        let sub = t("milestone-practice");
-        if (totalElapsed) {
-          sub += " — " + (t("ms-elapsed") || "på") + " " + totalElapsed;
-        }
-
+        const sub = t("milestone-practice");
         this._markAchieved(id, n + " " + t("milestone-answers"), sub, tier);
         this._queue(n + " " + t("milestone-answers"), sub, tier);
       }

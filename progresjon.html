@@ -589,18 +589,6 @@
 
         info.appendChild(name);
 
-        if (unlocked && milestone.achieved) {
-          const time = milestone.achieved.time || milestone.achieved;
-          if (typeof time === "number" && time > 0) {
-            const date = new Date(time);
-            const dateStr = date.toLocaleDateString(getLang() === "en" ? "en-GB" : "nb-NO", { day: "numeric", month: "short", year: "numeric" });
-            const meta = document.createElement("div");
-            meta.className = "achievement-date";
-            meta.textContent = dateStr;
-            info.appendChild(meta);
-          }
-        }
-
         card.appendChild(icon);
         card.appendChild(info);
         return card;
